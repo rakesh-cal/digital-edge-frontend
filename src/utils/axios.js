@@ -1,7 +1,7 @@
 import axios from 'axios';
 import baseURL from './baseURL';
 
-/*const axiosWithToken = token => {
+const axiosWithToken = token => {
 
 	const AuthHeader = {
 		'Content-Type': 'application/json',
@@ -26,9 +26,9 @@ const axiosWithoutToken = () => {
 		"Ocp-Apim-Trace": true
 		}
 	});
-}*/
+}
 
-const axiosWithToken = token => {
+/*const axiosWithToken = token => {
 
 	const AuthHeader = {
 		'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const axiosWithoutToken = () => {
 	return axios.create({
 		baseURL: `${baseURL}api/`
 	});
-}
+}*/
 
 
 export {
