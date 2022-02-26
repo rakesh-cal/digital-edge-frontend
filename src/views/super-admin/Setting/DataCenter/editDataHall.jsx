@@ -241,7 +241,7 @@ const EditDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -260,7 +260,7 @@ const EditDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -294,7 +294,7 @@ const EditDataHall = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 

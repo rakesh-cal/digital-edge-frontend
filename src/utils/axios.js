@@ -1,7 +1,7 @@
 import axios from 'axios';
 import baseURL from './baseURL';
 
-const axiosWithToken = token => {
+/*const axiosWithToken = token => {
 
 	const AuthHeader = {
 		'Content-Type': 'application/json',
@@ -21,8 +21,31 @@ const axiosWithoutToken = () => {
 
 	return axios.create({
 		baseURL: `${baseURL}localdedc/`,
+		headers: {
 		"Ocp-Apim-Subscription-Key": "869163acffda4d148b9f490c72b8b13f",
 		"Ocp-Apim-Trace": true
+		}
+	});
+}*/
+
+const axiosWithToken = token => {
+
+	const AuthHeader = {
+		'Content-Type': 'application/json',
+		'Accept': 'application/json',
+		'Authorization': token
+	};
+
+	return axios.create({
+		baseURL: `${baseURL}api/`,
+		headers: AuthHeader
+	});
+}
+
+const axiosWithoutToken = () => {
+
+	return axios.create({
+		baseURL: `${baseURL}api/`
 	});
 }
 

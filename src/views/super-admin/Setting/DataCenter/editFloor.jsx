@@ -199,7 +199,7 @@ const EditFloor = (props) => {
     return (
     	<div className="modal show bd-example-modal-lg"
     	style={{display:'block'}}
-    	tabindex="-1" role="dialog" aria-hidden="true">
+    	tabIndex="-1" role="dialog" aria-hidden="true">
 <div className="modal-dialog modal-lg">
 <div className="modal-content">
 <div className="modal-header mt-59">
@@ -229,7 +229,7 @@ const EditFloor = (props) => {
                <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="# of Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -246,7 +246,7 @@ const EditFloor = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -279,7 +279,7 @@ const EditFloor = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 

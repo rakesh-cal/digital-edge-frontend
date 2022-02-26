@@ -1,10 +1,8 @@
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState,useEffect} from 'react';
 import Modal from 'react-modal';
 import RoleModel from 'services/roleServices';
-import Select from 'react-select';
 import { XError } from 'components/common';
 import Swal from 'sweetalert2';
-import CommonService from 'services/commonService';
 import StorageContext from "context";
 
 const errorInit = {
@@ -33,7 +31,6 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
  	
  	const contextStore = React.useContext(StorageContext);
   	const [modalIsOpen, setIsOpen] = React.useState(false);
-  	const modalRef = useRef(null);
 	const [countries,setCountries] = useState([]);
 	const [dataCenters,setDataCenters] = useState([]);
 	const [disabled,setDisabled] = useState(true);
@@ -484,7 +481,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                                    	setDisabled(false);
 		                                                    }} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault1">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">
                                                             Allow
                                                             </label>
                                                         </div>
@@ -499,7 +496,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                                    	setDisabled(false);
 		                                                    }} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault2">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">
                                                             Disallow
                                                             </label>
                                                         </div>

@@ -10,6 +10,7 @@ import EditFloor from './editFloor';
 import CreateDataHall from './dataHall'
 import EditDataHall from './editDataHall' 
 import './dataCenter.css';
+import {numberFormat} from 'common/helpers';
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
@@ -119,7 +120,7 @@ const DataCenter = (props) => {
 
 		return state && state.map(data => {
 			return <a className="dropdown-item" 
-			href="javascript:void(0);" 
+			key={data.id}
 			onClick={() =>{
 				setCurrentTab(0)
 				getDataCenterById(data)
@@ -183,16 +184,16 @@ const DataCenter = (props) => {
 						</div>
 						<div className="col-lg-11">
 							<div id="pro">
-							   <div class="profile-tab">
-                           <div class="custom-tab-1">
-                              <div class="main_scrll">
-                                 <div class="btn_ul">
-                                    <ul class="nav nav-tabs mb-3">
-                                 <li class="nav-item"> <button class="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
-                                 <li class="nav-item">
-                                    <div class="btn-group" role="group">
-                                       <button type="button" class="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
-                                       <div class="dropdown-menu" style={{margin: '0px'}}>
+							   <div className="profile-tab">
+                           <div className="custom-tab-1">
+                              <div className="main_scrll">
+                                 <div className="btn_ul">
+                                    <ul className="nav nav-tabs mb-3">
+                                 <li className="nav-item"> <button className="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
+                                 <li className="nav-item">
+                                    <div className="btn-group" role="group">
+                                       <button type="button" className="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
+                                       <div className="dropdown-menu" style={{margin: '0px'}}>
                                           {renderCountry()}
                                        </div>
                                     </div>
@@ -226,35 +227,41 @@ const DataCenter = (props) => {
 		
 		</div>
 		<table>
-		<tr>
-		<th> Floor </th>
-		<th> Cabs </th>
-		<th> kW </th>
-		<th> </th>
-		</tr>
+			<thead>
+				<tr>
+					<th> Floor </th>
+					<th> Cabs </th>
+					<th> kW </th>
+					<th> </th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				{allFloorData && allFloorData.map((res,id) => {
+					
+				    return <tr 
+				    key={id}
+				    className={activeTab.id === res.id?"tr_active":""}
+				    onClick={() => getFloorData(id)} style={{cursor:"pointer"}} >
+				    <td> {res.name}
+				    <i className="fa fa-circle" 
+				    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
+				    aria-hidden="true"></i> 
+				    </td>
+				    <td> {numberFormat(res.design_cabs)} </td>
+				    <td> {numberFormat(res.design_power,3)} </td>
+				    <td> 
+				    <a 
+				    onClick={() => getEditFloorPopup(res)} 
+				    style={{cursor:"pointer"}}>
+				    <i className="fas fa-edit"></i>
+				    </a> 
+				    </td>
+				    </tr>
+				})}
 
+			</tbody>
 
-		{allFloorData && allFloorData.map((res,id) => {
-			
-		    return <tr 
-		    class={activeTab.id === res.id?"tr_active":""}
-		    onClick={() => getFloorData(id)} style={{cursor:"pointer"}} >
-		    <td> {res.name}
-		    <i className="fa fa-circle" 
-		    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
-		    aria-hidden="true"></i> 
-		    </td>
-		    <td> {res.totalCabs} </td>
-		    <td> {res.totalPower} </td>
-		    <td> 
-		    <a 
-		    onClick={() => getEditFloorPopup(res)} 
-		    style={{cursor:"pointer"}}>
-		    <i className="fas fa-edit"></i>
-		    </a> 
-		    </td>
-		    </tr>
-		})}
 		</table>
 		</div> 
 	</div> 
@@ -291,7 +298,7 @@ const DataCenter = (props) => {
 	            <tbody id="cardnew">
 	            {
 	                dataHall && dataHall.length > 0 && dataHall.map((res)=>{
-	                    return <tr>
+	                    return <tr key={res.id}>
 	                        <th className="pd-l bold-txt"> {res.name} </th>
 	                        <td>
 	                            <div 

@@ -112,17 +112,17 @@ const DataHallTable = ({selectedFloor, getCabinetData}) => {
 		<table className="table header-border table-borderless table-hover verticle-middle">
 			<thead>
 				<tr>
-					<th scope="col" width="10%"> Name </th>
-					<th scope="col" width="5%"> Status </th>
-					<th scope="col" width="10%"> Cabinets </th>
-					<th scope="col" width="10%"> Cages</th>
-					<th scope="col" width="10%"> Power(kW) </th>
+					<th scope="col" width="10%">Name</th>
+					<th scope="col" width="5%">Status</th>
+					<th scope="col" width="10%">Cabinets</th>
+					<th scope="col" width="10%">Cages</th>
+					<th scope="col" width="10%">Power(kW)</th>
 					<th scope="col" width="5%">Layout</th>
 				</tr>
 			</thead>
 			<tbody id="cardnew">
 			{
-				state && state.data_halls && state.data_halls.map((data,index) => {
+				state.data_halls && state.data_halls.map((data,index) => {
 					return(
 						<tr key={index}>
 							<td className="pd-l bold-txt"> {data.name} </td>
