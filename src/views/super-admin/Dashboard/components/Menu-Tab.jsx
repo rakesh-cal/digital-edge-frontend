@@ -48,7 +48,7 @@ const MenuTab = ({setMenuTab,menuTab}) => {
 						<button 
 						className={menuTab.inventory?"btn btn-secondary":"btn btn-light"} 
 						type="button" >
-							Inventory
+							Inventory2
 						</button>
 					</li>
 					<li className="nav-item" onClick={() => onMenuChange(2)} style={{cursor:"pointer"}}> 
