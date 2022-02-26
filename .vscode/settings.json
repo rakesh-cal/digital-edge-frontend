@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "None",
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}
