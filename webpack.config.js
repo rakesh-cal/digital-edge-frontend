@@ -1,5 +1,0 @@
-[
-	devServer: {
-    	historyApiFallback: true
-  	},
-]

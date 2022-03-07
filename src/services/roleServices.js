@@ -73,6 +73,15 @@ class RoleService {
 
 		return await axios(token).post(`DeleteRole`,data);
 	}
+	/*
+	|-------------------------------------------------------------------------------
+	| Create Data center
+	|-------------------------------------------------------------------------------
+	*/
+	async createDataCenter (token, data){
+
+		return await axios(token).post(`addDataCenter`, data);
+	}
 
 }
 

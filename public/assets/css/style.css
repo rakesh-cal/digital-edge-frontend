@@ -30320,3 +30320,22 @@ tr.setting-table td p {
   margin-bottom: 0px;
   line-height: 0;
 }
+
+.not-found-popup .modal-content {
+  padding: 1.5rem 0px;
+}
+
+img.setting_down {
+  width: 24px!important;
+  position: absolute;
+  margin: 0px;
+  text-align: center;
+  bottom: -17px;
+  left: 1.1rem;
+}
+
+ul.nav.nav-tabs.custom-scroll-gap {
+    margin-bottom: .5rem;
+}
+
+/*# sourceMappingURL=style.css.map */

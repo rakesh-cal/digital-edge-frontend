@@ -27,13 +27,20 @@ const EditFloor = (props) => {
 		name:"",
 		soldCabinet:"",
 		cabinet:"",
+		cages:"",
+		soldCages:"",
+		status:"",
 		kva:""
 	});
     const [error,setError] = useState({
 		name:"",
 		soldCabinet:"",
 		cabinet:"",
-		kva:""
+		cages:"",
+		soldCages:"",
+		status:"",
+		kva:"",
+
 	});
 
 	useEffect(() => {
@@ -43,7 +50,10 @@ const EditFloor = (props) => {
             name: props.floor_data.name,
 			cabinet: props.floor_data.design_cabs,
 			kva: props.floor_data.design_power,
-			soldCabinet: props.floor_data.sold_cabs
+			soldCabinet: props.floor_data.sold_cabs,
+			cages:props.floor_data.design_cages,
+			soldCages:props.floor_data.sold_cages,
+			status:props.floor_data.status,
         });
 
         return () => {
@@ -138,14 +148,20 @@ const EditFloor = (props) => {
 			"name":"",
 			soldCabinet:"",
 			cabinet:"",
-			kva:""
+			kva:"",
+			cages:"",
+			soldCages:"",
+			status:"",
 		};
 		
 		const { 
 			name,
 			soldCabinet,
 			cabinet,
-			kva
+			kva,
+			cages,
+			soldCages,
+			status
 		} = state;
 
 		let flag = true;
@@ -164,6 +180,11 @@ const EditFloor = (props) => {
         if (cabinet === "" || cabinet === null || cabinet === undefined) {
 
 			error.cabinet = "The cabinet field is required.";
+			flag = false;
+        }
+		if (cages === "" || cages === null || cages === undefined) {
+
+			error.cages = "The cages field is required.";
 			flag = false;
         }
         if (kva === "" || kva === null || kva === undefined) {
@@ -199,7 +220,7 @@ const EditFloor = (props) => {
     return (
     	<div className="modal show bd-example-modal-lg"
     	style={{display:'block'}}
-    	tabIndex="-1" role="dialog" aria-hidden="true">
+    	tabindex="-1" role="dialog" aria-hidden="true">
 <div className="modal-dialog modal-lg">
 <div className="modal-content">
 <div className="modal-header mt-59">
@@ -224,12 +245,12 @@ const EditFloor = (props) => {
         </div>
         
         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of Cabinets <small className="text-danger">*</small></label>
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="# of Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -239,14 +260,13 @@ const EditFloor = (props) => {
                 />
                 <XError message={error.cabinet} />
             </div>									
-        </div>
-         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+        
+            <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -271,15 +291,62 @@ const EditFloor = (props) => {
                 />
                 <XError message={error.soldCabinet} />
             </div>									
+        
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
+               <input 
+                className="form-control" 
+                type="number"
+                maxlength={9}
+                placeholder="# of Cages"
+                value={state.cabinet}
+                onChange={event => setState({
+                	...state,
+                	cages:event.target.value.length<=9?event.target.value:state.cages
+                })}
+                />
+                <XError message={error.cages} />
+            </div>									
+        
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold Cages <small className="text-danger">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxlength={9}
+                placeholder="Sold Cages"
+                value={state.soldCages}
+                onChange={event => {
+                	let value = event.target.value.replace(/[^\d]/,'');
+
+                	if( Number(value) <= Number(state.cages)){
+                		setError({
+							...error,
+							soldCages:""
+						});
+	                	setState({
+		                	...state,
+		                	soldCages:event.target.value.length<=9?value:state.soldCages
+	                	});
+                	}else{
+				        setError({
+							...error,
+							soldCages:"Sold cages should not greater than total cages"
+						})
+                	}
+                }}
+                />
+                <XError message={error.soldCages} />
+            </div>									
         </div>
          <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                  <input 
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxLength="11"
+                maxlength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 
@@ -289,6 +356,26 @@ const EditFloor = (props) => {
                 
                 />
                 <XError message={error.kva} />
+            </div>									
+        </div>
+		<div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Status <small className="text-danger">*</small></label>
+                <select value={state.status}
+					onChange={event => {
+						setState({
+						...state,
+						status:event.target.value
+						});
+					}}
+					className="default-select form-control wide">
+						
+						<option value="1" >In Service</option>
+						<option value="2">Complete</option>
+						<option value="3">Construction</option>
+						<option value="4">Planning</option>
+					</select>
+                <XError message={error.status} />
             </div>									
         </div>
 

@@ -9,8 +9,8 @@ import Floor from "./floor"
 import EditFloor from './editFloor';
 import CreateDataHall from './dataHall'
 import EditDataHall from './editDataHall' 
+import CreateDataCenter from './dataCenter'
 import './dataCenter.css';
-import {numberFormat} from 'common/helpers';
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
@@ -28,6 +28,7 @@ const DataCenter = (props) => {
 	const [countryName, setCountryName] = useState("Country");
 	const [currentTab,setCurrentTab] = useState(0);
 	const [activeTab,setActiveTab] = useState();
+	const [country, setCountry] = useState(0)
 
 	useEffect(() => {
 
@@ -58,6 +59,7 @@ const DataCenter = (props) => {
 			if(res.data.data.length > 0){
 				setActiveTab(res.data.data[0])
 				selectDataCenterFloor(res.data.data[0])
+				setCountry(res.data.data[0].country_id)
 			}
 		})
 	}
@@ -118,11 +120,13 @@ const DataCenter = (props) => {
 
 	const renderCountry = () => {
 
-		return state && state.map(data => {
+		return state && state.map((data,i) => {
+			
 			return <a className="dropdown-item" 
-			key={data.id}
+			href="javascript:void(0);" 
 			onClick={() =>{
 				setCurrentTab(0)
+				setCountry(data.id)
 				getDataCenterById(data)
 			} }>{data.name} </a>
 		})
@@ -184,16 +188,16 @@ const DataCenter = (props) => {
 						</div>
 						<div className="col-lg-11">
 							<div id="pro">
-							   <div className="profile-tab">
-                           <div className="custom-tab-1">
-                              <div className="main_scrll">
-                                 <div className="btn_ul">
-                                    <ul className="nav nav-tabs mb-3">
-                                 <li className="nav-item"> <button className="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
-                                 <li className="nav-item">
-                                    <div className="btn-group" role="group">
-                                       <button type="button" className="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
-                                       <div className="dropdown-menu" style={{margin: '0px'}}>
+							   <div class="profile-tab">
+                           <div class="custom-tab-1">
+                              <div class="main_scrll">
+                                 <div class="btn_ul">
+                                    <ul class="nav nav-tabs mb-3">
+                                 <li class="nav-item"> <button class="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
+                                 <li class="nav-item">
+                                    <div class="btn-group" role="group">
+                                       <button type="button" class="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
+                                       <div class="dropdown-menu" style={{margin: '0px'}}>
                                           {renderCountry()}
                                        </div>
                                     </div>
@@ -201,15 +205,49 @@ const DataCenter = (props) => {
                                  </ul> 
                                  </div>
                                  <div className="ul_scrll">
-                                    <ul className="nav nav-tabs mb-3">
-                                 {renderDataCenter()} 
-                              </ul>
+                                    <ul className="nav nav-tabs custom-scroll-gap">
+										{
+										dataCenter && dataCenter.map((data,index) => {
+
+		                  				if(currentDataCenter && currentDataCenter.id == data.id){
+		                  					return(
+			                  					<li 
+			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					key={index}>
+			                  						<a 
+			                  						onClick={() => 
+														selectDataCenterFloor(data)}
+			                  						style={{cursor:'pointer'}} 
+			                  						className="nav-link active show"> 
+			                  							<img className="down setting_down" src="\images\downward-arrow.png" />
+			                  							{data.name}
+			                  						</a> 
+			                  					</li>
+			                  				)
+		                  				}else{
+
+			                  				return(
+			                  					<li 
+			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					key={index}>
+			                  						<a 
+			                  						onClick={() => selectDataCenterFloor(data)}
+			                  						style={{cursor:'pointer'}} 
+			                  						className="nav-link"> {data.name} </a> 
+			                  					</li>
+			                  				)
+		                  				}
+										})
+									}
+                                 {/* {renderDataCenter()}  */}
+                              		</ul>
                                  </div>
                               </div>
                            </div>
                         </div>
 							<div id="title" style={{marginBottom: "-2.687rem"}}>
-								<h5 className="card-title"> Inventory for {currentDataCenter.name} </h5>
+								<div><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6"><a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
+		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Center</a> </p></div>
 								<p> Each data center can set capacity thresholds at the data center, floor or data hall level. </p>
 							</div>
 
@@ -227,41 +265,35 @@ const DataCenter = (props) => {
 		
 		</div>
 		<table>
-			<thead>
-				<tr>
-					<th> Floor </th>
-					<th> Cabs </th>
-					<th> kW </th>
-					<th> </th>
-				</tr>
-			</thead>
-			<tbody>
-				
-				{allFloorData && allFloorData.map((res,id) => {
-					
-				    return <tr 
-				    key={id}
-				    className={activeTab.id === res.id?"tr_active":""}
-				    onClick={() => getFloorData(id)} style={{cursor:"pointer"}} >
-				    <td> {res.name}
-				    <i className="fa fa-circle" 
-				    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
-				    aria-hidden="true"></i> 
-				    </td>
-				    <td> {numberFormat(res.design_cabs)} </td>
-				    <td> {numberFormat(res.design_power,3)} </td>
-				    <td> 
-				    <a 
-				    onClick={() => getEditFloorPopup(res)} 
-				    style={{cursor:"pointer"}}>
-				    <i className="fas fa-edit"></i>
-				    </a> 
-				    </td>
-				    </tr>
-				})}
+		<tr>
+		<th> Floor </th>
+		<th> Cabs </th>
+		<th> kW </th>
+		<th> </th>
+		</tr>
 
-			</tbody>
 
+		{allFloorData && allFloorData.map((res,id) => {
+			
+		    return <tr 
+		    class={activeTab.id === res.id?"tr_active":""}
+		    onClick={() => getFloorData(id)} style={{cursor:"pointer"}} >
+		    <td> {res.name}
+		    <i className="fa fa-circle" 
+		    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
+		    aria-hidden="true"></i> 
+		    </td>
+		    <td> {res.totalCabs} </td>
+		    <td> {res.totalPower} </td>
+		    <td> 
+		    <a 
+		    onClick={() => getEditFloorPopup(res)} 
+		    style={{cursor:"pointer"}}>
+		    <i className="fas fa-edit"></i>
+		    </a> 
+		    </td>
+		    </tr>
+		})}
 		</table>
 		</div> 
 	</div> 
@@ -298,7 +330,7 @@ const DataCenter = (props) => {
 	            <tbody id="cardnew">
 	            {
 	                dataHall && dataHall.length > 0 && dataHall.map((res)=>{
-	                    return <tr key={res.id}>
+	                    return <tr>
 	                        <th className="pd-l bold-txt"> {res.name} </th>
 	                        <td>
 	                            <div 
@@ -339,6 +371,7 @@ const DataCenter = (props) => {
 				<CreateDataHall data_hall={allFloorData[floorIndex]} show={true} data_center_id={currentDataCenter} show={true} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex}/>
 
 				{showDataHallEdit && <EditDataHall data_hall={allFloorData[floorIndex]} show={showDataHallEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex} editDataHall={editDataHall} setShow={setShowDataHallEdit}/>}
+				<CreateDataCenter show={true} country={country}/>
 		</Layout>
 	)
 }

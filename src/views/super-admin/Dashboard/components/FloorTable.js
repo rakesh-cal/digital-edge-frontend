@@ -2,10 +2,14 @@ import React,{useState,useContext,useEffect} from 'react';
 import {Line,Line2} from 'components/graph';
 import AuthContext from "context";
 import CabinetServices from "services/CabinetService";
+import DataFloorPopup from  "./dataFloor-popup"
 
 const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) => {
 
 	const contextStore = useContext(AuthContext);
+	const [fileExists,setFileExists] = useState(false);
+	const [filePath,setFilePath] = useState("");
+	const [show, setShow] = useState(false)
 	//const floorActive = "";
 
 	useEffect(() => {
@@ -195,7 +199,31 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 	}
 
+	const checkDataFloor = async(data) => {
+		console.log(data)
+		selectFloor(data)
+
+		let filePath = `/images/${selectedDataCenter.country_id}/${data.data_center_id}/${data.id}/${data.id}.png`;
+
+
+	  	return await fetch(filePath,
+         	 { method: "HEAD" }
+		).then((res) => {
+			console.log(res)
+		      	if (res.ok) {
+		      		setFilePath(filePath)
+		      		setFileExists(true);
+		      		
+		      	} else {
+		      		setFileExists(false);
+		      	}
+				  setShow(true)
+		});
+
+	}
+
 	return(
+		<div>
 		<table>
 			<thead>
 			<tr>
@@ -228,7 +256,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 							<td onClick={() => selectFloor(data)}>
 								{getPowerStatus(data)}
 							</td>
-							<td onClick={() => selectFloor(data)}>
+							<td onClick={() => checkDataFloor(data)}>
 								<img src="/images/Group 3647.svg" />
 							</td>
 						</tr>
@@ -238,6 +266,8 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			}
 			</tbody>
 		</table>
+		{show && <DataFloorPopup show={show} setShow={setShow} fileExists={fileExists} filePath={filePath} selectedDataCenter={selectedDataCenter} selectedFloor={selectedFloor}/>}
+		</div>
 	)
 }
 

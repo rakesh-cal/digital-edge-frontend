@@ -286,7 +286,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -309,7 +309,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -334,7 +334,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -349,7 +349,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                                    type="radio"
 		                                                    onChange={event => setState({...state,userManagement:true})} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                                            <label className="form-check-label" for="flexRadioDefault1">
                                                             Allow
                                                             </label>
                                                          </div>
@@ -360,7 +360,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                                    type="radio" 
 		                                                    onChange={event => setState({...state,userManagement:false})} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">
+                                                            <label className="form-check-label" for="flexRadioDefault2">
                                                             Disallow
                                                             </label>
                                                          </div>
@@ -380,7 +380,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                 style={{marginRight:"1rem"}}
 		                                 className="btn btn-outline-primary mr_1"> Cancel </button>
 		                                 <button 
-		                                 type="submit" 
+		                                 type="button" 
 		                                 onClick={onSubmit} 
 		                                 className="btn btn-primary"> Save </button>
 

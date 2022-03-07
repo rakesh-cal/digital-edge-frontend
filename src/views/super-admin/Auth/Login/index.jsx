@@ -5,7 +5,7 @@ import {
 } from 'components/Auth';
 import { loginService,verifyEmail } from 'services/auth';
 import StorageContext from "context";
-import { useNavigate, Link,useParams,useLocation } from "react-router-dom";
+import { useNavigate, Link,useParams } from "react-router-dom";
 import {validateEmail} from "common/helpers";
 import { XError } from 'components/common';
 import { 
@@ -17,7 +17,6 @@ const Login = () => {
 	const HOME = '/data-center';
 
 	let navigate = useNavigate();
-	const location = useLocation();
 	let { token } = useParams();
 
 	const [state,setState] = useState({});
@@ -29,8 +28,7 @@ const Login = () => {
 	let contextData = React.useContext(StorageContext);
 
 	useEffect(() => {
-
-		if(location.pathname === "/" && token){
+		if(token){
 
 			verifyEmail({vToken:token}).then(res => {
 				setMessage({
@@ -139,7 +137,6 @@ const Login = () => {
 						</label>
 						<input 
 						type={canShowPassword?"text":"password"} 
-						autoComplete="on"
 						className="form-control" 
 						onChange={(event) => setState({...state,password: event.target.value})}
 						placeholder="Password" />

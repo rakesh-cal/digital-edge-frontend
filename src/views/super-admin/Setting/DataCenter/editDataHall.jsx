@@ -27,13 +27,19 @@ const EditDataHall = (props) => {
 		name:"",
         cabinet: "",
         power: "",
-        soldCabinet:""
+        soldCabinet:"",
+		cages:"",
+		soldCages:"",
+		status:""
 	});
     const [error,setError] = useState({
 		name:"",
         cabinet: "",
         power: "",
-        soldCabinet:""
+        soldCabinet:"",
+		cages:"",
+		soldCages:"",
+		status:""
 	});
 
 	useEffect(() => {
@@ -44,6 +50,9 @@ const EditDataHall = (props) => {
             cabinet: props.editDataHall.design_cabs,
             power: props.editDataHall.design_power,
             soldCabinet: props.editDataHall.sold_cabs,
+			cages:props.editDataHall.design_cages,
+			soldCages:props.editDataHall.sold_cages,
+			status:props.editDataHall.status
         });
 
         return () => {
@@ -87,7 +96,10 @@ const EditDataHall = (props) => {
                     "name":"",
                     "cabinet": "",
                     "power": "",
-                    "soldCabinet":""
+                    "soldCabinet":"",
+					"cages":"",
+					"soldCages":"",
+					"status":""
 				};
 				const errors = err?.response?.data?.errors;
 
@@ -133,7 +145,10 @@ const EditDataHall = (props) => {
                     "name":"",
                     "cabinet": "",
                     "power": "",
-                    "soldCabinet":""
+                    "soldCabinet":"",
+					"cages":"",
+					"soldCages":"",
+					"status":""
 				};
 				const errors = err?.response?.data?.errors;
 
@@ -149,6 +164,13 @@ const EditDataHall = (props) => {
 				if(errors?.soldCabinet !== undefined || errors?.soldCabinet !== "" || errors?.soldCabinet !== null){
 					error.soldCabinet = errors.soldCabinet;
 				}
+				if(errors?.cages !== undefined || errors?.cages !== "" || errors?.cages !== null){
+					error.cages = errors.cages;
+				}
+				if(errors?.soldCages !== undefined || errors?.soldCages !== "" || errors?.soldCages !== null){
+					error.soldCages = errors.soldCages;
+				}
+
 			})
 		}
 	}
@@ -159,14 +181,20 @@ const EditDataHall = (props) => {
 			"name":"",
             "cabinet": "",
             "power": "",
-            "soldCabinet":""
+            "soldCabinet":"",
+			"cages":"",
+			"soldCages":"",
+			"status":""
 		};
 		
 		const { 
 			name,
             cabinet,
             power,
-            soldCabinet
+            soldCabinet,
+			cages,
+			soldCages,
+			status
 		} = state;
 
 		let flag = true;
@@ -190,6 +218,16 @@ const EditDataHall = (props) => {
         if (soldCabinet === "" || soldCabinet === null || soldCabinet === undefined) {
 
 			error.soldCabinet = "The soldCabinet field is required.";
+			flag = false;
+        }
+		if (cages === "" || cages === null || cages === undefined) {
+
+			error.cages = "The cages field is required.";
+			flag = false;
+        }
+		if (soldCages === "" || soldCages === null || soldCages === undefined) {
+
+			error.soldCages = "The soldCages field is required.";
 			flag = false;
         }
 		setError({...error});
@@ -236,12 +274,12 @@ const EditDataHall = (props) => {
             </div>									
         </div>
         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -251,16 +289,14 @@ const EditDataHall = (props) => {
                 />
 
                 <XError message={error.cabinet} />
-            </div>									
-        </div>
-         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            </div>				
+            <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
     
                 <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -284,17 +320,62 @@ const EditDataHall = (props) => {
                 }}
                 />
                 <XError message={error.soldCabinet} />
+            </div>				
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
+               <input 
+                className="form-control" 
+                type="number"
+                maxlength={9}
+                placeholder="# of Cages"
+                value={state.cages}
+                onChange={event => setState({
+                	...state,
+                	cages:event.target.value.length<=9?event.target.value:state.cages
+                })}
+                />
+                <XError message={error.cages} />
+            </div>				
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold Cages <small className="text-danger">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxlength={9}
+                placeholder="Sold Cages"
+                value={state.soldCages}
+                onChange={event => {
+                	let value = event.target.value.replace(/[^\d]/,'');
+
+                	if( Number(value) <= Number(state.cages)){
+                		setError({
+							...error,
+							soldCages:""
+						});
+	                	setState({
+		                	...state,
+		                	soldCages:event.target.value.length<=9?value:state.soldCages
+	                	});
+                	}else{
+				        setError({
+							...error,
+							soldCages:"Sold cages should not greater than total cages"
+						})
+                	}
+                }}
+                />
+                <XError message={error.soldCages} />
             </div>									
         </div>
         <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                 
                 <input
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxLength="11"
+                maxlength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 
@@ -304,6 +385,26 @@ const EditDataHall = (props) => {
                 />
 
                 <XError message={error.power} />
+            </div>									
+        </div>
+		<div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Status <small className="text-danger">*</small></label>
+                <select value={state.status}
+					onChange={event => {
+						setState({
+						...state,
+						status:event.target.value
+						});
+					}}
+					className="default-select form-control wide">
+						
+						<option value="1" >In Service</option>
+						<option value="2">Complete</option>
+						<option value="3">Construction</option>
+						<option value="4">Planning</option>
+					</select>
+                <XError message={error.status} />
             </div>									
         </div>
         

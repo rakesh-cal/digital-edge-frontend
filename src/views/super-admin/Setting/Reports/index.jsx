@@ -75,7 +75,12 @@ const Reports = (props) => {
 		})
 	}
 
-   const getActivityLogs = async(type, id=null)=> {
+   const getActivityLogs = async(type, id=null, data=null)=> {
+      if(data != null){
+         setCurrentTab(data.id)
+         setDataCenterName(data.name)
+      }
+      
       await Activity.getActivity(authContext.token(), type, id).then(res => {
          res.data.data.map((data) => {
             return data.show = true
@@ -88,7 +93,8 @@ const Reports = (props) => {
    const renderCountry = () => {
 
 		return state && state.map(data => {
-			return <a className="dropdown-item" key={data.id}
+			return <a className="dropdown-item" 
+			href="javascript:void(0);" 
 			onClick={() =>{
 				//setCurrentTab(0)
 				getDataCenterById(data)
@@ -165,7 +171,7 @@ const Reports = (props) => {
    const renderActivityLog = () => {
       return (
          activityLog && activityLog.map((data,i) => {
-            return (data.show && <tr key={i}>
+            return (data.show && <tr>
                <td>{ moment(data.date_change).format('YYYY-MM-DD hh:mm A') }</td>
                <td>{data.datacenter != null ? data.datacenter.name : 'N/A'}</td>
                <td>{data.user.name}</td>
@@ -182,12 +188,12 @@ const Reports = (props) => {
       return (
          userList && userList.map((data, i) => {
             return (
-               	<div className="form-check" key={i}>
+               <div className="form-check">
                   <input className="form-check-input" type="checkbox" name=" checked flexRadioDefault" id={'flexRadioDefault'+i} onChange={(e) => handleChange(e, data.uuid)}/>
-                  <label className="form-check-label" htmlFor={'flexRadioDefault'+i}>
+                  <label className="form-check-label" for={'flexRadioDefault'+i}>
                   {data.name}
                   </label>
-               	</div>
+               </div>
             )
          })
       )
@@ -203,24 +209,24 @@ const Reports = (props) => {
 				<div className="container-fluid pt-0">
         			  
         	
-                      <div className="row">
-                        <div className="col-xl-2 col-lg-2">
-                            <div className="leftside">
-                                <p> <a href="#"  className="plink active">System Activity</a> </p>
+                      <div class="row">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="leftside">
+                                <p> <a href="#"  class="plink active">System Activity</a> </p>
                             </div>
                         </div>
                   <div className="col-lg-10">
                      <div id="pro">
-                        <div className="profile-tab">
-                           <div className="custom-tab-1">
-                              <div className="main_scrll">
-                                 <div className="btn_ul">
-                                    <ul className="nav nav-tabs mb-3">
-                                 <li className="nav-item"> <button className="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
-                                 <li className="nav-item">
-                                    <div className="btn-group" role="group">
-                                       <button type="button" className="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
-                                       <div className="dropdown-menu" style={{margin: '0px'}}>
+                        <div class="profile-tab">
+                           <div class="custom-tab-1">
+                              <div class="main_scrll">
+                                 <div class="btn_ul">
+                                    <ul class="nav nav-tabs mb-3">
+                                 <li class="nav-item"> <button class="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
+                                 <li class="nav-item">
+                                    <div class="btn-group" role="group">
+                                       <button type="button" class="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
+                                       <div class="dropdown-menu" style={{margin: '0px'}}>
                                           {renderCountry()}
                                        </div>
                                     </div>
@@ -228,8 +234,47 @@ const Reports = (props) => {
                                  </ul> 
                                  </div>
                                  <div className="ul_scrll">
-                                    <ul className="nav nav-tabs mb-3">
-                                 {renderDataCenter()} 
+                                    <ul className="nav nav-tabs custom-scroll-gap">
+                                       {
+                                          dataCenter && dataCenter.map((data,index) => {
+
+                                             if(currentTab && currentTab == data.id){
+                                                return(
+                                                   <li 
+                                                   className={index == 0?'nav-item':'nav-item'}
+                                                   key={index}>
+                                                      <a 
+                                                      onClick={() => 
+                                                        // setCurrentTab(data.id)
+                                                         getActivityLogs("data_center", data.id, data)
+                                                        // setDataCenterName(data.name)
+                                                      }
+                                                      style={{cursor:'pointer'}} 
+                                                      className="nav-link active show"> 
+                                                         <img className="down setting_down" src="\images\downward-arrow.png" />
+                                                         {data.name}
+                                                      </a> 
+                                                   </li>
+                                                )
+                                             }else{
+         
+                                                return(
+                                                   <li 
+                                                   className={index == 0?'nav-item':'nav-item'}
+                                                   key={index}>
+                                                      <a 
+                                                      onClick={() => //setCurrentTab(data.id),
+                                                         getActivityLogs("data_center", data.id, data)
+                                                         //setDataCenterName(data.name)
+                                                      }
+                                                      style={{cursor:'pointer'}} 
+                                                      className="nav-link"> {data.name} </a> 
+                                                   </li>
+                                                )
+                                             }
+                                       })
+                                       }
+                                 {/* {renderDataCenter()}  */}
                               </ul>
                                  </div>
                               </div>

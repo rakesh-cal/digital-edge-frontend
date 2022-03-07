@@ -15,14 +15,18 @@ const CreateDataHall = (props) => {
 		name:"",
         cabinet: "",
         power: "",
-        soldCabinet:""
+        soldCabinet:"",
+		cages: "",
+		status:""
 	});
     const [error,setError] = useState({
 		floor_id:"",
 		name:"",
         cabinet: "",
         power: "",
-        soldCabinet:""
+        soldCabinet:"",
+		cages: "",
+		status:""
 	});
 
 	useEffect(() => {
@@ -32,7 +36,9 @@ const CreateDataHall = (props) => {
             name:"",
             cabinet: "",
             power: "",
-            soldCabinet:""
+            soldCabinet:"",
+            cages: "",
+            status:""
         });
 
         return () => {
@@ -69,7 +75,9 @@ const CreateDataHall = (props) => {
                     "name":"",
                     "cabinet": "",
                     "power": "",
-                    "soldCabinet":""
+                    "soldCabinet":"",
+                    "cages": "",
+                    "status":""
 				};
 				const errors = err?.response?.data?.errors;
 
@@ -79,8 +87,8 @@ const CreateDataHall = (props) => {
                 if(errors?.cabinet !== undefined || errors?.cabinet !== "" || errors?.cabinet !== null){
 					error.cabinet = errors.cabinet;
 				}
-				if(errors?.soldCabinet !== undefined || errors?.soldCabinet !== "" || errors?.soldCabinet !== null){
-					error.soldCabinet = errors.soldCabinet;
+				if(errors?.cages !== undefined || errors?.cages !== "" || errors?.cages !== null){
+					error.cages = errors.cages;
 				}
                 if(errors?.power !== undefined || errors?.power !== "" || errors?.power !== null){
 					error.power = errors.power;
@@ -98,14 +106,18 @@ const CreateDataHall = (props) => {
 			"name":"",
             "cabinet": "",
             "power": "",
-            "soldCabinet":""
+            "soldCabinet":"",
+            "cages": "",
+            "status":""
 		};
 		
 		const { 
 			name,
             cabinet,
             power,
-            soldCabinet
+            soldCabinet,
+            cages,
+            status
 		} = state;
 
 		let flag = true;
@@ -121,9 +133,9 @@ const CreateDataHall = (props) => {
 			error.cabinet = "The cabinet field is required.";
 			flag = false;
         }
-        if (soldCabinet === "" || soldCabinet === null || soldCabinet === undefined) {
+        if (cages === "" || cages === null || cages === undefined) {
 
-			error.soldCabinet = "The sold cabinet field is required.";
+			error.cages = "The cages field is required.";
 			flag = false;
         }
         if (power === "" || power === null || power === undefined) {
@@ -142,14 +154,18 @@ const CreateDataHall = (props) => {
             name:"",
             cabinet: "",
             power: "",
-            soldCabinet:""
+            soldCabinet:"",
+            cages: "",
+            status:""
 		});
 		setError({
 			floor_id:"",
             name:"",
             cabinet: "",
             power: "",
-            soldCabinet:""
+            soldCabinet:"",
+            cages: "",
+            status:""
 		})
 
 		modalRef.current.click();
@@ -184,7 +200,7 @@ const CreateDataHall = (props) => {
                 <label className="form-label"> Name <small className="text-danger">*</small></label>
                 <input 
                 type="text" 
-                maxLength={45}
+                maxlength={45}
                 className="form-control" 
                 placeholder="Name of Data Hall" 
                 value={state.name}
@@ -199,7 +215,7 @@ const CreateDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -210,14 +226,14 @@ const CreateDataHall = (props) => {
                 <XError message={error.cabinet} />
             </div>									
         </div>
-           <div className="row">
+           {/* <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
     
                 <input 
                 className="form-control" 
                 type="number"
-                maxLength={9}
+                maxlength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -242,15 +258,32 @@ const CreateDataHall = (props) => {
                 />
                 <XError message={error.soldCabinet} />
             </div>									
+        </div> */}
+        <div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxlength={9}
+                placeholder="Total Cages"
+                value={state.cages.replace(/[^\d]/,'')}
+                onChange={event => setState({
+                	...state,
+                	cages:event.target.value.length<=9?event.target.value.replace(/[^\d]/,''):state.cages.replace(/[^\d]/,'')
+                })}
+                />
+                <XError message={error.cages} />
+            </div>									
         </div>
         <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                 <input
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxLength="11"
+                maxlength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 
@@ -259,6 +292,26 @@ const CreateDataHall = (props) => {
                 //onChange={event => setState({...state,power:event.target.value})}
                 />
                 <XError message={error.power} />
+            </div>									
+        </div>
+        <div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Status <small className="text-danger">*</small></label>
+                <select 
+					onChange={event => {
+						setState({
+						...state,
+						status:event.target.value
+						});
+					}}
+					className="default-select form-control wide">
+						
+						<option value="1">In Service</option>
+						<option value="2">Complete</option>
+						<option value="3">Construction</option>
+						<option value="4">Planning</option>
+					</select>
+                <XError message={error.status} />
             </div>									
         </div>
         

@@ -163,6 +163,17 @@ thead {
     border-radius: 5px;
     padding: 10px 3px;
     }
+    .innr_ct.right_ct {
+        position: absolute;
+        background: #11263cf5;
+        left: -179px;
+        width: 170px;
+        text-align: left;
+        z-index: 1111;
+        top: -5.3rem;
+        border-radius: 5px;
+        padding: 10px 3px;
+    }
     .content {
     display: flex;
     justify-content: space-between;
@@ -199,6 +210,16 @@ text-align: right;
     right: 46px;
     top: -25px;
     }
+    .triangle-right {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-left: 10px solid #1a2f44;
+        border-bottom: 10px solid transparent;
+        position: absolute;
+        right: 128px;
+        top: -25px;
+        }
     .bottom_data .triangle-left {
     width: 0;
     height: 0;
@@ -243,6 +264,16 @@ text-align: right;
     right: 74px;
     top: -28px;
     }
+    .triangle-right {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-left: 10px solid #1a2f44;
+        border-bottom: 10px solid transparent;
+        position: absolute;
+        right: 146px;
+        top: -25px;
+    }
    
     .top_img_2 img {
         position: absolute;
@@ -282,6 +313,17 @@ text-align: right;
     border-radius: 5px;
     padding: 10px 3px;
     }
+    .innr_ct.right_ct {
+        position: absolute;
+        background: #11263cf5;
+        left: -179px;
+        width: 170px;
+        text-align: left;
+        z-index: 1111;
+        top: -5rem;
+        border-radius: 5px;
+        padding: 10px 3px;
+    }
     .profile-tab .nav-item .nav-link {
         font-size: 0.938rem;
         padding: 9px 12px;
@@ -297,3 +339,122 @@ text-align: right;
         margin: 1.5rem auto;
     }
     }
+    .not-found-popup .modal-dialog.modal-lg {
+        margin: 20% auto 0 auto;
+    }
+
+    /*data floor css*/
+    @media (min-width: 992px){
+        .room-pek1.modal-dialog.modal-lg{
+        max-width: 75rem;
+        margin: 1.5rem auto;
+        }
+        }
+ 
+.pop-hover {
+   color: #fff;
+   background: #11263cf5;
+   padding: 5px 10px;
+   border-radius: 5px;
+   position: absolute;
+   width: 125px;
+   top: 37.5%;
+   left: 24%;
+   display: block;
+   z-index: 9999;
+}
+.pop-hover p {
+   color: #fff;
+   margin-bottom: 0px;
+   font-size: 12px;
+}
+.pop-hover .triangle-bottom {
+   width: 0;
+   height: 0;
+   border-top: 10px solid transparent;
+   border-right: 10px solid #1a2f44;
+   border-bottom: 10px solid transparent;
+   position: absolute;
+   right: 60px;
+   transform: rotate(268deg);
+   bottom: -14px;
+}
+
+
+.svg-pic {
+   position: relative;
+}
+
+.svg-pic img {
+   width: 100%;
+}
+path#red-line {
+   cursor: pointer;
+}
+.svg-pic svg {
+   width: 100%;
+}
+.datahall-1 img {
+   width: 120px;
+}
+.datahall-2 img {
+   width: 120px;
+}
+.datahall-3 img {
+   width: 120px;
+}
+.datahall-4 img {
+   width: 120px;
+}
+.datahall-1 {
+   position: absolute;
+   top: 173px;
+   left: 250px;
+   width: 13%;
+}
+.datahall-2 {
+   position: absolute;
+   top: 194px;
+   right: 270px;
+   width: 13%;
+}
+.datahall-3 {
+   position: absolute;
+   top: 388px;
+   left: 250px;
+   width: 13%;
+}
+.datahall-4 {
+    position: absolute;
+   top: 396px;
+   right: 270px;
+   width: 13%;
+}
+@media (min-width: 1600px){
+.datahall-1 {
+   position: absolute;
+   top: 170px;
+   left: 315px;
+}
+.datahall-2 {
+   position: absolute;
+   top: 190px;
+   right: 336px;
+}
+.datahall-3 {
+   position: absolute;
+   top: 395px;
+   left: 315px;
+}
+.datahall-4 {
+   position: absolute;
+   top: 402px;
+   right: 336px;
+}
+}
+@media  (max-width: 1400px) {
+    .room-pek1.modal-dialog.modal-lg .modal-body {
+        padding: 0rem 2.539rem 1.5rem 3.125rem;
+        height: 87vh;
+    }
+}

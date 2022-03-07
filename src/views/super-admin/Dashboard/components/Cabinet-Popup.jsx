@@ -16,7 +16,7 @@ const CabinetPopup = (props) => {
 	}
 	
     const returnEdited = (data, data_hall_id, data_center, selectedFloor, jsondata) => {
-       data = data.replace(/PEK1-3-3-C-001/g, props.dataHallName)
+      // data = data.replace(/PEK1-3-3-C-001/g, props.dataHallName)
        var newdata = data.replace(/images/g, 'images/'+props.data?.dataHallHtml.data_hall.floor.datacenter.country_id+'/'+props.data?.dataHallHtml.data_hall.floor.data_center_id+'/'+props.data?.dataHallHtml.data_hall.floor_id+'/'+props.data?.dataHallHtml.data_hall.id)
        var xmlString = newdata;
        var doc = new DOMParser().parseFromString(xmlString, "text/html");
@@ -25,7 +25,7 @@ const CabinetPopup = (props) => {
       setTimeout(function(){
         jsondata.forEach((val) => {
             let article = document.querySelector('#title-'+val.id);
-            article.textContent = val.name.split("-")[5]
+            //article.textContent = val.name.split("-")[5]
              let allChildren = document.querySelectorAll("#popup-"+val.id+" .content > p");
             allChildren[1].textContent = status[val.status-1]
             allChildren[3].textContent = val.customer
@@ -47,7 +47,7 @@ const CabinetPopup = (props) => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                     <div className="modal-header mt-24">
-                        <h3 className="modal-title notfound">Info not found
+                        <h3 class="modal-title notfound">Info not found
                         </h3>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" ref={modalRef} onClick={() => props.setShow(false)}> </button></div>
                     </div>
