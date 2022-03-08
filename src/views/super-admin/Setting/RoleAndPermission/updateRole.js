@@ -484,7 +484,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                                    	setDisabled(false);
 		                                                    }} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault1">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">
                                                             Allow
                                                             </label>
                                                         </div>
@@ -499,7 +499,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                                    	setDisabled(false);
 		                                                    }} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault2">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">
                                                             Disallow
                                                             </label>
                                                         </div>

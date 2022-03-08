@@ -12,11 +12,18 @@ const Header = ({selectDataCenter,selectedDataCenter}) => {
 
 	useEffect(() => {
 
-		RoleService.countryService(contextStore.token()).then(res => {
-			setCountries(res.data.data);
-		}).catch(err => {
-			/*500 internal server error*/
-		})
+		if(contextStore.getCountries.length === 0){
+
+			RoleService.countryService(contextStore.token()).then(res => {
+				setCountries(res.data.data);
+				contextStore.setCountry(res.data.data);
+			}).catch(err => {
+				/*500 internal server error*/
+			})
+		}else{
+			const data = contextStore.getCountries;
+			setCountries(data);
+		}
 
 		getDataCenter();
 
@@ -35,17 +42,30 @@ const Header = ({selectDataCenter,selectedDataCenter}) => {
 
 		if(country == ""){
 			
-			await RoleService.dataCenter(contextStore.token()).then(res => {
-				
-				setDataCenter(res.data.data);
-			});
+			if(contextStore.getDataCenters.length === 0){
+
+				await RoleService.dataCenter(contextStore.token()).then(res => {
+					
+					setDataCenter(res.data.data);
+					contextStore.setDataCenter(res.data.data);
+				});
+
+			}else{
+				setDataCenter(contextStore.getDataCenters);
+			}
 
 		}else{
 
-			await RoleService.dataCenterByCountryId(contextStore.token(), country).then(res => {
-				
-				setDataCenter(res.data.data);
-			})
+			if(contextStore.getDataCenters.length === 0){
+
+				await RoleService.dataCenterByCountryId(contextStore.token(), country).then(res => {
+					
+					setDataCenter(res.data.data);
+				})
+			}else{
+				const data = contextStore.getDataCenters.filter(data => data.country_id === country.id);
+				setDataCenter(data);
+			}
 		}
 	}
 	const onDataCenter = dataCenter => {

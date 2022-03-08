@@ -79,11 +79,20 @@ const EditDataHall = (props) => {
 		}).then(async (result) => {
 		  if (result.isConfirmed) {
 
-		    await DataHall.deleteDataHall(authContext.getToken,{...state,data_hall_id: props.editDataHall.id}).then(res => {
+		    await DataHall.deleteDataHall(authContext.getToken,{...state,data_hall_id: props.editDataHall.id}).then(async res => {
 				
 				setIsLoading(false);
-               
-				props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
+               	let data = authContext.getFloor
+				let newData = data.map(floor => {
+
+					if(floor.id === res?.data?.data?.id){
+						return res.data.data;
+					}
+					return floor;
+				});
+				
+				await authContext.setFloor(newData);
+				//props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
 				closeModal();
 				//Swal.fire('Floor Deleted');
                 //props.selectDataCenterFloor(props.dataCenterId)
@@ -128,13 +137,24 @@ const EditDataHall = (props) => {
 		if(checkValidation()){
            setState({...state,data_hall_id:props.editDataHall.id})
             
-			await DataHall.updateDataHall(authContext.getToken,{...state,data_hall_id: props.editDataHall.id}).then(res => {
+			await DataHall.updateDataHall(authContext.getToken,{...state,data_hall_id: props.editDataHall.id}).then(async res => {
 				
 				setIsLoading(false);
+
+				let data = authContext.getFloor
+				let newData = data.map(floor => {
+
+					if(floor.id === res?.data?.data?.id){
+						return res.data.data;
+					}
+					return floor;
+				});
+				
+				await authContext.setFloor(newData);
                 
-				props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
+				//props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
 				closeModal();
-					Swal.fire('Data Hall Updated');
+				Swal.fire('Data Hall Updated');
                 //props.selectDataCenterFloor(props.dataCenterId)
 
 			}).catch(err => {
@@ -279,7 +299,7 @@ const EditDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -296,7 +316,7 @@ const EditDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -326,7 +346,7 @@ const EditDataHall = (props) => {
                <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="# of Cages"
                 value={state.cages}
                 onChange={event => setState({
@@ -341,7 +361,7 @@ const EditDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cages"
                 value={state.soldCages}
                 onChange={event => {
@@ -375,7 +395,7 @@ const EditDataHall = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 

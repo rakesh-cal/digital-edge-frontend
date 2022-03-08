@@ -1,7 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import StorageContext from "context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import XLogo from 'components/logo';
 import {auth} from 'services/auth';
 
@@ -66,9 +65,12 @@ const Navigation = () => {
 		<nav className="navbar navbar-expand-lg navbar-light bg-theme">
          	<div className="container-fluid p-0">
 	            {/*<XLogo/>*/}
-	             <a className="navbar-brand" href="#">
+
+	            
+	            <Link to="/data-center" className="navbar-brand">
 	            	<img src="\images\logo.png" />
-	            </a>
+	            </Link>
+	            
             	<button 
 	            className="navbar-toggler" 
 	            type="button" 

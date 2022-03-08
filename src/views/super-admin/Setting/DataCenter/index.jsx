@@ -11,6 +11,7 @@ import CreateDataHall from './dataHall'
 import EditDataHall from './editDataHall' 
 import CreateDataCenter from './dataCenter'
 import './dataCenter.css';
+import {numberFormat} from 'common/helpers';
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
@@ -32,98 +33,104 @@ const DataCenter = (props) => {
 
 	useEffect(() => {
 
-		getData()
+		getData();
 
-	},[]);
+	},[authContext.getFloor]);
 
 	const getData = async () => {
 
-		await RoleModel.countryService(authContext.token()).then(res => {
-			setState(res.data.data);
-		});
+		if(authContext.getCountries.length === 0){
+
+			await RoleModel.countryService(authContext.token()).then(res => {
+				authContext.setCountry(res.data.data);
+				
+			});
+		}
 		getAllDataCenter()
 		
 	}
 
-	const getFloorData = (id) => {
+	const getFloorData = (data) => {
         
-        setDataHall(allFloorData[id].data_halls)
-        setActiveTab(allFloorData[id])
-		setFloorIndex(id)
+        setDataHall(data.data_halls)
+        setActiveTab(data.id)
+		//setFloorIndex(id)
     }
 
 	const getAllDataCenter = async () => {
-		setCountryName("Country")
-		await RoleModel.dataCenter(authContext.token()).then(res => {
-			setDataCenter(res.data.data)
-			if(res.data.data.length > 0){
-				setActiveTab(res.data.data[0])
-				selectDataCenterFloor(res.data.data[0])
-				setCountry(res.data.data[0].country_id)
-			}
-		})
+		setCountryName("Country");
+		if(authContext.getDataCenters.length === 0){
+
+			await RoleModel.dataCenter(authContext.token()).then(res => {
+				authContext.setDataCenter(res.data.data);
+				setDataCenter(res.data.data);
+				if(res.data.data.length > 0){
+					setActiveTab(res.data.data[0].id)
+					selectDataCenterFloor(res.data.data[0])
+					setCountry(res.data.data[0].country_id)
+				}
+			});
+		}else{
+			setDataCenter(authContext.getDataCenters);
+			selectDataCenterFloor(authContext.getDataCenters[0]);
+			setActiveTab(authContext.getDataCenters[0].id)
+		}
 	}
 
 	const getDataCenterById = async(e) => {
 		setCountryName(e.name)
-		await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
-			setDataCenter(res.data.data)
-			if(res.data.data.length > 0){
-				setActiveTab(res.data.data[0])
-				selectDataCenterFloor(res.data.data[0])
-			}
-		})
+		if(authContext.getDataCenters.length === 0){
+
+			await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
+				setDataCenter(res.data.data)
+				if(res.data.data.length > 0){
+					setActiveTab(res.data.data[0].id)
+					selectDataCenterFloor(res.data.data[0])
+				}
+			})
+		}else{
+
+			const data = authContext.getDataCenters.filter(data => data.country_id === e.id);
+
+				setDataCenter(data)
+				if(data.length > 0){
+					setActiveTab(data[0].id)
+					selectDataCenterFloor(data[0])
+				}
+		}
 	}
 	
 	const selectDataCenterFloor = async(e, floor_id = 0) => {
 		
 		setCurrentDataCenter(e)
 		setDataCenterId(e)
-		await Floors.floorByDataCenterId(authContext.token(), e).then(res => {
-		
-			// var changedData = []
-			// var finalData = []
-			if(res.data.data.length > 0){
-			// 	var groupBy = function(xs, key) {
-			// 		return xs.reduce(function(rv, x) {
-			// 		  (rv[x[key]] = rv[x[key]] || []).push(x);
-			// 		  return rv;
-			// 		}, {});
-			// 	  };
-				  
-			// 	  changedData = groupBy(res.data.data, 'floor_id');
-			// 	  let i=0
-				 for(const k in res.data.data){
-						 var totalPower = 0 , totalCabs = 0
-						 res.data.data[k].data_halls.forEach((res, innerKey) => {
-						totalPower += res.design_power ? parseFloat(parseFloat(res.design_power).toFixed(3)) : 0
-						totalCabs += res.design_cabs ? parseFloat(parseFloat(res.design_cabs).toFixed(3)) : 0
-						//finalData[key]
-					})
-					res.data.data[k].totalPower = totalPower
-					res.data.data[k].totalCabs = totalCabs
+
+		if(authContext.getFloor.length === 0){
+
+			await Floors.floorByDataCenterId(authContext.token(), e).then(res => {
+			
+				if(res.data.data.length > 0){
+					authContext.setFloor(res.data.data);
+
+					setAllFloorData(res.data.data);
+				 	setDataHall(res.data.data[floor_id].data_halls)
+					setFloorIndex(floor_id)
 				}
-			//		finalData[i] = {floor_id: k, data:changedData[k], name:changedData[k][0].floor_name, totalPower: totalPower, totalCabs:totalCabs}
-					 
-			// 		  i++
-			// 	  }
-			
-				setAllFloorData(res.data.data)
-			 	setDataHall(res.data.data[floor_id].data_halls)
-				setFloorIndex(floor_id)
-			}
-			
-			 
-			
-		})
+			});
+
+		}else{
+			const data = authContext.getFloor.filter(data => data.data_center_id === e.id);
+			setAllFloorData(data);
+			setDataHall(data[floor_id].data_halls);
+		}
 	}
 
 	const renderCountry = () => {
 
-		return state && state.map((data,i) => {
+		return authContext.getCountries.length && authContext.getCountries.map((data,i) => {
 			
 			return <a className="dropdown-item" 
-			href="javascript:void(0);" 
+			key={i}
 			onClick={() =>{
 				setCurrentTab(0)
 				setCountry(data.id)
@@ -188,16 +195,16 @@ const DataCenter = (props) => {
 						</div>
 						<div className="col-lg-11">
 							<div id="pro">
-							   <div class="profile-tab">
-                           <div class="custom-tab-1">
-                              <div class="main_scrll">
-                                 <div class="btn_ul">
-                                    <ul class="nav nav-tabs mb-3">
-                                 <li class="nav-item"> <button class="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
-                                 <li class="nav-item">
-                                    <div class="btn-group" role="group">
-                                       <button type="button" class="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
-                                       <div class="dropdown-menu" style={{margin: '0px'}}>
+							   <div className="profile-tab">
+                           <div className="custom-tab-1">
+                              <div className="main_scrll">
+                                 <div className="btn_ul">
+                                    <ul className="nav nav-tabs mb-3">
+                                 <li className="nav-item"> <button className="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
+                                 <li className="nav-item">
+                                    <div className="btn-group" role="group">
+                                       <button type="button" className="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
+                                       <div className="dropdown-menu" style={{margin: '0px'}}>
                                           {renderCountry()}
                                        </div>
                                     </div>
@@ -265,35 +272,41 @@ const DataCenter = (props) => {
 		
 		</div>
 		<table>
-		<tr>
-		<th> Floor </th>
-		<th> Cabs </th>
-		<th> kW </th>
-		<th> </th>
-		</tr>
-
-
-		{allFloorData && allFloorData.map((res,id) => {
+		<thead>
+			<tr>
+			<th> Floor </th>
+			<th> Cabs </th>
+			<th> kW </th>
+			<th> </th>
+			</tr>
+		</thead>
+		<tbody>
 			
-		    return <tr 
-		    class={activeTab.id === res.id?"tr_active":""}
-		    onClick={() => getFloorData(id)} style={{cursor:"pointer"}} >
-		    <td> {res.name}
-		    <i className="fa fa-circle" 
-		    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
-		    aria-hidden="true"></i> 
-		    </td>
-		    <td> {res.totalCabs} </td>
-		    <td> {res.totalPower} </td>
-		    <td> 
-		    <a 
-		    onClick={() => getEditFloorPopup(res)} 
-		    style={{cursor:"pointer"}}>
-		    <i className="fas fa-edit"></i>
-		    </a> 
-		    </td>
-		    </tr>
-		})}
+			{allFloorData && allFloorData.map((res,id) => {
+				
+			    return <tr 
+			    key={id}
+			    className={activeTab === res.id?"tr_active":""}
+			    onClick={() => getFloorData(res)} style={{cursor:"pointer"}} >
+			    <td> {res.name}
+			    <i className="fa fa-circle" 
+			    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
+			    aria-hidden="true"></i> 
+			    </td>
+			    <td> {numberFormat(res.design_cabs)} </td>
+			    <td> {numberFormat(res.design_power,3)} </td>
+			    <td> 
+			    <a 
+			    onClick={() => getEditFloorPopup(res)} 
+			    style={{cursor:"pointer"}}>
+			    <i className="fas fa-edit"></i>
+			    </a> 
+			    </td>
+			    </tr>
+			})}
+		</tbody>
+
+
 		</table>
 		</div> 
 	</div> 
@@ -330,7 +343,7 @@ const DataCenter = (props) => {
 	            <tbody id="cardnew">
 	            {
 	                dataHall && dataHall.length > 0 && dataHall.map((res)=>{
-	                    return <tr>
+	                    return <tr key={res.id}>
 	                        <th className="pd-l bold-txt"> {res.name} </th>
 	                        <td>
 	                            <div 
@@ -344,8 +357,9 @@ const DataCenter = (props) => {
 	                                </div>
 	                            </div>
 	                        </td>
-	                        <th> {res.design_cabs ? parseFloat(parseFloat(res.design_cabs).toFixed(3)) : 0 } </th>
-	                        <th> {res.design_power ? parseFloat(parseFloat(res.design_power).toFixed(3)) : 0} </th>
+	                         <td> {numberFormat(res.design_cabs)} </td>
+			    			<td> {numberFormat(res.design_power,3)} </td>
+	                      
 	                        <td> <a onClick={() => getEditDataHallPopup(res)}> <i className="fas fa-edit"></i></a> </td>
 	                    </tr>
 	                })

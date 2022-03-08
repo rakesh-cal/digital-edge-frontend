@@ -21,14 +21,14 @@ const DashboardCard = ({cardData}) => {
 	
 		
 	useEffect(() => {
-		floors = contextStore.getFloor;
+		floors = contextStore.getDataCenterFloor;
 
 			getFloorGraph();
 			getCabinetGraph();
 			getPowerGraph();
 			getCagesGraph();
 
-	},[contextStore.getFloor]);
+	},[contextStore.getDataCenterFloor]);
 
 
 	const getFloorGraph = () => {

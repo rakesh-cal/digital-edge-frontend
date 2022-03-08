@@ -286,7 +286,9 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id}>{per.name}</option>
+		                                            		return <option 
+		                                            		key={per.id}
+		                                            		value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -309,7 +311,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id}>{per.name}</option>
+		                                            		return <option key={per.id} value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -334,7 +336,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id}>{per.name}</option>
+		                                            		return <option key={per.id} value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -349,7 +351,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                                    type="radio"
 		                                                    onChange={event => setState({...state,userManagement:true})} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault1">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault1">
                                                             Allow
                                                             </label>
                                                          </div>
@@ -360,7 +362,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                                    type="radio" 
 		                                                    onChange={event => setState({...state,userManagement:false})} 
 		                                                    name="optradio" />
-                                                            <label className="form-check-label" for="flexRadioDefault2">
+                                                            <label className="form-check-label" htmlFor="flexRadioDefault2">
                                                             Disallow
                                                             </label>
                                                          </div>

@@ -21,17 +21,25 @@ const Reports = (props) => {
    const [showPopup, setShowPopup] = useState([])
    const [firstTimeCheck, setFirstTimeCheck] = useState(1)
 
-   useEffect(() => {
+   	useEffect(() => {
 
 		getData()
-      getAllUsers()
+      	getAllUsers()
+
 	},[]);
 
 	const getData = async () => {
 
-		await RoleModel.countryService(authContext.token()).then(res => {
-			setState(res.data.data);
-		});
+		if(authContext.getCountries.length === 0){
+
+			await RoleModel.countryService(authContext.token()).then(res => {
+				setState(res.data.data);
+				authContext.setCountry(res.data.data);
+			});
+
+		}else{
+			setState(authContext.getCountries);
+		}
 		getAllDataCenter()
 		getActivityLogs("all")
       setDataCenterName("N/A")
@@ -54,25 +62,40 @@ const Reports = (props) => {
 	}
 
    const getAllDataCenter = async () => {
-      setFirstTimeCheck(1)
-      getActivityLogs("all")
+      	setFirstTimeCheck(1)
+      	getActivityLogs("all")
 		setCountryName("Country")
-		await RoleModel.dataCenter(authContext.token()).then(res => {
-			setDataCenter(res.data.data)
-			
-		})
+
+		if(authContext.getDataCenters.length === 0){
+
+			await RoleModel.dataCenter(authContext.token()).then(res => {
+				setDataCenter(res.data.data);
+				authContext.setDataCenter(res.data.data);
+			});
+
+		}else{
+			setDataCenter(authContext.getDataCenters);
+		}
+
 	}
 
    const getDataCenterById = async(e) => {
 		setCountryName(e.name)
-      setDataCenterName("N/A")
-      getActivityLogs("country", e.id)
-		await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
-			setDataCenter(res.data.data)
-			if(res.data.data.length > 0){
-				//selectDataCenterFloor(res.data.data[0])
-			}
-		})
+      	setDataCenterName("N/A")
+      	getActivityLogs("country", e.id)
+
+      	if(authContext.getDataCenters.length === 0){
+			
+			await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
+				setDataCenter(res.data.data);
+			});
+
+		}else{
+
+			const data = authContext.getDataCenters.filter(data => data.country_id === e.id);
+			setDataCenter(data);
+		}
+
 	}
 
    const getActivityLogs = async(type, id=null, data=null)=> {
@@ -93,8 +116,7 @@ const Reports = (props) => {
    const renderCountry = () => {
 
 		return state && state.map(data => {
-			return <a className="dropdown-item" 
-			href="javascript:void(0);" 
+			return <a className="dropdown-item" key={data.id}
 			onClick={() =>{
 				//setCurrentTab(0)
 				getDataCenterById(data)
@@ -171,7 +193,7 @@ const Reports = (props) => {
    const renderActivityLog = () => {
       return (
          activityLog && activityLog.map((data,i) => {
-            return (data.show && <tr>
+            return (data.show && <tr key={i}>
                <td>{ moment(data.date_change).format('YYYY-MM-DD hh:mm A') }</td>
                <td>{data.datacenter != null ? data.datacenter.name : 'N/A'}</td>
                <td>{data.user.name}</td>
@@ -188,9 +210,9 @@ const Reports = (props) => {
       return (
          userList && userList.map((data, i) => {
             return (
-               <div className="form-check">
+               <div className="form-check" key={i}>
                   <input className="form-check-input" type="checkbox" name=" checked flexRadioDefault" id={'flexRadioDefault'+i} onChange={(e) => handleChange(e, data.uuid)}/>
-                  <label className="form-check-label" for={'flexRadioDefault'+i}>
+                  <label className="form-check-label" htmlFor={'flexRadioDefault'+i}>
                   {data.name}
                   </label>
                </div>
@@ -209,24 +231,24 @@ const Reports = (props) => {
 				<div className="container-fluid pt-0">
         			  
         	
-                      <div class="row">
-                        <div class="col-xl-2 col-lg-2">
-                            <div class="leftside">
-                                <p> <a href="#"  class="plink active">System Activity</a> </p>
+                      <div className="row">
+                        <div className="col-xl-2 col-lg-2">
+                            <div className="leftside">
+                                <p> <a href="#"  className="plink active">System Activity</a> </p>
                             </div>
                         </div>
                   <div className="col-lg-10">
                      <div id="pro">
-                        <div class="profile-tab">
-                           <div class="custom-tab-1">
-                              <div class="main_scrll">
-                                 <div class="btn_ul">
-                                    <ul class="nav nav-tabs mb-3">
-                                 <li class="nav-item"> <button class="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
-                                 <li class="nav-item">
-                                    <div class="btn-group" role="group">
-                                       <button type="button" class="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
-                                       <div class="dropdown-menu" style={{margin: '0px'}}>
+                        <div className="profile-tab">
+                           <div className="custom-tab-1">
+                              <div className="main_scrll">
+                                 <div className="btn_ul">
+                                    <ul className="nav nav-tabs mb-3">
+                                 <li className="nav-item"> <button className="btn btn-secondary" style={{width: '100%'}} onClick={getAllDataCenter}> Global </button></li>
+                                 <li className="nav-item">
+                                    <div className="btn-group" role="group">
+                                       <button type="button" className="btn btn-light dropdown-toggle" style={{width: '100%'}} data-bs-toggle="dropdown" aria-expanded="false"> {countryName} </button>
+                                       <div className="dropdown-menu" style={{margin: '0px'}}>
                                           {renderCountry()}
                                        </div>
                                     </div>

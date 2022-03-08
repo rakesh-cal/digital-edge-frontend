@@ -14,15 +14,15 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 	useEffect(() => {
 		
-		if (contextStore.getFloor && contextStore.getFloor.length) {
-			selectFloor(contextStore.getFloor[0]);
+		if (contextStore.getDataCenterFloor && contextStore.getDataCenterFloor.length) {
+			selectFloor(contextStore.getDataCenterFloor[0]);
 		}else{
 			selectFloor([]);
 		}
 
 		//floorActive = selectedFloor;
 		
-	},[contextStore.getFloor]);
+	},[contextStore.getDataCenterFloor]);
 
 	const getDataHallIds =  (data_halls) => {
 
@@ -34,7 +34,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 		let availablePercent = 0;
 		let totalPercent = 0;
 
-		//contextStore.getFloor.map(floor => {
+		//contextStore.getDataCenterFloor.map(floor => {
 
 			data_halls && data_halls.map(halls => {
 				
@@ -200,7 +200,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 	}
 
 	const checkDataFloor = async(data) => {
-		console.log(data)
+	
 		selectFloor(data)
 
 		let filePath = `/images/${selectedDataCenter.country_id}/${data.data_center_id}/${data.id}/${data.id}.png`;
@@ -236,7 +236,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			</thead>
 			<tbody>
 			{
-				contextStore.getFloor && contextStore.getFloor.map((data,key) => {
+				contextStore.getDataCenterFloor && contextStore.getDataCenterFloor.map((data,key) => {
 
 					return (
 						<tr key={key} style={{cursor:"pointer"}} 

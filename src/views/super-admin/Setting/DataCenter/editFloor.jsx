@@ -55,6 +55,7 @@ const EditFloor = (props) => {
 			soldCages:props.floor_data.sold_cages,
 			status:props.floor_data.status,
         });
+        props.selectDataCenterFloor(props.data_center_id);
 
         return () => {
 			//setCountries([]);
@@ -81,9 +82,14 @@ const EditFloor = (props) => {
 
 		    setState({...state,floor_id:props.floor_data.id})
             
-			await Floors.deleteFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(res => {
+			await Floors.deleteFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(async res => {
 				
-				props.selectDataCenterFloor(props.data_center_id);
+				let data = authContext.getFloor
+				let newData = data.filter(floor => floor.id !== props.floor_data.id);
+				
+				await authContext.setFloor(newData);
+
+			//	props.selectDataCenterFloor(props.data_center_id);
 				closeModal();
 				//Swal.fire('Floor Deleted');
                 //props.selectDataCenterFloor(props.dataCenterId)
@@ -113,11 +119,22 @@ const EditFloor = (props) => {
 		if(checkValidation()){
            setState({...state,floor_id:props.floor_data.id})
             
-			await Floors.updateFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(res => {
+			await Floors.updateFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(async res => {
 				
 				setIsLoading(false);
-                
-				props.selectDataCenterFloor(props.data_center_id);
+
+				let data = authContext.getFloor
+				let newData = data.map(floor => {
+
+					if(floor.id === props.floor_data.id){
+						return res.data.data;
+					}
+					return floor;
+				});
+				
+				await authContext.setFloor(newData);
+
+				//props.selectDataCenterFloor(props.data_center_id);
 				closeModal();
 				Swal.fire('Floor Updated');
                 //props.selectDataCenterFloor(props.dataCenterId)
@@ -220,7 +237,7 @@ const EditFloor = (props) => {
     return (
     	<div className="modal show bd-example-modal-lg"
     	style={{display:'block'}}
-    	tabindex="-1" role="dialog" aria-hidden="true">
+    	tabIndex="-1" role="dialog" aria-hidden="true">
 <div className="modal-dialog modal-lg">
 <div className="modal-content">
 <div className="modal-header mt-59">
@@ -250,7 +267,7 @@ const EditFloor = (props) => {
                <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="# of Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -266,7 +283,7 @@ const EditFloor = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -297,9 +314,9 @@ const EditFloor = (props) => {
                <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="# of Cages"
-                value={state.cabinet}
+                value={state.cages}
                 onChange={event => setState({
                 	...state,
                 	cages:event.target.value.length<=9?event.target.value:state.cages
@@ -313,7 +330,7 @@ const EditFloor = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cages"
                 value={state.soldCages}
                 onChange={event => {
@@ -346,7 +363,7 @@ const EditFloor = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 

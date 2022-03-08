@@ -122,7 +122,7 @@ const DataHallTable = ({selectedFloor, getCabinetData}) => {
 			</thead>
 			<tbody id="cardnew">
 			{
-				state && state.data_halls && state.data_halls.map((data,index) => {
+				state.data_halls && state.data_halls.map((data,index) => {
 					return(
 						<tr key={index}>
 							<td className="pd-l bold-txt"> {data.name} </td>

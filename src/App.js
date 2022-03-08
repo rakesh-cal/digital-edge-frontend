@@ -13,6 +13,8 @@ function App() {
 	const [permissionContext,setPermissionContext] = useState([]);
 	const [floorsContext,setFloorsContext] = useState([]);
 	const [selectedCountryContext,setSelectedCountryContext] = useState("");
+	const [dataHallContext,setDataHallContext] = useState([]);
+	const [uFloorsContext,setUFloorContext] = useState([]);
 
 	const contextData = React.useMemo(() => {
 		return {
@@ -56,8 +58,14 @@ function App() {
 			setFloor: data => {
 				setFloorsContext(data);
 			},
+			setDataCenterFloor: data => {
+				setUFloorContext(data);
+			},
 			setSelectedCountry: data => {
 				setSelectedCountryContext(data);
+			},
+			setDataHall: data => {
+				setDataCenterContext(data);
 			},
 			getAuth: authData,
 			getToken: apiToken,
@@ -67,6 +75,8 @@ function App() {
 			getDataCenters: dataCenterContext,
 			getPermission: permissionContext,
 			getFloor: floorsContext,
+			getDataCenterFloor: uFloorsContext,
+			getDataHall: dataHallContext,
 			selectedCountry:selectedCountryContext
 		};
 	}, [
@@ -78,7 +88,9 @@ function App() {
 		dataCenterContext,
 		permissionContext,
 		floorsContext,
-		selectedCountryContext
+		dataHallContext,
+		selectedCountryContext,
+		uFloorsContext
 	]);
 
   	return (

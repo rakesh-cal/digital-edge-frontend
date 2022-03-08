@@ -65,7 +65,7 @@ const DataFloorPopup = (props) => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                     <div className="modal-header mt-24">
-                        <h3 class="modal-title notfound">Info not found
+                        <h3 className="modal-title notfound">Info not found
                         </h3>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" ref={modalRef} onClick={() => props.setShow(false)}> </button></div>
                     </div>
@@ -88,16 +88,16 @@ const DataFloorPopup = (props) => {
                         
                     <button type="button" className="btn-close" data-bs-dismiss="modal" ref={modalRef} onClick={() => props.setShow(false)}> </button></div>
 
-                    <div class="modal-body" style={{paddingBottom: '2.5rem'}}>
-                                 <div class="card">
-                                    <div class="card-body" style={{padding: '0px'}}>
+                    <div className="modal-body" style={{paddingBottom: '2.5rem'}}>
+                                 <div className="card">
+                                    <div className="card-body" style={{padding: '0px'}}>
                                     <p style={{color:'#92979A', fontSize:'0.813rem'}}>3 Floor: Data Halls, Network Rooms and Cabling</p>
-                                        <div class="svg-pic">
+                                        <div className="svg-pic">
                                                         {
-                                                        showTooltip && <div class="pop-hover">
+                                                        showTooltip && <div className="pop-hover">
                                                          <p>statistics</p>
                                                          <p>lorem ipsum: 4</p>
-                                                         <div class="triangle-bottom"></div></div>
+                                                         <div className="triangle-bottom"></div></div>
                                                          }
                                                       {
                                                           props.selectedFloor.data_halls && props.selectedFloor.data_halls.map((data,i) => {
@@ -109,13 +109,13 @@ const DataFloorPopup = (props) => {
                                                       {/* <div className={"datahall-1"}>
                                                          <img src={"images/"+props.selectedDataCenter.country_id+"/"+props.selectedDataCenter.id+"/"+props.selectedFloor.id+"/pke-d.png"} width="120px"/>
                                                       </div>
-                                                      <div class="datahall-2">
+                                                      <div className="datahall-2">
                                                          <img src={"images/"+props.selectedDataCenter.country_id+"/"+props.selectedDataCenter.id+"/"+props.selectedFloor.id+"/pke-d.png"} width="120px"/>
                                                       </div>
-                                                      <div class="datahall-3">
+                                                      <div className="datahall-3">
                                                          <img src={"images/"+props.selectedDataCenter.country_id+"/"+props.selectedDataCenter.id+"/"+props.selectedFloor.id+"/pke-d.png"} width="120px"/>
                                                       </div>
-                                                      <div class="datahall-4">
+                                                      <div className="datahall-4">
                                                          <img src={"images/"+props.selectedDataCenter.country_id+"/"+props.selectedDataCenter.id+"/"+props.selectedFloor.id+"/pke-d.png"} width="120px"/>
                                                       </div> */}
                                            <svg width="1144" height="530" viewBox="0 0 1144 607" fill="none" xmlns="http://www.w3.org/2000/svg">

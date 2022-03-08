@@ -47,7 +47,7 @@ const CabinetPopup = (props) => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                     <div className="modal-header mt-24">
-                        <h3 class="modal-title notfound">Info not found
+                        <h3 className="modal-title notfound">Info not found
                         </h3>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" ref={modalRef} onClick={() => props.setShow(false)}> </button></div>
                     </div>

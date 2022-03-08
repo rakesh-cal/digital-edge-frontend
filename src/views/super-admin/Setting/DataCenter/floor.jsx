@@ -58,9 +58,14 @@ const Floor = (props) => {
 				{...state,
 					data_center_id: props.data_center_id.id
 				}).then(res => {
-				
+
+				const floorData = authContext.getFloor;
+				floorData.push(res.data.data);
+				authContext.setFloor(floorData);
 				setIsLoading(false);
+
 				props.selectDataCenterFloor(props.data_center_id);
+
 				closeModal();
 				Swal.fire('New Floor Created');
 
@@ -175,7 +180,7 @@ const Floor = (props) => {
 	}
 
     return (
-        <div className="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
 			<div className="modal-dialog modal-lg">
 			<div className="modal-content">
 			<div className="modal-header mt-59">
@@ -207,7 +212,7 @@ const Floor = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet.replace(/[^\d]/,'')}
                 onChange={event => setState({
@@ -224,7 +229,7 @@ const Floor = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cages"
                 value={state.cages.replace(/[^\d]/,'')}
                 onChange={event => setState({
@@ -242,7 +247,7 @@ const Floor = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 

@@ -35,28 +35,59 @@ const Dashboard = () => {
 
 		if(selectedDataCenter == "" && contextStore.selectedCountry == ""){
 
-			await Floors.findAllFloor(contextStore.token()).then(res => {
-				contextStore.setFloor(res.data.data);
-			}).catch(err => {
-				/*500 internal server error*/
-			})
+			if(contextStore.getFloor.length === 0){
+
+				await Floors.findAllFloor(contextStore.token()).then(res => {
+					contextStore.setFloor(res.data.data);
+					contextStore.setDataCenterFloor(res.data.data);
+				}).catch(err => {
+					/*500 internal server error*/
+				})
+			}else{
+				contextStore.setDataCenterFloor(contextStore.getFloor);
+			}
 
 		}else if(contextStore.selectedCountry !="" && selectedDataCenter == ""){
-			
-			await Floors.floorByCountryId(contextStore.token(),contextStore.selectedCountry).then(res => {
-			
-				contextStore.setFloor(res.data.data);
-			}).catch(err => {
-				/*500 internal server error*/
-			})
+				
+			if(contextStore.getFloor.length !==0 && contextStore.getDataCenters.length !==0){
+
+				let dataCenters = contextStore.getDataCenters.filter(dataCenter => dataCenter.country_id === contextStore.selectedCountry.id);
+				let floors = [];
+				await dataCenters.map(center => {
+					let newFloors = contextStore.getFloor.filter(floor => floor.data_center_id === center.id);
+					floors.push(...newFloors);
+				});
+
+				
+				contextStore.setDataCenterFloor(floors);
+
+			}else{
+
+				await Floors.floorByCountryId(contextStore.token(),contextStore.selectedCountry)
+				.then(res => {
+				
+					contextStore.setDataCenterFloor(res.data.data);
+
+				}).catch(err => {
+					/*500 internal server error*/
+				})
+			}
 
 		}else{
 
-			await Floors.floorByDataCenterId(contextStore.token(),selectedDataCenter).then(res => {
-				contextStore.setFloor(res.data.data);
-			}).catch(err => {
-				/*500 internal server error*/
-			})
+			if(contextStore.getFloor.length){
+
+				let newFloors = contextStore.getFloor.filter(floor => floor.data_center_id === selectedDataCenter.id);
+			
+				contextStore.setDataCenterFloor(newFloors);
+			}else{
+
+				await Floors.floorByDataCenterId(contextStore.token(),selectedDataCenter).then(res => {
+					contextStore.setDataCenterFloor(res.data.data);
+				}).catch(err => {
+					/*500 internal server error*/
+				})
+			}
 		}
 		
 	}

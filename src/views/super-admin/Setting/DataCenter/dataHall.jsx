@@ -57,11 +57,22 @@ const CreateDataHall = (props) => {
 		if(checkValidation()){
            // setState({...state,data_center_id:props.dataCenterId.id})
             
-			await DataHall.addDataHall(authContext.getToken,{...state,floor_id: props.data_hall.id}).then(res => {
+			await DataHall.addDataHall(authContext.getToken,{...state,floor_id: props.data_hall.id}).then(async res => {
 				
 				setIsLoading(false);
-            
-				props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
+            	
+            	let data = authContext.getFloor
+				let newData = data.map(floor => {
+
+					if(floor.id === res?.data?.data?.id){
+						return res.data.data;
+					}
+					return floor;
+				});
+				
+				await authContext.setFloor(newData);
+
+				//props.selectDataCenterFloor(props.data_center_id, props.floorIndex);
                 //props.setFloorIndex(props.floorIndex)
 				closeModal();
 				Swal.fire('New Data Hall Created');
@@ -200,7 +211,7 @@ const CreateDataHall = (props) => {
                 <label className="form-label"> Name <small className="text-danger">*</small></label>
                 <input 
                 type="text" 
-                maxlength={45}
+                maxLength={45}
                 className="form-control" 
                 placeholder="Name of Data Hall" 
                 value={state.name}
@@ -215,7 +226,7 @@ const CreateDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cabinets"
                 value={state.cabinet}
                 onChange={event => setState({
@@ -233,7 +244,7 @@ const CreateDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Sold Cabinets"
                 value={state.soldCabinet}
                 onChange={event => {
@@ -265,7 +276,7 @@ const CreateDataHall = (props) => {
                 <input 
                 className="form-control" 
                 type="number"
-                maxlength={9}
+                maxLength={9}
                 placeholder="Total Cages"
                 value={state.cages.replace(/[^\d]/,'')}
                 onChange={event => setState({
@@ -283,7 +294,7 @@ const CreateDataHall = (props) => {
                 type="number"
                 min="0.00000" 
                 step="0.00001"
-                maxlength="11"
+                maxLength="11"
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 
