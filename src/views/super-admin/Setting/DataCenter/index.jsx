@@ -253,7 +253,7 @@ const DataCenter = (props) => {
                            </div>
                         </div>
 							<div id="title" style={{marginBottom: "-2.687rem"}}>
-								<div><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6"><a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
+								<div className="row"><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6" style={{textAlign:"right"}}><a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
 		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Center</a> </p></div>
 								<p> Each data center can set capacity thresholds at the data center, floor or data hall level. </p>
 							</div>
@@ -385,7 +385,7 @@ const DataCenter = (props) => {
 				<CreateDataHall data_hall={allFloorData[floorIndex]} show={true} data_center_id={currentDataCenter} show={true} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex}/>
 
 				{showDataHallEdit && <EditDataHall data_hall={allFloorData[floorIndex]} show={showDataHallEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex} editDataHall={editDataHall} setShow={setShowDataHallEdit}/>}
-				<CreateDataCenter show={true} country={country}/>
+				<CreateDataCenter show={true} country={country} setDataCenter={setDataCenter} dataCenter={dataCenter}/>
 		</Layout>
 	)
 }

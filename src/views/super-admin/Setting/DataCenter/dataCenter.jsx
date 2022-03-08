@@ -49,6 +49,8 @@ const CreateDataCenter = (props) => {
 				}).then(res => {
 				
 				setIsLoading(false);
+				console.log(res.data.data)
+				props.setDataCenter([...props.dataCenter,res.data.data])
 				//props.selectDataCenterFloor(props.data_center_id);
 				closeModal();
 				Swal.fire('New Data Center Created');
