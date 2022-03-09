@@ -1,6 +1,6 @@
 import React from 'react';
 import StorageContext from "context";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate,Link,useLocation } from "react-router-dom";
 import XLogo from 'components/logo';
 import {auth} from 'services/auth';
 
@@ -9,14 +9,21 @@ const Navigation = () => {
 	let navigate = useNavigate();
 
 	const contextData = React.useContext(StorageContext);
+	const [invisibleMenu,setInvisibleMenu] = React.useState(false);
 	const [state,setState] = React.useState({
 		initialName:"",
 		fullName:""
 	});
+	const location = useLocation();
 	
 	React.useEffect(() => {
 		user();
 		short();
+		if(location.pathname.split('/')[1] === 'setting'){
+			setInvisibleMenu(true);
+		}else{
+			setInvisibleMenu(false);
+		}
 
 	},[contextData.getAuth.name]);
 
@@ -83,7 +90,7 @@ const Navigation = () => {
 
             	</button>
             	<div className="collapse navbar-collapse" id="navbarSupportedContent">
-	               	<ul className="navbar-nav me-auto mb-2 mb-lg-0">
+	               	<ul className={`navbar-nav me-auto mb-2 mb-lg-0 ${invisibleMenu?'invisible':''}`}>
 	                  	<li className="nav-item">
 	                     	<a className="nav-link dt_nav" aria-current="page" href="#">Dashboard</a>
 	                  	</li>
