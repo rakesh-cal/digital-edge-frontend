@@ -30,7 +30,8 @@ const EditFloor = (props) => {
 		cages:"",
 		soldCages:"",
 		status:"",
-		kva:""
+		kva:"",
+		soldkva:""
 	});
     const [error,setError] = useState({
 		name:"",
@@ -40,7 +41,7 @@ const EditFloor = (props) => {
 		soldCages:"",
 		status:"",
 		kva:"",
-
+		soldkva:""
 	});
 
 	useEffect(() => {
@@ -53,6 +54,7 @@ const EditFloor = (props) => {
 			soldCabinet: props.floor_data.sold_cabs,
 			cages:props.floor_data.design_cages,
 			soldCages:props.floor_data.sold_cages,
+			soldkva:props.floor_data.sold_power,
 			status:props.floor_data.status,
         });
         props.selectDataCenterFloor(props.data_center_id);
@@ -169,6 +171,7 @@ const EditFloor = (props) => {
 			cages:"",
 			soldCages:"",
 			status:"",
+			soldkva:""
 		};
 		
 		const { 
@@ -178,7 +181,8 @@ const EditFloor = (props) => {
 			kva,
 			cages,
 			soldCages,
-			status
+			status,
+			soldkva
 		} = state;
 
 		let flag = true;
@@ -232,6 +236,31 @@ const EditFloor = (props) => {
 		}
 
 		
+	}
+
+	const validateSoldPower = (e) => {
+		let t = e.target.value;
+		let newValue = state.soldkva;
+
+		let value = e.target.value.replace(/[^\d]/,'');
+
+		if( Number(t) <= Number(state.kva)){
+			setError({
+				...error,
+				soldkva:""
+			});
+			if(t.toString().split(".")[0].length <= 6){
+
+				newValue = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 6)) : t;
+				setState({...state,soldkva:Number(newValue)})
+		  }
+			
+		}else{
+			setError({
+				...error,
+				soldkva:"Sold kWs should not greater than total kWs"
+			})
+		}
 	}
 
     return (
@@ -357,7 +386,7 @@ const EditFloor = (props) => {
             </div>									
         </div>
          <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                  <input 
                 type="number"
@@ -373,7 +402,37 @@ const EditFloor = (props) => {
                 
                 />
                 <XError message={error.kva} />
-            </div>									
+            </div>	
+			<div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold kWs <small className="text-danger">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxLength={9}
+                placeholder="Sold kWs"
+                value={state.soldkva}
+                onChange={(event) => validateSoldPower(event)/*{
+                	let value = event.target.value.replace(/[^\d]/,'');
+
+                	if( Number(value) <= Number(state.kva)){
+                		setError({
+							...error,
+							soldkva:""
+						});
+	                	setState({
+		                	...state,
+		                	soldkva:event.target.value.length<=9?value:state.soldkva
+	                	});
+                	}else{
+				        setError({
+							...error,
+							soldkva:"Sold kWs should not greater than total kWs"
+						})
+                	}
+                }*/}
+                />
+                <XError message={error.soldkva} />
+            </div>								
         </div>
 		<div className="row">
             <div className="mb-3 col-md-12 mt-2313">

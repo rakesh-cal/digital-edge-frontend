@@ -30,6 +30,7 @@ const EditDataHall = (props) => {
         soldCabinet:"",
 		cages:"",
 		soldCages:"",
+		soldkva:"",
 		status:""
 	});
     const [error,setError] = useState({
@@ -39,6 +40,7 @@ const EditDataHall = (props) => {
         soldCabinet:"",
 		cages:"",
 		soldCages:"",
+		soldkva:"",
 		status:""
 	});
 
@@ -52,6 +54,7 @@ const EditDataHall = (props) => {
             soldCabinet: props.editDataHall.sold_cabs,
 			cages:props.editDataHall.design_cages,
 			soldCages:props.editDataHall.sold_cages,
+			soldkva:props.editDataHall.sold_power,
 			status:props.editDataHall.status
         });
 
@@ -108,6 +111,7 @@ const EditDataHall = (props) => {
                     "soldCabinet":"",
 					"cages":"",
 					"soldCages":"",
+					"soldkva":"",
 					"status":""
 				};
 				const errors = err?.response?.data?.errors;
@@ -168,6 +172,7 @@ const EditDataHall = (props) => {
                     "soldCabinet":"",
 					"cages":"",
 					"soldCages":"",
+					"soldkva":"",
 					"status":""
 				};
 				const errors = err?.response?.data?.errors;
@@ -204,6 +209,7 @@ const EditDataHall = (props) => {
             "soldCabinet":"",
 			"cages":"",
 			"soldCages":"",
+			"soldkva":"",
 			"status":""
 		};
 		
@@ -214,6 +220,7 @@ const EditDataHall = (props) => {
             soldCabinet,
 			cages,
 			soldCages,
+			soldkva,
 			status
 		} = state;
 
@@ -272,6 +279,31 @@ const EditDataHall = (props) => {
 		}
 
 		
+	}
+
+	const validateSoldPower = (e) => {
+		let t = e.target.value;
+		let newValue = state.soldkva;
+
+		let value = e.target.value.replace(/[^\d]/,'');
+
+		if( Number(t) <= Number(state.power)){
+			setError({
+				...error,
+				soldkva:""
+			});
+			if(t.toString().split(".")[0].length <= 6){
+
+				newValue = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 6)) : t;
+				setState({...state,soldkva:Number(newValue)})
+		  }
+			
+		}else{
+			setError({
+				...error,
+				soldkva:"Sold kWs should not greater than total kWs"
+			})
+		}
 	}
 
     return (
@@ -388,7 +420,7 @@ const EditDataHall = (props) => {
             </div>									
         </div>
         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                 
                 <input
@@ -405,7 +437,37 @@ const EditDataHall = (props) => {
                 />
 
                 <XError message={error.power} />
-            </div>									
+            </div>	
+			<div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold kWs <small className="text-danger">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxLength={9}
+                placeholder="Sold kWs"
+                value={state.soldkva}
+                onChange={(event) => validateSoldPower(event)/*{
+                	let value = event.target.value.replace(/[^\d]/,'');
+
+                	if( Number(value) <= Number(state.kva)){
+                		setError({
+							...error,
+							soldkva:""
+						});
+	                	setState({
+		                	...state,
+		                	soldkva:event.target.value.length<=9?value:state.soldkva
+	                	});
+                	}else{
+				        setError({
+							...error,
+							soldkva:"Sold kWs should not greater than total kWs"
+						})
+                	}
+                }*/}
+                />
+                <XError message={error.soldkva} />
+            </div>								
         </div>
 		<div className="row">
             <div className="mb-3 col-md-12 mt-2313">
