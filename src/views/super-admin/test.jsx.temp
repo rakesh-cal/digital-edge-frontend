@@ -1,0 +1,296 @@
+import React,{useEffect,useState} from "react";
+
+var myDiagram;
+var go = window.go;
+
+let dataObj = { "class": "go.GraphLinksModel",
+  "nodeKeyProperty": "id",
+  "nodeDataArray": [
+  {"id":-1, "loc":"155 -138", "category":"Start"},
+  {"id":0, "loc":"190 15", "text":"Shopping"},
+  {"id":1, "loc":"353 32", "text":"Browse Items"},
+  {"id":2, "loc":"353 166", "text":"Search Items"},
+  {"id":3, "loc":"512 12", "text":"View Item"},
+  {"id":4, "loc":"661 17", "text":"View Cart"},
+  {"id":5, "loc":"644 171", "text":"Update Cart"},
+  {"id":6, "loc":"800 96", "text":"Checkout"},
+  {"id":-2, "loc":"757 229", "category":"End"}
+  ],
+  "linkDataArray": [
+    { "from": -1, "to": 0, "text": "Visit online store" },
+    { "from": 0, "to": 1,  "progress": "true", "text": "Browse" },
+    { "from": 0, "to": 2,  "progress": "true", "text": "Use search bar" },
+    { "from": 1, "to": 2,  "progress": "true", "text": "Use search bar" },
+    { "from": 2, "to": 3,  "progress": "true", "text": "Click item" },
+    { "from": 2, "to": 2,  "text": "Another search", "curviness": 20 },
+    { "from": 1, "to": 3,  "progress": "true", "text": "Click item" },
+    { "from": 3, "to": 0,  "text": "Not interested", "curviness": -100 },
+    { "from": 3, "to": 4,  "progress": "true", "text": "Add to cart" },
+    { "from": 4, "to": 0,  "text": "More shopping", "curviness": -150 },
+    { "from": 4, "to": 5,  "text": "Update needed", "curviness": -50 },
+    { "from": 5, "to": 4,  "text": "Update made" },
+    { "from": 4, "to": 6,  "progress": "true", "text": "Proceed" },
+    { "from": 6, "to": 5,  "text": "Update needed" },
+    { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
+  ]
+};
+
+const Test = () => {
+
+	 //window.addEventListener('DOMContentLoaded', init);
+	const [diagram,setDiagram] = useState("");
+	const [goState,setGoState] = useState("");
+	const [state,setState] = useState(dataObj);
+
+	useEffect(() => {
+		//setState(dataObj);
+		init();
+		
+
+	},[]);
+	async function init() {
+
+      // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+      // For details, see https://gojs.net/latest/intro/buildingObjects.html
+      const $ = go.GraphObject.make;  // for conciseness in defining templates
+
+      // some constants that will be reused within templates
+      var roundedRectangleParams = {
+        parameter1: 2,  // set the rounded corner
+        spot1: go.Spot.TopLeft, spot2: go.Spot.BottomRight  // make content go all the way to inside edges of rounded corners
+      };
+
+      var myDiagram =
+        $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+          {
+            "animationManager.initialAnimationStyle": go.AnimationManager.None,
+            "InitialAnimationStarting": e => {
+                var animation = e.subject.defaultAnimation;
+                animation.easing = go.Animation.EaseOutExpo;
+                animation.duration = 900;
+                animation.add(e.diagram, 'scale', 0.1, 1);
+                animation.add(e.diagram, 'opacity', 0, 1);
+            },
+
+            // have mouse wheel events zoom in and out instead of scroll up and down
+            "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
+            // support double-click in background creating a new node
+            "clickCreatingTool.archetypeNodeData": { text: "new node" },
+            // enable undo & redo
+            "undoManager.isEnabled": true,
+            positionComputation: function (diagram, pt) {
+              return new go.Point(Math.floor(pt.x), Math.floor(pt.y));
+            }
+          });
+        
+      // when the document is modified, add a "*" to the title and enable the "Save" button
+      myDiagram.addDiagramListener("Modified", function (e) {
+        var button = document.getElementById("SaveButton");
+        if (button) button.disabled = !myDiagram.isModified;
+        var idx = document.title.indexOf("*");
+        if (myDiagram.isModified) {
+          if (idx < 0) document.title += "*";
+        } else {
+          if (idx >= 0) document.title = document.title.substr(0, idx);
+        }
+      });
+
+      // define the Node template
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+          {
+            locationSpot: go.Spot.Top,
+            isShadowed: true, shadowBlur: 1,
+            shadowOffset: new go.Point(0, 1),
+            shadowColor: "rgba(0, 0, 0, .14)"
+          },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          // define the node's outer shape, which will surround the TextBlock
+          $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+            {
+              name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
+              stroke: null,
+              portId: "",  // this Shape is the Node's port, not the whole Node
+              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+              cursor: "pointer"
+            }),
+          $(go.TextBlock,
+            {
+              font: "bold small-caps 11pt helvetica, bold arial, sans-serif", margin: 7, stroke: "rgba(0, 0, 0, .87)",
+              editable: true  // editing the text automatically updates the model data
+            },
+            new go.Binding("text").makeTwoWay())
+        );
+
+
+      // unlike the normal selection Adornment, this one includes a Button
+      myDiagram.nodeTemplate.selectionAdornmentTemplate =
+        $(go.Adornment, "Spot",
+          $(go.Panel, "Auto",
+            $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+            { fill: null, stroke: "#7986cb", strokeWidth: 3 }),
+            $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
+          ),
+          // the button to create a "next" node, at the top-right corner
+          $("Button",
+            {
+              alignment: go.Spot.TopRight,
+            //  click: addNodeAndLink  // this function is defined below
+            },
+            $(go.Shape, "PlusLine", { width: 6, height: 6 })
+          ) // end button
+        ); // end Adornment
+
+      myDiagram.nodeTemplateMap.add("Start",
+        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          $(go.Shape, "Circle",
+            {
+              fill: "#52ce60", /* green */
+              stroke: null,
+              portId: "",
+              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+              cursor: "pointer"
+            }),
+          $(go.TextBlock, "Start Path",
+            {
+              font: "bold 16pt helvetica, bold arial, sans-serif",
+              stroke: "whitesmoke"
+            })
+        )
+      );
+
+      myDiagram.nodeTemplateMap.add("End",
+        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          $(go.Shape, "Circle",
+            {
+              fill: "maroon",
+              stroke: null,
+              portId: "",
+              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+              cursor: "pointer"
+            }),
+          $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
+          $(go.TextBlock, "End",
+            {
+              font: "bold 16pt helvetica, bold arial, sans-serif",
+              stroke: "whitesmoke"
+            })
+        )
+      );
+
+
+      // replace the default Link template in the linkTemplateMap
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          {
+            curve: go.Link.Bezier,
+            adjusting: go.Link.Stretch,
+            reshapable: true, relinkableFrom: true, relinkableTo: true,
+            toShortLength: 3
+          },
+          new go.Binding("points").makeTwoWay(),
+          new go.Binding("curviness"),
+
+          //this part of code is responsible for arrow color
+          $(go.Shape,  // the link shape
+            { strokeWidth: 1.5 },
+            new go.Binding('stroke', 'progress', progress => progress ? "#52ce60" /* green */ : 'black'),
+            new go.Binding('strokeWidth', 'progress', progress => progress ? 2.5 : 1.5)),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "standard", stroke: null },
+            new go.Binding('fill', 'progress', progress => progress ? "#52ce60" /* green */ : 'black')),
+         
+         //this is for lables
+          $(go.Panel, "Auto",
+            $(go.Shape,  // the label background, which becomes transparent around the edges
+              {
+                fill: $(go.Brush, "Radial",
+                  { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
+                stroke: null
+              }),
+            $(go.TextBlock, "transition",  // the label text
+              {
+                textAlign: "center",
+                font: "9pt helvetica, arial, sans-serif",
+                margin: 4,
+                editable: true  // enable in-place editing
+              },
+              // editing the text automatically updates the model data
+              new go.Binding("text").makeTwoWay())
+          )
+        );
+
+      // read in the JSON data from the "mySavedModel" element
+      	
+       
+
+       await setDiagram(myDiagram);
+       await setGoState(go);
+       myDiagram.model = go.Model.fromJson(state);
+    }
+
+    // Show the diagram's model in JSON format
+   	const save = () => {
+
+   		//console.log(diagram.model.toJson());
+   		//console.log(dataObj);
+   		setState(JSON.parse(diagram.model.toJson()))
+
+   		//console.log(dataObj);
+   		//setState(diagram.model.toJson());
+   	}
+
+   	const load = () => {
+
+   		//setState(JSON.parse(diagram.model.toJson()))
+   		diagram.model = goState.Model.fromJson(state);
+   	}
+
+	return(
+		<div style={{width:"1600px"}}>
+			
+			<div 
+			id="myDiagramDiv" 
+			style={{
+				border: "1px solid black",
+				width: "100%",
+				height: "460px",
+				background: "whitesmoke",
+				position: "relative",
+				cursor: "auto",
+				font: "9pt helvetica, arial, sans-serif"
+			}}>
+		    	<canvas 
+		    	tabIndex="0" 
+		    	width="1054" 
+		    	height="458" 
+		    	style={{
+		    		position: "absolute",
+		    		top: "0px",
+		    		left: "0px",
+		    		zIndex: 2,
+		    		userSelect: "none",
+		    		touchAction: "none",
+		    		width: "1054px",
+		    		height: "458px",
+		    		cursor:" auto"
+		    	}}></canvas>
+		    </div>
+		    <button onClick={()=> save()}>Save</button>{" "}
+		    <button onClick={()=> load()}>Load</button>
+
+		    <textarea 
+		    cols="200" 
+		   	value={JSON.stringify(state,null,4) }
+		   	onChange={(event) => setState(JSON.parse(event.target.value))}
+		    rows="10"></textarea>
+		</div>
+	)
+}
+
+export default Test;
