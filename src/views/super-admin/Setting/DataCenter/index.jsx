@@ -54,7 +54,7 @@ const DataCenter = (props) => {
         
         setDataHall(data.data_halls)
         setActiveTab(data.id)
-		//setFloorIndex(id)
+		setFloorIndex(data.id)
     }
 
 	const getAllDataCenter = async () => {
@@ -115,6 +115,7 @@ const DataCenter = (props) => {
 					setAllFloorData(res.data.data);
 				 	setDataHall(res.data.data[floor_id].data_halls)
 					setFloorIndex(floor_id)
+					setActiveTab(floor_id)
 				}
 			});
 
@@ -122,6 +123,8 @@ const DataCenter = (props) => {
 			const data = authContext.getFloor.filter(data => data.data_center_id === e.id);
 			setAllFloorData(data);
 			setDataHall(data[floor_id].data_halls);
+			setFloorIndex(data[floor_id].id)
+			setActiveTab(data[floor_id].id)
 		}
 	}
 
@@ -382,7 +385,7 @@ const DataCenter = (props) => {
 			</div>
 				<Floor data_center_id={currentDataCenter} show={true} selectDataCenterFloor={selectDataCenterFloor}/>
 				{showFloorEdit && <EditFloor floor_data={editFloorData} show={showFloorEdit} setShow={setShowFloorEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor}/>}
-				<CreateDataHall data_hall={allFloorData[floorIndex]} show={true} data_center_id={currentDataCenter} show={true} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex}/>
+				<CreateDataHall show={true} data_center_id={currentDataCenter} show={true} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex}/>
 
 				{showDataHallEdit && <EditDataHall data_hall={allFloorData[floorIndex]} show={showDataHallEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex} editDataHall={editDataHall} setShow={setShowDataHallEdit}/>}
 				<CreateDataCenter show={true} country={country} setDataCenter={setDataCenter} dataCenter={dataCenter}/>

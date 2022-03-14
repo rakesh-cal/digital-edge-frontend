@@ -5,6 +5,7 @@ import RoleAndPermission from 'views/super-admin/Setting/RoleAndPermission';
 import User from 'views/super-admin/Setting/User';
 import DataCenter from 'views/super-admin/Setting/DataCenter';
 import Reports from 'views/super-admin/Setting/Reports'
+import Profile from 'views/profile'
 
 const AuthenticatedRoutes = () => {
 
@@ -17,6 +18,7 @@ const AuthenticatedRoutes = () => {
 				<Route path="/setting/user" element={<User />} />
 				<Route path="/setting/data-center" element={<DataCenter />} />
 				<Route path="/setting/reports" element={<Reports />} />
+				<Route path="/profile" element={<Profile />} />
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
       	</React.Fragment>
