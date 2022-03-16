@@ -55,8 +55,8 @@ const axiosWithoutToken = () => {
 		baseURL: `${baseURL}localdedc/`,
 		headers: AuthHeader
 	});
-}*/
-
+}
+*/
 
 export {
 	axiosWithoutToken,

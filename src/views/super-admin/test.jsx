@@ -1,7 +1,8 @@
-import React,{useEffect,useState,useRef} from "react";
-import {nodeDataArray,linkDataArray,dataHallsArray} from "./data";
+import React,{useEffect,useState,useRef,useContext} from "react";
 import Modal from 'react-modal';
 import './App.css';
+import DataCenterChart from 'services/dataCenterChart';
+import StorageContext from "context";
 
 var myDiagram;
 var go = window.go;
@@ -19,10 +20,13 @@ const customStyles = {
 
 const Test = () => {
 
+	const contextStore = useContext(StorageContext);
 	const [diagram,setDiagram] = useState("");
 	const [state,setState] = useState();
-	const [nodeData,setNodeData] = useState(nodeDataArray);
-	const [linkData,setLinkData] = useState(linkDataArray);
+	const [nodeData,setNodeData] = useState([]);
+	const [linkData,setLinkData] = useState([]);
+	const [nodeDataArray,setNodeDataArray] = useState([]);
+	const [linkDataArray,setLinkDataArray] = useState([]);
 	const isInitialMount = useRef(true);
 	const [modalIsOpen, setIsOpen] = React.useState(false);
 	const [currentObjState,setCurretObjState] = useState("");
@@ -35,28 +39,43 @@ const Test = () => {
 	const [isReadOnly,setIsReadOnly] = useState(false);
 	const [totalColors,setTotalColors] = useState("");
 	const [showButton,setShowButton] = useState("");
+	const [dataHallsArray,setDataHallsArray] = useState([]);
 
 	useEffect(() => {
 		
 		if (isInitialMount.current) {
 		    
 		    isInitialMount.current = false;
-		    init();
-		    getColors();
-		   // setNodeData(nodeDataArray);
-		   	//setLinkData(linkDataArray);
-
+		   
+		    if(contextStore.token()){
+		    	fireAPI()
+		    }
 		} else {
 			
 		    onLoad();
-		    console.log("called");
-		    addNodeTemplate();
+		    getColors()
+		  //  addNodeTemplate();
 
 		}
 			
 
 	},[nodeData,linkData,isReadOnly]);
 
+	const fireAPI = async () => {
+
+		await DataCenterChart.index(contextStore.token(),1).then(async res => {
+		    
+		    init();
+		    const nodeArray = JSON.parse(res.data.data.nodeArray);
+		  console.log(res.data.data.linkedArray);
+		 	await setNodeData(nodeArray)
+		 	await setLinkData(JSON.parse(res.data.data.linkedArray))
+		 	await setDataHallsArray(JSON.parse(res.data.data.dataHalls))
+		    await setNodeDataArray(JSON.parse(res.data.data.nodeArray))
+			await setLinkDataArray(JSON.parse(res.data.data.linkedArray))
+
+		});
+	}
 	const openModal = data => {
 		setCurretObjState(data);
 		getLinkedNode(data);
@@ -80,13 +99,13 @@ const Test = () => {
     	const aEnd = linkData.filter(link => link.to === data.key);
     	const zEnd = linkData.filter(link => link.from === data.key);
     	if(aEnd.length){
-    		console.log(aEnd[0])
+    		//console.log(aEnd[0])
     		setANode(aEnd[0]);
     	}else{
     		setANode("");
     	}
     	if(zEnd.length){
-    		console.log(zEnd[0])
+    		//console.log(zEnd[0])
     		setZNode(zEnd[0]);
     	}else{
     		setZNode("");
@@ -112,9 +131,9 @@ const Test = () => {
     }
     const showSelectColor = (color,event) => {
 
-    	//setLinkData(linkDataArray);
     	const filteredLink = linkDataArray.filter(data => {
-    		if(data.progress.color === color){
+    		
+    		if(color[data.progress.color]){
     			return data;
     		}
     	});
@@ -172,7 +191,7 @@ const Test = () => {
 
 
         myDiagram.groupTemplate =
-		  $(go.Group, "vertical",
+		  $(go.Group, "horizontal",
 
 		    $(go.Panel, "Auto",
 		      $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
@@ -193,32 +212,39 @@ const Test = () => {
 
 		  //Node template
 
-		  
+		  //go.Point.parse
 		  	
-		  myDiagram.nodeTemplate =
+		/*  myDiagram.nodeTemplate =
 			$(go.Node, "Auto",
+				new go.Binding("location", "loc"),
 			    $(go.Shape, "RoundedRectangle", { fill: "white",height:40,width:150 }),
-			    $(go.TextBlock,"myDiagram.isEnabled == false",
+			    $(go.TextBlock,
 			    { 
 		      		font: "7pt Sans-Serif",
 
 		      	},
 			    new go.Binding("text", "key"))
-			);
-		  	
+			);*/
 
+
+/*  new go.Binding("location", "loc",function(loc){
+				//	console.log(loc)
+				}).makeTwoWay(go.Point.stringify),*/
+
+			//console.log(new go.Point(40.5,162),"position")
 
 			myDiagram.addDiagramListener("ObjectContextClicked",
 		      	function(e) {
 		        	var part = e.subject.part;
 		        	if (!(part instanceof go.Link)){
+		        		
 		        		openModal(part.data);
 		        	}
 		    });
 
-		 // console.log(Object.getOwnPropertyNames(go.Placeholder.name));
-		myDiagram.toolManager.panningTool.isEnabled = false;
-
+	
+		
+		//myDiagram.isReadOnly = true;
 		myDiagram.model = new go.GraphLinksModel(nodeData, linkData);
 
 		setDiagram(myDiagram);
@@ -229,19 +255,61 @@ const Test = () => {
 
     }
     const onSave = () => {
+
     	const jsonData = JSON.parse(diagram.model.toJson());
+
+    //	console.log(jsonData);
     	setNodeData(jsonData.nodeDataArray);
     	setLinkData(jsonData.linkDataArray);
+
+    	DataCenterChart.store(contextStore.token(),{
+    		data_center_id:1,
+    		node: JSON.stringify(jsonData.nodeDataArray),
+    		linked:JSON.stringify(jsonData.linkDataArray),
+    		dataHalls: JSON.stringify(dataHallsArray)
+    	});
+    	//console.log(jsonData,jsonData.nodeDataArray,jsonData.linkDataArray);
+
     }
     const onLoad = () => {
+	const $ = go.GraphObject.make;
+    	diagram.nodeTemplate =
+  $(go.Node, "Auto",
+   		
+   new go.Binding("location", "",function(data) {
+   	//	console.log(data);
+   		return new go.Point(data.x, data.y);
+   		//return loc;
+   }).makeTwoWay((loc,data,model)=> {
+   	 	
+   	 	model.setDataProperty(data, "x", loc.x);
+    	model.setDataProperty(data, "y", loc.y);
+   	 	let localData = nodeData;
+   	 	localData.map(node => {
+   	 		if(node.key === data.key){
+   	 			return data;
+   	 		}else{
+   	 			return node;
+   	 		}
+   	 	});
+   	 	setNodeData(localData);
+   	 	//console.log(data);
 
+   }),  // get the Node.location from the data.loc value
+    $(go.Shape, "RoundedRectangle",
+      { fill: "white" },
+      new go.Binding("fill", "color")),
+    $(go.TextBlock,
+      { margin: 5 },
+      new go.Binding("text", "key"))
+  );
     	diagram.model = new go.GraphLinksModel(nodeData, linkData);
     }
     const getColors = async () => {
-    	const test = linkData.map(data => {
+    	const colors = linkData.map(data => {
     		return data.progress.color
     	});
-    	const newArray = [...new Set(test)];
+    	const newArray = [...new Set(colors)];
 
     	let colorsBtn = {};
 
@@ -256,6 +324,17 @@ const Test = () => {
     	setShowButton(colorsBtn)
 
     	setTotalColors(newArray);
+    }
+    
+    const toggleColorBtn = (obj,color,status) => {
+
+    	Object.keys(obj).forEach(function(key){
+	    		if(key == color){
+	    			obj[key] = status;
+	    		}
+    	 	}
+    	);
+  		return obj;
     }
     const getColorName = hexCode => {
     	let n_match = window.ntc.name(hexCode);
@@ -367,26 +446,19 @@ const Test = () => {
 
 								<input 
 								type="checkbox" 
-								//checked={showButton[color]}
-								onChange={() => {
+								checked={showButton[color]}
+								onChange={(event) => {
 									let colorsBtn = {};
-									Object.keys(showButton).map(btn => {
 
-										if (btn === color) {
-											colorsBtn = {
-												...showButton,
-												[btn]:false
-											}
-										}else{
+									if(event.target.checked){
+										toggleColorBtn(showButton,color,true);
+									}else{
+										toggleColorBtn(showButton,color,false);
+									}
 
-											colorsBtn = {
-												...showButton,
-												[btn]:false
-											}
-										}
-									});
-									setShowButton(colorsBtn);
-									showSelectColor(color)
+									//console.log(showButton);
+									setShowButton(showButton);
+									showSelectColor(showButton)
 								}} />
 							 	<div className="slider round" style={{backgroundColor:color}}>
 							  
