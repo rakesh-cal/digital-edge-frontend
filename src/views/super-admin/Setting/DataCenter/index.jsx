@@ -1,4 +1,4 @@
-import React,{useEffect,useState,useContext} from 'react';
+import React,{useEffect,useState,useContext,useRef} from 'react';
 import Layout from "../../Layouts";
 import Navigation from "../Component/Navigation";
 //import Navigation from "./Navigation";
@@ -30,11 +30,23 @@ const DataCenter = (props) => {
 	const [currentTab,setCurrentTab] = useState(0);
 	const [activeTab,setActiveTab] = useState();
 	const [country, setCountry] = useState(0)
+	const initialMount = useRef(true)
 
 	useEffect(() => {
-
 		getData();
-
+		if(initialMount.current === false){
+			selectDataCenterFloor(currentDataCenter, floorIndex)
+			// const floordata = authContext.getFloor.filter((floor) => {
+			// 	if(floor.id === floorIndex){
+			// 		return floor
+			// 	}
+			// })
+			// //console.log("use effect",floordata)
+			// getFloorData(floordata)
+		}else{
+			
+			getAllDataCenter()
+		}
 	},[authContext.getFloor]);
 
 	const getData = async () => {
@@ -46,7 +58,7 @@ const DataCenter = (props) => {
 				
 			});
 		}
-		getAllDataCenter()
+		
 		
 	}
 
@@ -65,15 +77,24 @@ const DataCenter = (props) => {
 				authContext.setDataCenter(res.data.data);
 				setDataCenter(res.data.data);
 				if(res.data.data.length > 0){
-					setActiveTab(res.data.data[0].id)
-					selectDataCenterFloor(res.data.data[0])
-					setCountry(res.data.data[0].country_id)
+					if(initialMount.current){
+						setActiveTab(res.data.data[0].id)
+						selectDataCenterFloor(res.data.data[0])
+						setCountry(res.data.data[0].country_id)
+						initialMount.current = false
+					}
+					
+					
 				}
 			});
 		}else{
+			
+			if(initialMount.current){
+				setActiveTab(authContext.getDataCenters[0].id)
+				selectDataCenterFloor(authContext.getDataCenters[0]);
+				initialMount.current = false
+			}
 			setDataCenter(authContext.getDataCenters);
-			selectDataCenterFloor(authContext.getDataCenters[0]);
-			setActiveTab(authContext.getDataCenters[0].id)
 		}
 	}
 
@@ -82,26 +103,25 @@ const DataCenter = (props) => {
 		if(authContext.getDataCenters.length === 0){
 
 			await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
-				setDataCenter(res.data.data)
-				if(res.data.data.length > 0){
-					setActiveTab(res.data.data[0].id)
-					selectDataCenterFloor(res.data.data[0])
-				}
+					setDataCenter(res.data.data)
+					if(res.data.data.length > 0){
+						setActiveTab(res.data.data[0].id)
+						selectDataCenterFloor(res.data.data[0])
+					}
 			})
 		}else{
 
 			const data = authContext.getDataCenters.filter(data => data.country_id === e.id);
-
-				setDataCenter(data)
-				if(data.length > 0){
-					setActiveTab(data[0].id)
-					selectDataCenterFloor(data[0])
-				}
+			setDataCenter(data)
+			if(data.length > 0){
+				setActiveTab(data[0].id)
+				selectDataCenterFloor(data[0])
+			}	
 		}
 	}
 	
 	const selectDataCenterFloor = async(e, floor_id = 0) => {
-		
+		//console.log("called data center",e,floor_id)
 		setCurrentDataCenter(e)
 		setDataCenterId(e)
 
@@ -121,10 +141,20 @@ const DataCenter = (props) => {
 
 		}else{
 			const data = authContext.getFloor.filter(data => data.data_center_id === e.id);
-			setAllFloorData(data);
-			setDataHall(data[floor_id].data_halls);
-			setFloorIndex(data[floor_id].id)
-			setActiveTab(data[floor_id].id)
+			if(floor_id != 0){
+				const dataObj = data.filter(data => data.id === floor_id)
+				//console.log(data,floor_id,dataObj)
+				setAllFloorData(data);
+				setDataHall(dataObj[0].data_halls);
+				setFloorIndex(dataObj[0].id)
+				setActiveTab(dataObj[0].id)
+			}else{
+				setAllFloorData(authContext.getFloor.filter(data => data.data_center_id === e.id));
+				setDataHall(data[floor_id].data_halls);
+				setFloorIndex(data[floor_id].id)
+				setActiveTab(data[floor_id].id)
+			}
+			
 		}
 	}
 
@@ -293,7 +323,7 @@ const DataCenter = (props) => {
 			    onClick={() => getFloorData(res)} style={{cursor:"pointer"}} >
 			    <td> {res.name}
 			    <i className="fa fa-circle" 
-			    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5"}}
+			    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5", marginLeft: "5px"}}
 			    aria-hidden="true"></i> 
 			    </td>
 			    <td> {numberFormat(res.design_cabs)} </td>

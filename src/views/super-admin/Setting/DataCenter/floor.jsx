@@ -63,7 +63,7 @@ const Floor = (props) => {
 				floorData.push(res.data.data);
 				authContext.setFloor(floorData);
 				setIsLoading(false);
-
+				
 				props.selectDataCenterFloor(props.data_center_id);
 
 				closeModal();
