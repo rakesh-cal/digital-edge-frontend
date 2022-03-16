@@ -13,12 +13,25 @@ const nodeDataArray = [
 		  { "key": "PEK-1-02-MMR2B-0101", "group": "MMR-2B" },
 		  { "key": "PEK-1-02-MMR2B-0102", "group": "MMR-2B" },
 		  { "key": "PEK-1-02-MMR2B-0103", "group": "MMR-2B" },
+		  { "key": "PEK-1-02-MMR2B-0104", "group": "MMR-2B" },
+		  { "key": "PEK-1-02-MMR2B-0105", "group": "MMR-2B" },
 		  { "key": "PEK-1-02-W1-1-000-0101", "group": "Weak Current Room" },
 		  { "key": "PEK-1-02-W1-1-000-0102", "group": "Weak Current Room" },
 		  { "key": "PEK-1-01-MMR1-0101", "group": "MMR-1" },
 		  { "key": "PEK-1-01-MMR1-0102", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0103", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0104", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0105", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0201", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0202", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0203", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0204", "group": "MMR-1" },
+		  { "key": "PEK-1-01-MMR1-0205", "group": "MMR-1" },
 		  { "key": "PEK-1-02-MMR2A-0101", "group": "MMR-2A" },
-		  { "key": "PEK-1-02-MMR2A-0102", "group": "MMR-2A" }
+		  { "key": "PEK-1-02-MMR2A-0102", "group": "MMR-2A" },
+		  { "key": "PEK-1-02-MMR2A-0103", "group": "MMR-2A" },
+		  { "key": "PEK-1-02-MMR2A-0104", "group": "MMR-2A" },
+		  { "key": "PEK-1-02-MMR2A-0105", "group": "MMR-2A" }
 		];
 
 	const linkDataArray = [

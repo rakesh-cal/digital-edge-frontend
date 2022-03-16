@@ -1,6 +1,7 @@
 import axios from 'axios';
 import baseURL from './baseURL';
 
+
 const axiosWithToken = token => {
 
 	const AuthHeader = {
@@ -55,8 +56,7 @@ const axiosWithoutToken = () => {
 		baseURL: `${baseURL}localdedc/`,
 		headers: AuthHeader
 	});
-}
-*/
+}*/
 
 export {
 	axiosWithoutToken,

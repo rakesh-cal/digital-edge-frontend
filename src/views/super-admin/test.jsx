@@ -67,7 +67,6 @@ const Test = () => {
 		    
 		    init();
 		    const nodeArray = JSON.parse(res.data.data.nodeArray);
-		  console.log(res.data.data.linkedArray);
 		 	await setNodeData(nodeArray)
 		 	await setLinkData(JSON.parse(res.data.data.linkedArray))
 		 	await setDataHallsArray(JSON.parse(res.data.data.dataHalls))
@@ -77,6 +76,8 @@ const Test = () => {
 		});
 	}
 	const openModal = data => {
+
+	
 		setCurretObjState(data);
 		getLinkedNode(data);
     	setIsOpen(true);
@@ -96,16 +97,18 @@ const Test = () => {
     const getLinkedNode = data => {
 
 
+    	//console.log(linkDataArray,"tst");
+	console.log(linkData,"tst");
     	const aEnd = linkData.filter(link => link.to === data.key);
     	const zEnd = linkData.filter(link => link.from === data.key);
     	if(aEnd.length){
-    		//console.log(aEnd[0])
+    		console.log(aEnd[0])
     		setANode(aEnd[0]);
     	}else{
     		setANode("");
     	}
     	if(zEnd.length){
-    		//console.log(zEnd[0])
+    		console.log(zEnd[0])
     		setZNode(zEnd[0]);
     	}else{
     		setZNode("");
@@ -201,7 +204,7 @@ const Test = () => {
 		      $(go.Placeholder,    // represents the area of all member parts,
 		        { margin:10})  // with some extra padding around them
 		    ),
-		    $(go.TextBlock,  "myDiagram.isEnabled == false",       // group title
+		    $(go.TextBlock,       // group title
 		      	{ 
 		      		alignment: go.Spot.Left, 
 		      		font: "Bold 12pt Sans-Serif",
@@ -233,15 +236,15 @@ const Test = () => {
 
 			//console.log(new go.Point(40.5,162),"position")
 
-			myDiagram.addDiagramListener("ObjectContextClicked",
-		      	function(e) {
+			/*myDiagram.addDiagramListener("ObjectContextClicked",
+		      	e => {
 		        	var part = e.subject.part;
 		        	if (!(part instanceof go.Link)){
 		        		
 		        		openModal(part.data);
 		        	}
 		    });
-
+*/
 	
 		
 		//myDiagram.isReadOnly = true;
@@ -272,6 +275,16 @@ const Test = () => {
 
     }
     const onLoad = () => {
+
+    	diagram.addDiagramListener("ObjectContextClicked",
+		      	e => {
+		        	var part = e.subject.part;
+		        	if (!(part instanceof go.Link)){
+		        		
+		        		openModal(part.data);
+		        	}
+		    });
+    	
 	const $ = go.GraphObject.make;
     	diagram.nodeTemplate =
   $(go.Node, "Auto",
@@ -428,7 +441,7 @@ const Test = () => {
 
 	return(
 		<div>
-			<div className="row">
+			{/*<div className="row">
 				<div className="col-md-2">
 					<button 
 					className="btn btn-success"
@@ -491,13 +504,13 @@ const Test = () => {
 					</label>
 				</div>
 			</div>
-			
+			*/}
 			<div 
 			id="myDiagramDiv" 
 			style={{
 				border: "1px solid black",
 				width: "100%",
-				height: "760px",
+				height: "960px",
 				background: "whitesmoke",
 				position: "relative",
 				cursor: "auto",
