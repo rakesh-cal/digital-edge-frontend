@@ -197,7 +197,7 @@ const Test = () => {
 		  $(go.Group, "horizontal",
 
 		    $(go.Panel, "Auto",
-		      $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
+		      $(go.Shape, "Rectangle",  // surrounds the Placeholder
 		        { parameter1: 1,
 
 		          fill: "white",height:250,width:400 }),
@@ -284,8 +284,9 @@ const Test = () => {
 		        		openModal(part.data);
 		        	}
 		    });
-    	
+
 	const $ = go.GraphObject.make;
+
     	diagram.nodeTemplate =
   $(go.Node, "Auto",
    		
@@ -309,13 +310,15 @@ const Test = () => {
    	 	//console.log(data);
 
    }),  // get the Node.location from the data.loc value
-    $(go.Shape, "RoundedRectangle",
-      { fill: "white" },
+    $(go.Shape, "Rectangle",
+      { fill: "white",height:40,width:150 },
       new go.Binding("fill", "color")),
     $(go.TextBlock,
-      { margin: 5 },
+      {font: "7pt Sans-Serif" },
       new go.Binding("text", "key"))
   );
+
+ 
     	diagram.model = new go.GraphLinksModel(nodeData, linkData);
     }
     const getColors = async () => {
@@ -367,8 +370,8 @@ const Test = () => {
 
     		diagram.nodeTemplate =
 			$(go.Node, "Auto",readOnlyStyle,
-			    $(go.Shape, "RoundedRectangle", { fill: "white",height:40,width:150 }),
-			    $(go.TextBlock,"myDiagram.isEnabled == false",
+			    $(go.Shape, "Rectangle", { fill: "white",height:40,width:150 }),
+			    $(go.TextBlock,
 			    { 
 		      		font: "7pt Sans-Serif",
 
@@ -381,7 +384,7 @@ const Test = () => {
 		  	readOnlyStyle,
 
 		    $(go.Panel, "Auto",
-		      $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
+		      $(go.Shape, "Rectangle",  // surrounds the Placeholder
 		        { parameter1: 1,
 
 		          fill: "white",height:250,width:400 }),
