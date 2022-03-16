@@ -57,7 +57,7 @@ const CreateDataHall = (props) => {
 		if(checkValidation()){
            // setState({...state,data_center_id:props.dataCenterId.id})
             
-			await DataHall.addDataHall(authContext.getToken,{...state,floor_id: props.data_hall.id}).then(async res => {
+			await DataHall.addDataHall(authContext.getToken,{...state,floor_id: props.floorIndex}).then(async res => {
 				
 				setIsLoading(false);
             	
@@ -69,7 +69,6 @@ const CreateDataHall = (props) => {
 					}
 					return floor;
 				});
-				
 				await authContext.setFloor(newData);
 
 				//props.selectDataCenterFloor(props.data_center_id, props.floorIndex);

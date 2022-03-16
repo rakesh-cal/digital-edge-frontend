@@ -135,10 +135,8 @@ const Navigation = () => {
 	                     	<i className="fa fa-caret-down" aria-hidden="true" id="don"></i>
 
 	                     	<div className="dropdown-menu dropdown-menu-end">
-	                        	<a 
-	                        	href="app-profile.html" 
-	                        	className="dropdown-item ai-icon"
-	                        	>
+							 <Link to="/profile" className="dropdown-item ai-icon">
+	                        	
 	                           		<svg 
 	                           		xmlns="http://www.w3.org/2000/svg" 
 	                           		className="text-primary" 
@@ -155,7 +153,7 @@ const Navigation = () => {
 	                              		<circle cx="12" cy="7" r="4"></circle>
 	                           		</svg>
 	                           		<span className="ms-2">Profile </span>
-	                        	</a>
+	                        	</Link>
 	                        	<a href="email-inbox.html" className="dropdown-item ai-icon">
 	                           		<svg 
 	                           		xmlns="http://www.w3.org/2000/svg" 

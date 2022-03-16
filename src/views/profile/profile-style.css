@@ -1,0 +1,89 @@
+/* a.nav-link.setting img{
+    margin-top: 0.813rem;
+    } */
+    .main_profile {
+    padding: 2rem 6rem;
+    font-family: 'DM Sans';
+    }
+    .profile_head h3 {
+    font-size: 1.438rem;
+    font-weight: 500;
+    font-family: 'DM Sans';
+    color: #171C3C;
+    }
+    .profile_head .badge-lg {
+    font-size: 0.875rem;
+    padding: 0rem 1.2rem;
+    margin-left: 0.313rem;
+    /*line-height: 1.7rem;*/
+    }
+    .profile_info_start h3{
+    font-size: 1.25rem;
+    font-weight: 500;
+    font-family: 'DM Sans';
+    color: #171C3C;
+    border-bottom: 1px solid #E7E8E9;
+    padding-bottom: 0.313rem;
+    }
+    .profile_info_start-2 h3{
+       font-size: 1.25rem;
+    font-weight: 500;
+    font-family: 'DM Sans';
+    color: #171C3C;
+    padding-bottom: 0.313rem;
+
+    }
+    .upload_profile {
+    padding: 1rem 0px;
+    }
+    .country_role_info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.938rem 0px;
+    }
+    .country_role_info p{
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'DM Sans';
+    color: #171C3C;
+    padding: 0px 1.875rem 0px 0px;
+    }
+    .cnfrm_change button {
+    margin-right: 15px;
+    }
+    .cnfrm_change .btn {
+    width: 12rem;
+    padding: 10px 0px;
+    }
+    .file-upload {
+    display: none;
+    }
+    .p-image{
+       position: relative;
+    }
+    input#actual-file {
+position: absolute;
+left: 0;
+z-index: -1;
+top: 35px;
+}
+    .p-image-2 img {
+width: 100px;
+border: 2px solid #eee;
+border-radius: 15px;
+position: relative;
+}
+label.edit_profile_dg img {
+border: none;
+}
+.p-image-2{
+position: relative;
+}
+label.edit_profile_dg img {
+border: none;
+width: 35px;
+position: absolute;
+top: -7px;
+left: 72px;
+}
