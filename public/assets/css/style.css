@@ -30338,4 +30338,11 @@ ul.nav.nav-tabs.custom-scroll-gap {
     margin-bottom: .5rem;
 }
 
+.reports-block .nav {
+  flex-wrap: nowrap;
+}
+
+.hide{
+  display:none;
+}
 /*# sourceMappingURL=style.css.map */

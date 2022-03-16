@@ -57,7 +57,7 @@ const EditFloor = (props) => {
 			soldkva:props.floor_data.sold_power,
 			status:props.floor_data.status,
         });
-        props.selectDataCenterFloor(props.data_center_id);
+        //props.selectDataCenterFloor(props.data_center_id);
 
         return () => {
 			//setCountries([]);
@@ -134,7 +134,7 @@ const EditFloor = (props) => {
 					return floor;
 				});
 				
-				await authContext.setFloor(newData);
+				authContext.setFloor(newData);
 
 				//props.selectDataCenterFloor(props.data_center_id);
 				closeModal();

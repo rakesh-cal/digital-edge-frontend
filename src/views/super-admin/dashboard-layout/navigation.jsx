@@ -15,7 +15,6 @@ const Navigation = () => {
 		fullName:""
 	});
 	const location = useLocation();
-	
 	React.useEffect(() => {
 		user();
 		short();
@@ -91,22 +90,22 @@ const Navigation = () => {
             	</button>
             	<div className="collapse navbar-collapse" id="navbarSupportedContent">
 	               	<ul className={`navbar-nav me-auto mb-2 mb-lg-0 ${invisibleMenu?'invisible':''}`}>
-	                  	<li className="nav-item">
+	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" aria-current="page" href="#">Dashboard</a>
 	                  	</li>
 	                  	<li className="nav-item">
-	                     	<a className="nav-link dt_nav active" href="#">Data Centers</a>
+						  <Link to="/data-center" className={`nav-link dt_nav ${location.pathname == "/data-center" ? 'active' : ''}`}>Data Centers</Link>
 	                  	</li>
-	                  	<li className="nav-item">
+	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Tickets</a>
 	                  	</li>
-	                  	<li className="nav-item">
+	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Svc Desks</a>
 	                  	</li>
-	                  	<li className="nav-item">
+	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Metrics</a>
 	                  	</li>
-	                  	<li className="nav-item">
+	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Analytics</a>
 	                  	</li>
 	               	</ul>
@@ -115,7 +114,7 @@ const Navigation = () => {
 	                     	
 	                     	<Link 
 				            className="nav-link setting"
-				            to="/setting/reports" >
+				            to="/setting/data-center" >
 				            	<img src="\images\settings-10@1x.png" alt="" />
 				            </Link>
 	                  	</li>
