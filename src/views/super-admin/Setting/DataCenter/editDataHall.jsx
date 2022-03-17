@@ -185,16 +185,16 @@ const EditDataHall = (props) => {
 				}
                 if(errors?.power !== undefined || errors?.power !== "" || errors?.power !== null){
 					error.power = errors.power;
-				}
-				if(errors?.soldCabinet !== undefined || errors?.soldCabinet !== "" || errors?.soldCabinet !== null){
-					error.soldCabinet = errors.soldCabinet;
-				}
+				 }
+				// if(errors?.soldCabinet !== undefined || errors?.soldCabinet !== "" || errors?.soldCabinet !== null){
+				// 	error.soldCabinet = errors.soldCabinet;
+				// }
 				if(errors?.cages !== undefined || errors?.cages !== "" || errors?.cages !== null){
 					error.cages = errors.cages;
-				}
-				if(errors?.soldCages !== undefined || errors?.soldCages !== "" || errors?.soldCages !== null){
-					error.soldCages = errors.soldCages;
-				}
+				 }
+				// if(errors?.soldCages !== undefined || errors?.soldCages !== "" || errors?.soldCages !== null){
+				// 	error.soldCages = errors.soldCages;
+				// }
 
 			})
 		}
@@ -242,21 +242,21 @@ const EditDataHall = (props) => {
 			error.power = "The power field is required.";
 			flag = false;
         }
-        if (soldCabinet === "" || soldCabinet === null || soldCabinet === undefined) {
+        // if (soldCabinet === "" || soldCabinet === null || soldCabinet === undefined) {
 
-			error.soldCabinet = "The soldCabinet field is required.";
-			flag = false;
-        }
+		// 	error.soldCabinet = "The soldCabinet field is required.";
+		// 	flag = false;
+        // }
 		if (cages === "" || cages === null || cages === undefined) {
 
 			error.cages = "The cages field is required.";
 			flag = false;
         }
-		if (soldCages === "" || soldCages === null || soldCages === undefined) {
+		// if (soldCages === "" || soldCages === null || soldCages === undefined) {
 
-			error.soldCages = "The soldCages field is required.";
-			flag = false;
-        }
+		// 	error.soldCages = "The soldCages field is required.";
+		// 	flag = false;
+        // }
 		setError({...error});
 		return true;
 	}
@@ -343,7 +343,7 @@ const EditDataHall = (props) => {
                 <XError message={error.cabinet} />
             </div>				
             <div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold Cabinets <small className="text-danger hide">*</small></label>
     
                 <input 
                 className="form-control" 
@@ -389,7 +389,7 @@ const EditDataHall = (props) => {
                 <XError message={error.cages} />
             </div>				
             <div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold Cages <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold Cages <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
@@ -439,7 +439,7 @@ const EditDataHall = (props) => {
                 <XError message={error.power} />
             </div>	
 			<div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold kWs <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"

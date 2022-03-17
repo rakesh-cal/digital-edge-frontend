@@ -308,7 +308,7 @@ const EditFloor = (props) => {
             </div>									
         
             <div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold Cabinets <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
@@ -355,7 +355,7 @@ const EditFloor = (props) => {
             </div>									
         
             <div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold Cages <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold Cages <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
@@ -404,7 +404,7 @@ const EditFloor = (props) => {
                 <XError message={error.kva} />
             </div>	
 			<div className="mb-3 col-md-6 mt-2313">
-                <label className="form-label"> Sold kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Sold kWs <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
