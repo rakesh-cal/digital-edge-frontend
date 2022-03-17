@@ -6,6 +6,7 @@ import User from 'views/super-admin/Setting/User';
 import DataCenter from 'views/super-admin/Setting/DataCenter';
 import Reports from 'views/super-admin/Setting/Reports'
 import Test from 'views/super-admin/test';
+import StateChart from 'views/super-admin/stateChart';
 import Profile from 'views/profile'
 
 const AuthenticatedRoutes = () => {
@@ -20,6 +21,7 @@ const AuthenticatedRoutes = () => {
 				<Route path="/setting/data-center" element={<DataCenter />} />
 				<Route path="/setting/reports" element={<Reports />} />
 				<Route path="/test-graph" exact element={<Test />} />
+				<Route path="/graph-state-chart" exact element={<StateChart />} />
 				<Route path="/profile" element={<Profile />} />
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
