@@ -38,7 +38,7 @@ const axiosWithToken = token => {
 	};
 
 	return axios.create({
-		baseURL: `${baseURL}localdedc/`,
+		baseURL: `${baseURL}stgdedc/`,
 		headers: AuthHeader
 	});
 }
@@ -53,7 +53,7 @@ const axiosWithoutToken = () => {
 	};
 
 	return axios.create({
-		baseURL: `${baseURL}localdedc/`,
+		baseURL: `${baseURL}stgdedc/`,
 		headers: AuthHeader
 	});
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import StorageContext from "context";
 import { useNavigate,Link,useLocation } from "react-router-dom";
 import XLogo from 'components/logo';
@@ -15,8 +15,15 @@ const Navigation = () => {
 		fullName:""
 	});
 	const location = useLocation();
+	const isInitialMount = useRef(true);
 	React.useEffect(() => {
-		user();
+		//user();
+		if (isInitialMount.current) {
+			
+		    isInitialMount.current = false;
+		    user();
+		}
+
 		short();
 		if(location.pathname.split('/')[1] === 'setting'){
 			setInvisibleMenu(true);
@@ -24,7 +31,7 @@ const Navigation = () => {
 			setInvisibleMenu(false);
 		}
 
-	},[contextData.getAuth.name]);
+	},[contextData.getAuth]);
 
 	const onLogout = (event) => {
 
@@ -48,7 +55,7 @@ const Navigation = () => {
 	}
 	const short = () => {
 
-		if (contextData.getAuth.name) {
+		if (contextData.getAuth && contextData.getAuth.name) {
 
 			let initials ="";
 			const fullName = contextData.getAuth.name.split(' ');
