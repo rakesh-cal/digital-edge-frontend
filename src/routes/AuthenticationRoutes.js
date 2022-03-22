@@ -7,7 +7,7 @@ import Test from 'views/super-admin/test';
 import Test2 from 'views/super-admin/test2';
 
 const AuthenticationRoutes = () => {
-	
+
 	return (
 		<React.Fragment>
 			<Routes>

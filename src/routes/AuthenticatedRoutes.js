@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext,useEffect} from 'react';
 import { Routes, Route,Navigate} from "react-router-dom";
 import Dashboard from 'views/super-admin/Dashboard';
 import RoleAndPermission from 'views/super-admin/Setting/RoleAndPermission';
@@ -8,6 +8,8 @@ import Reports from 'views/super-admin/Setting/Reports'
 import Test from 'views/super-admin/test';
 import StateChart from 'views/super-admin/stateChart';
 import Profile from 'views/profile'
+import CanAccess from "./CanAccess";
+import Forbidden from "./Forbidden";
 
 const AuthenticatedRoutes = () => {
 
@@ -16,13 +18,30 @@ const AuthenticatedRoutes = () => {
 		
 			<Routes>
 				<Route path="/data-center" element={<Dashboard />} />
-				<Route path="/setting/role-and-permissions" element={<RoleAndPermission />} />
-				<Route path="/setting/user" element={<User />} />
-				<Route path="/setting/data-center" element={<DataCenter />} />
-				<Route path="/setting/reports" element={<Reports />} />
+				<Route path="/setting/role-and-permissions" element={
+					<CanAccess>
+						<RoleAndPermission name="roleandpermission"/>
+					</CanAccess>
+				} />
+				<Route path="/setting/user" element={
+					<CanAccess>
+						<User name="user"/>
+					</CanAccess>
+				} />
+				<Route path="/setting/data-center" element={
+					<CanAccess>
+						<DataCenter name="datacenter"/>
+					</CanAccess>
+				} />
+				<Route path="/setting/reports" element={
+					<CanAccess>
+						<Reports name="report" />
+					</CanAccess>
+				} />
 				<Route path="/test-graph" exact element={<Test />} />
 				<Route path="/graph-state-chart" exact element={<StateChart />} />
 				<Route path="/profile" element={<Profile />} />
+			{/*	<Route path="/forbidden" element={<Forbidden />} />*/}
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
       	</React.Fragment>
