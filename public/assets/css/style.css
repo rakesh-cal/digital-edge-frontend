@@ -30347,8 +30347,21 @@ ul.nav.nav-tabs.custom-scroll-gap {
 }
 
 .css-1s2u09g-control{
-  height: 46px!important;
-  border: 0.0625rem solid #eeeeee!important;
+  min-height: 46px !important;
+  border: 0.0625rem solid #eeeeee !important;
+}
+
+.css-1pahdxg-control:hover {
+  box-shadow: none !important;
+  border: 1px solid #fe8600 !important;
+  border-color: #fe8600 !important;
+  min-height: 46px !important;
+}
+.css-1pahdxg-control {
+  box-shadow: none !important;
+  border: 1px solid #eee !important;
+  border-color: #eee !important;
+  min-height: 46px !important;
 }
 /* .css-319lph-ValueContainer{
   padding: 0!important;

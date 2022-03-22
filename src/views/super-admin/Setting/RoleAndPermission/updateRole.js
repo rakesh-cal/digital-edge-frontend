@@ -447,7 +447,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                            {renderDataCenterList()}
 		                                        </select> */}
 
-												<Select options={renderDataCenterMulti()} className="default-select form-control wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter}/>
+												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter}/>
 		                                        
 		                                    </div>
 		                                </div>
