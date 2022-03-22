@@ -16,11 +16,11 @@ const errorInit = {
 }
 
 const CreateRole = ({retriveCurrentData,token,permission}) => {
-
 	const contextStore = React.useContext(StorageContext);
 	const modalRef = useRef(null);
 	const [countries,setCountries] = useState([]);
 	const [dataCenters,setDataCenters] = useState([]);
+	const [selectedValues, setSelectedValues] = useState([])
 	const [state,setState] = useState({
 		"name":"",
 		"country":"",
@@ -71,10 +71,26 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 	}
 
 	const onChangeCountry = async id => {
-
-		setState({...state,country:id})
-
+		//setState({...state,country:id})
 		await getDataCenters(id);
+		let filterCountry = countries
+		console.log(filterCountry)
+		filterCountry = filterCountry.filter(k => k.id == id)
+		if(filterCountry.length > 0){
+			if(filterCountry[0].country_code == "global"){
+				setState({...state,dataCenter:{"label": "All", "value":1,select_all:true},country:id})
+			}else{
+				setState({...state,dataCenter:null,country:id})
+			}
+		}else{
+			setState({...state,country:id,dataCenter:null})
+		}
+		
+	}
+
+	const onChangeDataCenter = async value => {
+		console.log(value)
+		setState({...state,dataCenter:value})
 	}
 
 	const renderCountryList = () => {
@@ -91,8 +107,16 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		})
 	}
 
-	const onSubmit = () => {
+	const renderDataCenterMulti = () => {
+		let data_center = []
+		dataCenters.forEach(dataCenter => {
+			data_center.push({ value: dataCenter.id, label: dataCenter.name }) 
+		})
+		return data_center
+	}
 
+	const onSubmit = () => {
+		console.log(state)
 		if (checkValidation()) {
 
 			RoleModel.createRoleAndPermissions(token,state).then(async res => {
@@ -262,13 +286,15 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label"> 
 		                                        Data Centers
 		                                        </label>
-		                                        <select 
+												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter}/>
+		                                        {/* <select 
 		                                        defaultValue="" 
 		                                        onChange={event => setState({...state,dataCenter:event.target.value})}
-		                                        className="default-select form-control wide">
+		                                        className="default-select form-control wide" multiple>
+
 		                                            <option value="">All</option>
 		                                            {renderDataCenterList()}
-		                                        </select>
+		                                        </select> */}
 		                                        
 		                                    </div>
 		                                </div>

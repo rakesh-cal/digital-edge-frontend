@@ -122,6 +122,22 @@ const [permission,setPermission] = useState([]);
 			}
 			return htmlStatus; 
 		}
+
+		const dataCenterName = datacenter => {
+			if(datacenter.length > 0){
+				let dataCenterCombine = ""
+
+				datacenter.forEach(element => {
+					dataCenterCombine += element.datacenter.name+","
+				});
+				dataCenterCombine = dataCenterCombine.replace(/,\s*$/, "");
+				return dataCenterCombine
+			}else{
+				return <i className="fas fa-times text-danger"></i>
+			}
+		}
+
+
 	const renderItem = () => {
 
 		return state && state.map(data => {
@@ -130,7 +146,7 @@ const [permission,setPermission] = useState([]);
 				<tr key={data.uuid} className="setting-table">
 				    <td> {data?.name} </td>
 				    <td className="center-col"> {data.country?.name} </td>
-				    <td className="center-col">{data.data_center?.name || <i className="fas fa-times text-danger"></i>}</td>
+				    <td className="center-col">{dataCenterName(data.role_datacenter)}</td>
 				    <td>{permissionView(data.space)}</td>
 				    <td>{permissionView(data.m_e)}</td>
 				    <td>{permissionView(data.network)}</td>
