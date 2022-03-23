@@ -119,7 +119,8 @@ const Navigation = () => {
 	               	<ul className="navbar-nav header-right">
 
 	                  	
-	               		{contextData.getAuth.role.user_management?(<li className="nav-item dropdown notification_dropdown">
+	               		{contextData?.getAuth?.role?.user_management?(
+	               			<li className="nav-item dropdown notification_dropdown">
 	                     	
 	                     	<Link 
 				            className="nav-link setting"
@@ -137,7 +138,7 @@ const Navigation = () => {
 	                        	<h4 className="pro">  {state.initialName}   </h4>
 	                        	<div>
 	                           		<span className="font-w400 d-block">{state.fullName}</span>
-	                           		<small className="text-end font-w400" id="admin"> {contextData.getAuth.role.name} </small>
+	                           		<small className="text-end font-w400" id="admin"> {contextData?.getAuth?.role?.name} </small>
 	                        	</div>
 	                     	</a>
 	                     	<i className="fa fa-caret-down" aria-hidden="true" id="don"></i>

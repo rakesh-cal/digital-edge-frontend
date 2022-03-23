@@ -100,16 +100,20 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			let soldPer = 0;
 			let availPer = 0;
 
-			if (data.design_cabs && data.design_cabs!== null && data.design_cabs !=="") {
+			let design_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
+			let sold_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0);
 
-				available = Number(data.design_cabs)- Number(data.sold_cabs);
-				soldPer = data.sold_cabs*100/data.design_cabs;
-				availPer = available*100/data.design_cabs;
+			
+			available = Number(design_cabs)- Number(sold_cabs);
+			if (available) {
+				soldPer = sold_cabs*100/design_cabs;
+				availPer = available*100/design_cabs;
 			}
+			
 
 			return <Line
-			totalText={data.design_cabs}
-			inServiceText={data.sold_cabs}
+			totalText={design_cabs}
+			inServiceText={sold_cabs}
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
@@ -117,8 +121,9 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 		}else{
 
+			let design_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
 			return <Line
-			totalText={data.design_cabs}
+			totalText={design_cabs}
 			inServiceText={0}
 			availableText={0}
 			inServicePercent={0}
@@ -134,16 +139,20 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			let available = 0;
 			let soldPer = 0;
 			let availPer = 0;
-			if (data.design_cages && data.design_cages!== null && data.design_cages !=="") {
 
-				available = Number(data.design_cages)- Number(data.sold_cages);
-				soldPer = data.sold_cages*100/data.design_cages;
-				availPer = available*100/data.design_cages;
-			}
+			let design_cages = data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
+			let sold_cages = data.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0);
+
+				available = Number(design_cages)- Number(sold_cages);
+				if (available) {
+					soldPer = sold_cages*100/design_cages;
+					availPer = available*100/design_cages;
+				}
+			
 			
 			return <Line
-			totalText={data.design_cages}
-			inServiceText={data.sold_cages}
+			totalText={design_cages}
+			inServiceText={sold_cages}
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
@@ -151,8 +160,10 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 		}else{
 
+			let design_cages = data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
+
 			return <Line
-			totalText={data.design_cages}
+			totalText={design_cages}
 			inServiceText={0}
 			availableText={0}
 			inServicePercent={0}
@@ -169,18 +180,23 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			let soldPer = 0;
 			let availPer = 0;
 
-			if (data.design_power && data.design_power!== null && data.design_power !=="") {
+			let design_power = data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
+			let sold_power = data.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0);
 
-				available = (Number(data.design_power)- Number(data.sold_power)).toFixed(3);
-				soldPer = data.sold_power*100/data.design_power;
-				availPer = available*100/data.design_power;
+
+			available = Number((Number(design_power)- Number(sold_power)).toFixed(3));
+
+			if (available) {
+
+				soldPer = sold_power*100/design_power;
+				availPer = available*100/design_power;
 			}
 			
 
 
 			return <Line
-			totalText={data.design_power}
-			inServiceText={data.sold_power}
+			totalText={design_power}
+			inServiceText={sold_power}
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
@@ -188,8 +204,9 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 		}else{
 
+			let design_power = data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
 			return <Line
-			totalText={data.design_power}
+			totalText={design_power}
 			inServiceText={0}
 			availableText={0}
 			inServicePercent={0}

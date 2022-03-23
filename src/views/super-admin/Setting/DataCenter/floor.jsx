@@ -12,19 +12,19 @@ const Floor = (props) => {
 
     const [state,setState] = useState({
 		name:"",
-		cabinet:"",
+		/*cabinet:"",
 		kva:"",
 		soldCabinet:"",
-		cages: "",
+		cages: "",*/
 		status:""
 	});
 
     const [error,setError] = useState({
 		name:"",
-		cabinet:"",
+		/*cabinet:"",
 		kva:"",
 		soldCabinet:"",
-		cages: "",
+		cages: "",*/
 		status:""
 	});
 
@@ -33,10 +33,10 @@ const Floor = (props) => {
         setIsOpen(props.show);
         setState({
             name:"",
-			cabinet:"",
+			/*cabinet:"",
 			kva:"",
 			soldCabinet:"",
-			cages: "",
+			cages: "",*/
 			status: ""
         });
 
@@ -74,9 +74,9 @@ const Floor = (props) => {
 				setIsLoading(false);
 				let error = {
 					name:"",
-					cabinet:"",
+				/*	cabinet:"",
 					kva:"",
-					cages: "",
+					cages: "",*/
 					status: ""
 				};
 				const errors = err?.response?.data?.errors;
@@ -97,20 +97,20 @@ const Floor = (props) => {
 
 		let error = {
 			name:"",
-			cabinet:"",
+			/*cabinet:"",
 			kva:"",
 			soldCabinet:"",
-			cages: "",
+			cages: "",*/
 			status: ""
 		};
 		
 		const { 
 			name,
-			dataHall,
+			/*dataHall,
 			cabinet,
 			kva,
 			soldCabinet,
-			cages,
+			cages,*/
 			status
 		} = state;
 
@@ -126,7 +126,7 @@ const Floor = (props) => {
 		// 	error.dataHall = "The data hall field is required.";
 		// 	flag = false;
         // }
-        if (cabinet === "" || cabinet === null || cabinet === undefined) {
+      /*  if (cabinet === "" || cabinet === null || cabinet === undefined) {
 
 			error.cabinet = "The cabinet field is required.";
 			flag = false;
@@ -140,7 +140,7 @@ const Floor = (props) => {
 
 			error.kva = "The kva field is required.";
 			flag = false;
-        }
+        }*/
 
 		setError({...error});
 		return flag;
@@ -150,22 +150,22 @@ const Floor = (props) => {
 
 		setState({
 			name:"",
-			cabinet:"",
+		/*	cabinet:"",
 			kva:"",
 			soldCabinet:"",
-			cages: ""
+			cages: ""*/
 		});
 		setError({
 			name:"",
-			cabinet:"",
+		/*	cabinet:"",
 			kva:"",
 			soldCabinet:"",
-			cages:""
+			cages:""*/
 		})
 
 		modalRef.current.click();
 	}
-	const validatePower = (e) => {  
+	/*const validatePower = (e) => {  
 		
 		let t = e.target.value;
 		let newValue = state.kva;
@@ -177,7 +177,7 @@ const Floor = (props) => {
 		}
 
 		
-	}
+	}*/
 
     return (
         <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
@@ -206,7 +206,7 @@ const Floor = (props) => {
             </div>									
         </div>
         
-        <div className="row">
+      {/*  <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                 <input 
@@ -222,8 +222,8 @@ const Floor = (props) => {
                 />
                 <XError message={error.cabinet} />
             </div>									
-        </div>
-          <div className="row">
+        </div>*/}
+    {/*      <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
                 <input 
@@ -239,8 +239,8 @@ const Floor = (props) => {
                 />
                 <XError message={error.cages} />
             </div>									
-        </div>
-         <div className="row">
+        </div>*/}
+         {/*<div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                 <input 
@@ -258,7 +258,7 @@ const Floor = (props) => {
                 />
                 <XError message={error.kva} />
             </div>									
-        </div>
+        </div>*/}
 		<div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Status <small className="text-danger">*</small></label>

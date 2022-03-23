@@ -25,23 +25,23 @@ const EditFloor = (props) => {
     const [state,setState] = useState({
         floor_id:"",
 		name:"",
-		soldCabinet:"",
+		/*soldCabinet:"",
 		cabinet:"",
 		cages:"",
-		soldCages:"",
-		status:"",
-		kva:"",
-		soldkva:""
+		soldCages:"",*/
+		status:""
+		/*kva:"",
+		soldkva:""*/
 	});
     const [error,setError] = useState({
 		name:"",
-		soldCabinet:"",
+		/*soldCabinet:"",
 		cabinet:"",
 		cages:"",
-		soldCages:"",
-		status:"",
-		kva:"",
-		soldkva:""
+		soldCages:"",*/
+		status:""
+		/*kva:"",
+		soldkva:""*/
 	});
 
 	useEffect(() => {
@@ -49,12 +49,12 @@ const EditFloor = (props) => {
         setState({
             floor_id: props.floor_data.id,
             name: props.floor_data.name,
-			cabinet: props.floor_data.design_cabs,
-			kva: props.floor_data.design_power,
-			soldCabinet: props.floor_data.sold_cabs,
-			cages:props.floor_data.design_cages,
-			soldCages:props.floor_data.sold_cages,
-			soldkva:props.floor_data.sold_power,
+			cabinet: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0),
+			kva: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0),
+			soldCabinet: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0),
+			cages: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0),
+			soldCages: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0),
+			soldkva: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0),
 			status:props.floor_data.status,
         });
         //props.selectDataCenterFloor(props.data_center_id);
@@ -165,24 +165,24 @@ const EditFloor = (props) => {
 
 		let error = {
 			"name":"",
-			soldCabinet:"",
+			/*soldCabinet:"",
 			cabinet:"",
 			kva:"",
 			cages:"",
 			soldCages:"",
-			status:"",
-			soldkva:""
+			soldkva:"",*/
+			status:""
 		};
 		
 		const { 
 			name,
-			soldCabinet,
+			/*soldCabinet,
 			cabinet,
 			kva,
 			cages,
 			soldCages,
-			status,
-			soldkva
+			soldkva,*/
+			status
 		} = state;
 
 		let flag = true;
@@ -198,7 +198,7 @@ const EditFloor = (props) => {
 		// 	error.soldCabinet = "The data hall field is required.";
 		// 	flag = false;
         // }
-        if (cabinet === "" || cabinet === null || cabinet === undefined) {
+       /* if (cabinet === "" || cabinet === null || cabinet === undefined) {
 
 			error.cabinet = "The cabinet field is required.";
 			flag = false;
@@ -213,7 +213,7 @@ const EditFloor = (props) => {
 			error.kva = "The kva field is required.";
 			flag = false;
         }
-
+*/
 		setError({...error});
 
 		return flag;
@@ -298,11 +298,8 @@ const EditFloor = (props) => {
                 type="number"
                 maxLength={9}
                 placeholder="# of Cabinets"
-                value={state.cabinet}
-                onChange={event => setState({
-                	...state,
-                	cabinet:event.target.value.length<=9?event.target.value:state.cabinet
-                })}
+                defaultValue={state.cabinet}
+                readOnly
                 />
                 <XError message={error.cabinet} />
             </div>									
@@ -314,26 +311,8 @@ const EditFloor = (props) => {
                 type="number"
                 maxLength={9}
                 placeholder="Sold Cabinets"
-                value={state.soldCabinet}
-                onChange={event => {
-                	let value = event.target.value.replace(/[^\d]/,'');
-
-                	if( Number(value) <= Number(state.cabinet)){
-                		setError({
-							...error,
-							soldCabinet:""
-						});
-	                	setState({
-		                	...state,
-		                	soldCabinet:event.target.value.length<=9?value:state.soldCabinet
-	                	});
-                	}else{
-				        setError({
-							...error,
-							soldCabinet:"Sold cabinet should not greater than total cabinet"
-						})
-                	}
-                }}
+                defaultValue={state.soldCabinet}
+                readOnly
                 />
                 <XError message={error.soldCabinet} />
             </div>									
@@ -345,11 +324,8 @@ const EditFloor = (props) => {
                 type="number"
                 maxLength={9}
                 placeholder="# of Cages"
-                value={state.cages}
-                onChange={event => setState({
-                	...state,
-                	cages:event.target.value.length<=9?event.target.value:state.cages
-                })}
+                defaultValue={state.cages}
+                readOnly
                 />
                 <XError message={error.cages} />
             </div>									
@@ -361,26 +337,8 @@ const EditFloor = (props) => {
                 type="number"
                 maxLength={9}
                 placeholder="Sold Cages"
-                value={state.soldCages}
-                onChange={event => {
-                	let value = event.target.value.replace(/[^\d]/,'');
-
-                	if( Number(value) <= Number(state.cages)){
-                		setError({
-							...error,
-							soldCages:""
-						});
-	                	setState({
-		                	...state,
-		                	soldCages:event.target.value.length<=9?value:state.soldCages
-	                	});
-                	}else{
-				        setError({
-							...error,
-							soldCages:"Sold cages should not greater than total cages"
-						})
-                	}
-                }}
+                defaultValue={state.soldCages}
+                readOnly
                 />
                 <XError message={error.soldCages} />
             </div>									
@@ -396,9 +354,10 @@ const EditFloor = (props) => {
                 className="form-control" 
                 type="number"
                 placeholder="# of kWs" 
-                value={state.kva}
+                defaultValue={state.kva}
                 //onInput={(event) => fnValidate(event)}
-                onChange={(event) => validatePower(event)}
+                //onChange={(event) => validatePower(event)}
+                readOnly
                 
                 />
                 <XError message={error.kva} />
@@ -410,8 +369,10 @@ const EditFloor = (props) => {
                 type="number"
                 maxLength={9}
                 placeholder="Sold kWs"
-                value={state.soldkva}
-                onChange={(event) => validateSoldPower(event)/*{
+                defaultValue={state.soldkva}
+                readOnly
+                //onChange={(event) => validateSoldPower(event)
+                /*{
                 	let value = event.target.value.replace(/[^\d]/,'');
 
                 	if( Number(value) <= Number(state.kva)){
@@ -429,7 +390,7 @@ const EditFloor = (props) => {
 							soldkva:"Sold kWs should not greater than total kWs"
 						})
                 	}
-                }*/}
+                }}*/
                 />
                 <XError message={error.soldkva} />
             </div>								

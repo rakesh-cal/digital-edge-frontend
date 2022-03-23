@@ -69,8 +69,9 @@ const DashboardCard = ({cardData}) => {
 		if(floors.length){
 			let cabData = graphData.filter(data => data.title === 'Cabinets');
 			floors.map(floor => {
-				total += floor.design_cabs;
-				totalsold += floor.sold_cabs;
+
+				total += floor.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
+				totalsold += floor.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0);
 			});
 
 			totalAvail = total - totalsold;
@@ -102,18 +103,13 @@ const DashboardCard = ({cardData}) => {
 		let totalSold = 0;
 
 		if(floors.length){
+
 			let powerData = graphData.filter(data => data.title == 'Power (kW)');
 
 			floors.map(power => {
 
-				if(power.design_power !="" || power.design_power != null){
-
-					totalPower += Number(power.design_power);
-				}
-				if(power.sold_power !="" || power.sold_power != null){
-
-					totalSold += Number(power.sold_power);
-				}
+				totalPower += power.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
+				totalSold += power.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0);
 				
 			});
 
@@ -148,14 +144,8 @@ const DashboardCard = ({cardData}) => {
 
 			floors.map(cage => {
 
-				if(cage.design_cages !="" || cage.design_cages != null){
-
-					totalCages += Number(cage.design_cages);
-				}
-				if(cage.sold_cages !="" || cage.sold_cages != null){
-
-					totalSold += Number(cage.sold_cages);
-				}
+				totalCages += cage.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
+				totalSold += cage.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0);
 				
 			});
 

@@ -326,8 +326,8 @@ const DataCenter = (props) => {
 			    style={{color:res.status === 1?"#3FEB7B":"#E0E2E5", marginLeft: "5px"}}
 			    aria-hidden="true"></i> 
 			    </td>
-			    <td> {numberFormat(res.design_cabs)} </td>
-			    <td> {numberFormat(res.design_power,3)} </td>
+			    <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0))} </td>
+			     <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_power),0),3)} </td>
 			    <td> 
 			    <a 
 			    onClick={() => getEditFloorPopup(res)} 
