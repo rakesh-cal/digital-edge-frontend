@@ -9,45 +9,26 @@ const Navigation = () => {
 	const activeClass = (route) => {
 
 		if (location.pathname === route) {
-			return "nav-link active";
+			return "plink active";
 		}
 
-		return "nav-link";
+		return "plink";
 	}
 	return(
-		<div className="container-fluid">
-			<div id="title">
-                <h4 className="card-title"> Settings </h4>
-                 <p> Manage users, roles & permissions and data centers </p>
-            </div>
-
-            <div className="card-header" id="header">
-                <div className="d-sm-flex d-block justify-content-between align-items-center">
-                    <div className="card-action coin-tabs mt-3 mt-sm-0">
-                        <ul className="nav nav-tabs" role="tablist">
-                            <li className="nav-item gap_s">
-                            	<Link 
-                            	className={activeClass('/setting/user')}
-                            	id="tab1" 
-                            	to="/setting/user" >User Management </Link>
-                            </li>
-                            <li className="nav-item gap_s">
-                            	<Link 
-                            	className={activeClass('/setting/role-and-permissions')}
-                            	id="tab2" 
-                            	to="/setting/role-and-permissions" >Roles & Permissions </Link>
-                            </li>
-                            <li className="nav-item gap_s">
-                            	<Link 
-                            	className="nav-link"
-                            	className={activeClass('/setting/data-center')} 
-                            	id="tab3" 
-                            	to="/setting/data-center" >Data Centres </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+		<div className="col-xl-1">
+			<div className="leftside">
+				<p> 
+					<Link 
+					className={activeClass('/setting/data-center')}  
+					to="/setting/data-center" >Inventory </Link>
+				</p>
+				<p>
+					<Link 
+					className="plink" 
+					className={activeClass('/setting/capacity')}
+					to="/setting/capacity" >Capacity </Link>
+				</p>
+			</div>
 		</div>
 	);
 }

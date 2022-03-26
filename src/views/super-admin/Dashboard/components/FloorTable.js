@@ -10,6 +10,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 	const [fileExists,setFileExists] = useState(false);
 	const [filePath,setFilePath] = useState("");
 	const [show, setShow] = useState(false)
+	const [ascending,setAscending] = useState(true);
 	//const floorActive = "";
 
 	useEffect(() => {
@@ -244,7 +245,20 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 		<table>
 			<thead>
 			<tr>
-				<th> Floors </th>
+				<th onClick={() => {
+				setAscending(!ascending);
+				if(ascending === true){
+
+					contextStore.getDataCenterFloor.sort((a,b)=> (a.name < b.name ? 1 : -1))
+				}
+				if (ascending === false) {
+					contextStore.getDataCenterFloor.sort((a,b)=> (a.name > b.name ? 1 : -1))
+				}
+
+			}} style={{cursor:"pointer"}}> Floors <i 
+			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
+
+			></i></th>
 				<th> Cabinets </th>
 				<th> Cages</th>
 				<th> Power(kW) </th>

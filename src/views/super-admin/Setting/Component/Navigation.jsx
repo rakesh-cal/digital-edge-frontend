@@ -9,9 +9,24 @@ const Navigation = () => {
 	const contextData = React.useContext(StorageContext);
 
 	const activeClass = (route) => {
+		
+		if(typeof route === 'string'){
 
-		if (location.pathname === route) {
-			return "nav-link active";
+			if (location.pathname === route) {
+				return "nav-link active";
+			}
+		}
+
+		if(typeof route === 'object'){
+
+			let classType = "nav-link";
+			route.map(r => {
+				if(location.pathname === r){
+					classType = "nav-link active";
+				}
+			})
+
+			return classType;
 		}
 
 		return "nav-link";
@@ -46,8 +61,7 @@ const Navigation = () => {
                             </li>
                             <li className="nav-item gap_s">
                             	<Link 
-                            	className="nav-link"
-                            	className={activeClass('/setting/data-center')} 
+                            	className={activeClass(['/setting/data-center','/setting/capacity'])} 
                             	id="tab3" 
                             	to="/setting/data-center" >Data Centers </Link>
                             </li>

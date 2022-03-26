@@ -299,6 +299,7 @@ const EditFloor = (props) => {
                 maxLength={9}
                 placeholder="# of Cabinets"
                 defaultValue={state.cabinet}
+                style={{border:"oldlace"}}
                 readOnly
                 />
                 <XError message={error.cabinet} />
@@ -312,6 +313,7 @@ const EditFloor = (props) => {
                 maxLength={9}
                 placeholder="Sold Cabinets"
                 defaultValue={state.soldCabinet}
+                style={{border:"oldlace"}}
                 readOnly
                 />
                 <XError message={error.soldCabinet} />
@@ -325,6 +327,7 @@ const EditFloor = (props) => {
                 maxLength={9}
                 placeholder="# of Cages"
                 defaultValue={state.cages}
+                style={{border:"oldlace"}}
                 readOnly
                 />
                 <XError message={error.cages} />
@@ -338,6 +341,7 @@ const EditFloor = (props) => {
                 maxLength={9}
                 placeholder="Sold Cages"
                 defaultValue={state.soldCages}
+                style={{border:"oldlace"}}
                 readOnly
                 />
                 <XError message={error.soldCages} />
@@ -355,6 +359,7 @@ const EditFloor = (props) => {
                 type="number"
                 placeholder="# of kWs" 
                 defaultValue={state.kva}
+                style={{border:"oldlace"}}
                 //onInput={(event) => fnValidate(event)}
                 //onChange={(event) => validatePower(event)}
                 readOnly
@@ -370,6 +375,7 @@ const EditFloor = (props) => {
                 maxLength={9}
                 placeholder="Sold kWs"
                 defaultValue={state.soldkva}
+                style={{border:"oldlace"}}
                 readOnly
                 //onChange={(event) => validateSoldPower(event)
                 /*{

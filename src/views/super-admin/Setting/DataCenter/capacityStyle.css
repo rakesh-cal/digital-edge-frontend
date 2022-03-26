@@ -1,0 +1,76 @@
+.choose_date select {
+             padding: 10px 10px;
+             border-radius: 5px;
+             font-size: 1.125rem;
+             font-weight: 500;
+             font-family: 'DM sans';
+}
+.left_box_month {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.choose_date{
+   width: 80%;
+}
+.excel_icon{
+   cursor: pointer;
+}
+.table_monthly tr th {
+    color: #000;
+    font-weight: 600 !important;
+    font-size: 0.9375rem;
+}
+.table_monthly tr th {
+    padding: 0.5rem 0.625rem !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+.table_monthly tr td {
+    padding: 0.5rem 0.625rem !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+th.tbr {
+    border: 1px solid #EEEDEE;
+}
+td.tbr {
+    border: 1px solid #EEEDEE;
+}
+th.total_color {
+    background: #D9D9D9;
+    text-align: center;
+}
+th.bg_gray {
+    background: #D9D9D9;
+    text-align: center;
+}
+td.bg_gray {
+    background: #D9D9D9;
+    text-align: center;
+}
+th.in_so{
+   background: #FFC000;
+   text-align: center;
+}
+th.res{
+   background: #B5E3F4;
+   text-align: center;
+}
+th.strd{
+   background: #FA8D8D;
+   text-align: center;
+}
+th.avilbl{
+   background: #C7F0AB;
+   text-align: center;
+}
+th.entvs{
+   background: #FFFFFF;
+   text-align: center;
+}
+.txt_comf p{
+   font-size: 1.25rem;
+   font-weight: 400;
+   font-family: 'DM sans';
+}

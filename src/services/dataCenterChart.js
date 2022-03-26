@@ -12,6 +12,10 @@ class DataCenterChart {
 		
 		return await axios(token).post(`storeDataCenterChart`,data);
 	}
+	async destroy(token,data){
+		
+		return await axios(token).post('deleteDataCenter',data);
+	}
 
 }
 

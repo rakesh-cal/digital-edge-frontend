@@ -10,6 +10,7 @@ import StateChart from 'views/super-admin/stateChart';
 import Profile from 'views/profile'
 import CanAccess from "./CanAccess";
 import Forbidden from "./Forbidden";
+import Capacity from "views/super-admin/Setting/DataCenter/capacity";
 
 const AuthenticatedRoutes = () => {
 
@@ -31,6 +32,11 @@ const AuthenticatedRoutes = () => {
 				<Route path="/setting/data-center" element={
 					<CanAccess>
 						<DataCenter name="datacenter"/>
+					</CanAccess>
+				} />
+				<Route path="/setting/capacity" element={
+					<CanAccess>
+						<Capacity name="capacity"/>
 					</CanAccess>
 				} />
 				<Route path="/setting/reports" element={

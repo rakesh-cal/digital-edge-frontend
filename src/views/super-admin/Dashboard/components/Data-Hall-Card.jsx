@@ -18,7 +18,6 @@ const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
 			setShowPopup(res.data)
 			setShow(true)
 		});
-
 	}
 
 	return(

@@ -1,8 +1,9 @@
 import React,{useEffect,useState,useContext,useRef} from 'react';
 import Layout from "../../Layouts";
 import Navigation from "../Component/Navigation";
-//import Navigation from "./Navigation";
+import DataCenterNav from "./Navigation";
 import RoleModel from "services/roleServices";
+import DataCenterChart from "services/dataCenterChart";
 import Floors from "services/floorServices"
 import AuthContext from "context";
 import Floor from "./floor"
@@ -12,6 +13,8 @@ import EditDataHall from './editDataHall'
 import CreateDataCenter from './dataCenter'
 import './dataCenter.css';
 import {numberFormat} from 'common/helpers';
+import {Link} from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
@@ -30,12 +33,15 @@ const DataCenter = (props) => {
 	const [currentTab,setCurrentTab] = useState(0);
 	const [activeTab,setActiveTab] = useState();
 	const [country, setCountry] = useState(0)
-	const initialMount = useRef(true)
+	const initialMount = useRef(true);
+	const [ascending,setAscending] = useState(true);
+	const [dataHallAscending,setDataHallAscending] = useState(true);
 
 	useEffect(() => {
 		getData();
 		if(initialMount.current === false){
 			selectDataCenterFloor(currentDataCenter, floorIndex)
+
 			// const floordata = authContext.getFloor.filter((floor) => {
 			// 	if(floor.id === floorIndex){
 			// 		return floor
@@ -43,11 +49,10 @@ const DataCenter = (props) => {
 			// })
 			// //console.log("use effect",floordata)
 			// getFloorData(floordata)
-		}else{
-			
-			getAllDataCenter()
 		}
-	},[authContext.getFloor]);
+		getAllDataCenter();
+		
+	},[authContext.getFloor,authContext.getDataCenters]);
 
 	const getData = async () => {
 
@@ -63,8 +68,8 @@ const DataCenter = (props) => {
 	}
 
 	const getFloorData = (data) => {
-        
-        setDataHall(data.data_halls)
+        const sortedData = data.data_halls.sort((a,b)=> (a.name > b.name ? 1 : -1))
+        setDataHall(sortedData)
         setActiveTab(data.id)
 		setFloorIndex(data.id)
     }
@@ -122,6 +127,7 @@ const DataCenter = (props) => {
 	
 	const selectDataCenterFloor = async(e, floor_id = 0) => {
 		//console.log("called data center",e,floor_id)
+		setAscending(true);
 		setCurrentDataCenter(e)
 		setDataCenterId(e)
 
@@ -209,6 +215,36 @@ const DataCenter = (props) => {
 		setShowDataHallEdit(true)
 	}
 
+	const deleteDataCenter = () => {
+
+			Swal.fire({
+		  	title: 'Are you sure?',
+		  	text: "You won't be able to revert this!",
+		  	icon: 'warning',
+		  	showCancelButton: true,
+		  	cancelButtonColor: '#d33',
+		  	confirmButtonText: 'Yes, delete it!'
+		}).then(async (result) => {
+
+			await DataCenterChart.destroy(authContext.token(),{data_center_id:currentDataCenter.id}).then(async res => {
+				await Floors.findAllFloor(authContext.token()).then(res => {
+					authContext.setFloor(res.data.data);
+					authContext.setDataCenterFloor(res.data.data);
+				}).catch(err => {
+					/*500 internal server error*/
+				})
+			});
+			
+			const newDataCenter = authContext.getDataCenters.filter(center => center.id !== currentDataCenter.id);
+
+			authContext.setDataCenter(newDataCenter);
+			setCurrentDataCenter(newDataCenter[0]);
+			setActiveTab(newDataCenter[0].id)
+			selectDataCenterFloor(newDataCenter[0])
+			setCountry(newDataCenter[0].country_id)
+			
+		})
+	}
 
 	return(
 		
@@ -220,12 +256,7 @@ const DataCenter = (props) => {
         			  
         	
 					<div className="row ">
-						<div className="col-xl-1">
-							<div className="leftside">
-							<p> <a href="#"  className="plink active"> Inventory </a> </p>
-							<p> <a href="#"  className="plink "> Capacity </a> </p>                 
-							</div>
-						</div>
+						<DataCenterNav/>
 						<div className="col-lg-11">
 							<div id="pro">
 							   <div className="profile-tab">
@@ -307,7 +338,20 @@ const DataCenter = (props) => {
 		<table>
 		<thead>
 			<tr>
-			<th> Floor </th>
+			<th onClick={() => {
+				setAscending(!ascending);
+				if(ascending === true){
+
+					allFloorData.sort((a,b)=> (a.name < b.name ? 1 : -1))
+				}
+				if (ascending === false) {
+					allFloorData.sort((a,b)=> (a.name > b.name ? 1 : -1))
+				}
+
+			}} style={{cursor:"pointer"}}> Floor <i 
+			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
+
+			></i> </th>
 			<th> Cabs </th>
 			<th> kW </th>
 			<th> </th>
@@ -342,6 +386,15 @@ const DataCenter = (props) => {
 
 		</table>
 		</div> 
+		<button 
+	        type="button" 
+	        onClick={() => deleteDataCenter()}
+	        style={{marginRight:'1rem'}}
+	        className="btn btn-outline-primary red_color mr_1">
+	        	<img src="\images\trash-2.svg" 
+	        	style={{width: "11px", marginTop: "-0.188rem",marginRight:"0.5rem"}} /> 
+	        	Delete
+	    </button>
 	</div> 
 
 	<div className="col-xl-8 col-lg-8">	
@@ -366,7 +419,22 @@ const DataCenter = (props) => {
 	        <table className="table header-border table-hover verticle-middle">
 	            <thead>
 	                <tr>
-	                    <th scope="col" className="pd-l" width="25%"> Name </th>
+	                    <th scope="col" className="pd-l" width="25%"
+	                    	onClick={() => {
+	                    		setDataHallAscending(!dataHallAscending);
+								if(dataHallAscending === true){
+
+									dataHall.sort((a,b)=> (a.name < b.name ? 1 : -1))
+								}
+								if (dataHallAscending === false) {
+									dataHall.sort((a,b)=> (a.name > b.name ? 1 : -1))
+								}
+	                    	}}
+	                    	style={{cursor:"pointer"}}
+	                    > 
+	                    Name {" "}
+	                    <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>
+	                    </th>
 	                    <th scope="col" > Status </th>
 	                    <th scope="col" > Cabs </th>
 	                    <th scope="col" > kW </th>
@@ -377,7 +445,11 @@ const DataCenter = (props) => {
 	            {
 	                dataHall && dataHall.length > 0 && dataHall.map((res)=>{
 	                    return <tr key={res.id}>
-	                        <th className="pd-l bold-txt"> {res.name} </th>
+	                        <th className="pd-l bold-txt"> 
+	                        {res.name} 
+
+
+	                        </th>
 	                        <td>
 	                            <div 
 	                            style={{
