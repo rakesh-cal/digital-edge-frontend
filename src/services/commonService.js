@@ -10,6 +10,11 @@ class Common {
 		return await axios().get(`Permissions`);
 	}
 
+	async status(){
+		
+		return await axios().get(`status`);
+	}
+
 }
 
 export default new Common();

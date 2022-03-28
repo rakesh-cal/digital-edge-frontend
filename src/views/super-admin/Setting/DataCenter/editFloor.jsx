@@ -4,6 +4,7 @@ import { XError } from 'components/common';
 import Swal from 'sweetalert2'
 import Floors from "services/floorServices" 
 import Modal from 'react-modal';
+import Common from "services/commonService";
 
 const customStyles = {
     content: {
@@ -21,6 +22,7 @@ const EditFloor = (props) => {
     const modalRef = useRef(null);
 	const authContext = useContext(AuthContext);
     const [isLoading,setIsLoading] = useState(false);
+    const [statusData,setStatusData] = useState([]);
 
     const [state,setState] = useState({
         floor_id:"",
@@ -45,6 +47,8 @@ const EditFloor = (props) => {
 	});
 
 	useEffect(() => {
+
+		Common.status().then(res => setStatusData(res.data.data));
         setIsOpen(props.show);
         setState({
             floor_id: props.floor_data.id,
@@ -412,11 +416,12 @@ const EditFloor = (props) => {
 						});
 					}}
 					className="default-select form-control wide">
+						{statusData && statusData.map(status => {
+							return (
+								<option value={status.id} key={status.id} >{status.name}</option>
+							)
+						})}
 						
-						<option value="1" >In Service</option>
-						<option value="2">Complete</option>
-						<option value="3">Construction</option>
-						<option value="4">Planning</option>
 					</select>
                 <XError message={error.status} />
             </div>									

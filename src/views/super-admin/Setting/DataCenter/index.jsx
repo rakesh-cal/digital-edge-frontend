@@ -225,23 +225,24 @@ const DataCenter = (props) => {
 		  	cancelButtonColor: '#d33',
 		  	confirmButtonText: 'Yes, delete it!'
 		}).then(async (result) => {
+			if (result.isConfirmed) {
+				await DataCenterChart.destroy(authContext.token(),{data_center_id:currentDataCenter.id}).then(async res => {
+					await Floors.findAllFloor(authContext.token()).then(res => {
+						authContext.setFloor(res.data.data);
+						authContext.setDataCenterFloor(res.data.data);
+					}).catch(err => {
+						/*500 internal server error*/
+					})
+				});
+				
+				const newDataCenter = authContext.getDataCenters.filter(center => center.id !== currentDataCenter.id);
 
-			await DataCenterChart.destroy(authContext.token(),{data_center_id:currentDataCenter.id}).then(async res => {
-				await Floors.findAllFloor(authContext.token()).then(res => {
-					authContext.setFloor(res.data.data);
-					authContext.setDataCenterFloor(res.data.data);
-				}).catch(err => {
-					/*500 internal server error*/
-				})
-			});
-			
-			const newDataCenter = authContext.getDataCenters.filter(center => center.id !== currentDataCenter.id);
-
-			authContext.setDataCenter(newDataCenter);
-			setCurrentDataCenter(newDataCenter[0]);
-			setActiveTab(newDataCenter[0].id)
-			selectDataCenterFloor(newDataCenter[0])
-			setCountry(newDataCenter[0].country_id)
+				authContext.setDataCenter(newDataCenter);
+				setCurrentDataCenter(newDataCenter[0]);
+				setActiveTab(newDataCenter[0].id)
+				selectDataCenterFloor(newDataCenter[0])
+				setCountry(newDataCenter[0].country_id)
+			}
 			
 		})
 	}
