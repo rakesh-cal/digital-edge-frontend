@@ -74,3 +74,10 @@ th.entvs{
    font-weight: 400;
    font-family: 'DM sans';
 }
+.table tbody tr td {
+   
+    white-space: nowrap !important;
+}
+td.tbr input {
+    max-width: 75px;
+}
