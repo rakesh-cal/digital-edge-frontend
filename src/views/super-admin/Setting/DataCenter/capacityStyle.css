@@ -79,5 +79,6 @@ th.entvs{
     white-space: nowrap !important;
 }
 td.tbr input {
-    max-width: 75px;
+    max-width: 55px;
+    padding: 0px 5px;
 }
