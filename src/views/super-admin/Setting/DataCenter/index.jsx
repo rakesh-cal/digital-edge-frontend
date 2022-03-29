@@ -41,14 +41,6 @@ const DataCenter = (props) => {
 		getData();
 		if(initialMount.current === false){
 			selectDataCenterFloor(currentDataCenter, floorIndex)
-
-			// const floordata = authContext.getFloor.filter((floor) => {
-			// 	if(floor.id === floorIndex){
-			// 		return floor
-			// 	}
-			// })
-			// //console.log("use effect",floordata)
-			// getFloorData(floordata)
 		}
 		getAllDataCenter();
 		

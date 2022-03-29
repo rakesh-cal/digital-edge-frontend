@@ -20,8 +20,9 @@ const Capacity = (props) => {
 	const [state,setState] = useState({});
 	const [payloadData,setPayloadData] = useState([]);
 	const [month,setMonth] = useState("");
-	const [year,setYear] = useState("")
+	const [year,setYear] = useState("");
 	const modalRef = useRef(null);
+	const [isSubmitEnabled,setSubmitEnabled] = useState(false);
 
 	useEffect(() => {
 
@@ -34,8 +35,10 @@ const Capacity = (props) => {
 		}else{
 			
 			getAllDataCenter()
+			
 		}
 		getCapacity();
+
 
 		//console.log(currentDataCenter);
 		
@@ -47,7 +50,9 @@ const Capacity = (props) => {
 		let payload = {};
 			
 		capcityData.map(capacity => {
+			
 			if(capacity.id === data.id){
+				setSubmitEnabled(true);
 				capacity.monthly_utilization[slug] = event.target.value
 			}
 		});
@@ -253,9 +258,7 @@ const Capacity = (props) => {
                 <div className="left_box_month">
                 	<div className="choose_date">
                 		<select className="form-select" aria-label="Default select example" defaultValue="1">
-                			<option value="1">FEB, 2022</option>
-                			<option value="2">FEB, 2022</option>
-                			<option value="3">FEB, 2022</option>
+                			<option value="1">Feb, 2022</option>
                         </select>
                   	</div>
                   	<div className="excel_icon">
@@ -366,13 +369,23 @@ const Capacity = (props) => {
 			      	<td>{capacity.floor.name} </td>
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
-			      		{numberFormat(capacity.design_cabs)}
+			      		<input type="text"
+			      			defaultValue={capacity.design_cabs}
+			      			onChange={(event) => onChangeData(event,capacity,'total_cabs')}
+			      		/>
 			      	</td>
 			      	<td className="bg_gray">
-			      		{numberFormat(capacity.design_cages)}
+			      		<input type="text"
+			      			defaultValue={capacity.design_cages}
+			      			onChange={(event) => onChangeData(event,capacity,'total_cages')}
+			      		/>
 			      	</td>
 			      	<td className="bg_gray">
-			      		{numberFormat(capacity.design_power,3)}
+
+			      		<input type="text"
+			      			defaultValue={capacity.design_power}
+			      			onChange={(event) => onChangeData(event,capacity,'total_power')}
+			      		/>
 			      	</td>
 			      	<td className="tbr">
 			      		<input type="text"
@@ -457,7 +470,12 @@ const Capacity = (props) => {
             <div className="monthly_last_btn">
                <div className="toolbar toolbar-bottom d-flex" role="toolbar">   
                    <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
-                   <button type="submit" className="btn btn-primary" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"> Save </button>
+                   <button 
+                   type="submit" 
+                   className="btn btn-primary" 
+                   data-bs-toggle="modal" 
+                   disabled={!isSubmitEnabled}
+                   data-bs-target=".bd-example-modal-lg"> Save </button>
                </div>
             </div>
             <div>
@@ -481,7 +499,11 @@ const Capacity = (props) => {
                                         </div>
                                         <div className="toolbar toolbar-bottom mt-51 d-flex justify-content-end" role="toolbar">   
                    <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
-                   <button type="button" onClick={onSubmit} className="btn btn-primary"> Save </button>
+                   <button 
+                   type="button" 
+                   
+                   onClick={onSubmit} 
+                   className="btn btn-primary"> Save </button>
                     
                </div>
                                     </div>
