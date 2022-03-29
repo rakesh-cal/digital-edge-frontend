@@ -4,6 +4,7 @@ import { XError } from 'components/common';
 import Swal from 'sweetalert2'
 import DataHall from "services/dataHallServices"
 import Modal from 'react-modal';
+import Common from "services/commonService";
 
 const customStyles = {
     content: {
@@ -21,6 +22,7 @@ const EditDataHall = (props) => {
     const modalRef = useRef(null);
 	const authContext = useContext(AuthContext);
     const [isLoading,setIsLoading] = useState(false);
+	const [statusData,setStatusData] = useState([]);
 
     const [state,setState] = useState({
         data_hall_id:"",
@@ -45,6 +47,7 @@ const EditDataHall = (props) => {
 	});
 
 	useEffect(() => {
+		Common.status().then(res => setStatusData(res.data.data));
         setIsOpen(props.show);
         setState({
             data_hall_id:props.editDataHall.id,
@@ -429,7 +432,6 @@ const EditDataHall = (props) => {
                 step="0.00001"
                 maxLength="11"
                 className="form-control" 
-                type="number"
                 placeholder="# of kWs" 
                 value={state.power} 
                 onChange={(event) => validatePower(event)}
@@ -481,10 +483,11 @@ const EditDataHall = (props) => {
 					}}
 					className="default-select form-control wide">
 						
-						<option value="1" >In Service</option>
-						<option value="2">Complete</option>
-						<option value="3">Construction</option>
-						<option value="4">Planning</option>
+						{statusData && statusData.map(status => {
+							return (
+								<option value={status.id} key={status.id} >{status.name}</option>
+							)
+						})}
 					</select>
                 <XError message={error.status} />
             </div>									

@@ -360,7 +360,6 @@ const EditFloor = (props) => {
                 step="0.00001"
                 maxLength="11"
                 className="form-control" 
-                type="number"
                 placeholder="# of kWs" 
                 defaultValue={state.kva}
                 style={{border:"oldlace"}}
