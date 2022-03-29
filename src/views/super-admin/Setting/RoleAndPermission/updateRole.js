@@ -37,6 +37,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 	const [countries,setCountries] = useState([]);
 	const [dataCenters,setDataCenters] = useState([]);
 	const [disabled,setDisabled] = useState(true);
+	const [placeHolder, setPlaceHolder] = useState("All")
 	const [state,setState] = useState({
 		"name":"",
 		"country":"",
@@ -98,7 +99,9 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 	  console.log(country.country_code)
 	  if(data_centers.length > 0){
 		if(country.country_code == "global"){
-			return {"label": "All", "value":1,select_all:true}
+			//setPlaceHolder("All")
+			//return {"label": "All", "value":1,select_all:true}
+			return null
 		}else{
 			let dataCenter = []
 			for(const k of data_centers){
@@ -151,22 +154,27 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 
 	const onChangeCountry = async id => {
 
-		//setState({...state,country:id})
+		setState({...state,country:id})
 
 		await getDataCenters(id);
-
-		let filterCountry = countries
-		console.log(filterCountry)
-		filterCountry = filterCountry.filter(k => k.id == id)
-		if(filterCountry.length > 0){
-			if(filterCountry[0].country_code == "global"){
-				setState({...state,dataCenter:{"label": "All", "value":1,select_all:true},country:id})
-			}else{
-				setState({...state,dataCenter:null,country:id})
-			}
+		if(id){
+			setPlaceHolder("All")
 		}else{
-			setState({...state,country:id,dataCenter:null})
+			setPlaceHolder("Select")
 		}
+
+		// let filterCountry = countries
+		// console.log(filterCountry)
+		// filterCountry = filterCountry.filter(k => k.id == id)
+		// if(filterCountry.length > 0){
+		// 	if(filterCountry[0].country_code == "global"){
+		// 		setState({...state,dataCenter:{"label": "All", "value":1,select_all:true},country:id})
+		// 	}else{
+		// 		setState({...state,dataCenter:null,country:id})
+		// 	}
+		// }else{
+		// 	setState({...state,country:id,dataCenter:null})
+		// }
 	}
 
 	const renderCountryList = () => {
@@ -447,7 +455,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                            {renderDataCenterList()}
 		                                        </select> */}
 
-												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter}/>
+												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter} placeholder={placeHolder}/>
 		                                        
 		                                    </div>
 		                                </div>
