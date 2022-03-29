@@ -128,12 +128,12 @@ const [permission,setPermission] = useState([]);
 				let dataCenterCombine = ""
 
 				datacenter.forEach(element => {
-					dataCenterCombine += element.datacenter.name+","
+					dataCenterCombine += element.datacenter.name+", "
 				});
 				dataCenterCombine = dataCenterCombine.replace(/,\s*$/, "");
 				return dataCenterCombine
 			}else{
-				return <i className="fas fa-times text-danger"></i>
+				return "All"
 			}
 		}
 
