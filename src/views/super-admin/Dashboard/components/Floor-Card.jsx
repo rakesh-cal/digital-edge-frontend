@@ -11,12 +11,21 @@ const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
 						<div className="txt_card">
 							<h3>Floors</h3>
 						</div>
-						<div className="txt_card" >
+						{/*<div className="txt_card" >
 							<h3 style={{
 						 color: "#92979A",
 						 fontSize: "0.875rem!important",
 						 fontWeight: 400}}>Sold/Available</h3>
-						</div>
+						</div>*/}
+
+					<div className="txt_card_2">
+						<p>
+							<img src="/images/orange.png" width="13px"/> Sold
+						</p>
+						<p>
+							<img src="/images/green.png" width="13px" /> Available
+						</p>
+					</div>
 					</div>
                     <div className='table_scrll'>
 					<FloorTable 

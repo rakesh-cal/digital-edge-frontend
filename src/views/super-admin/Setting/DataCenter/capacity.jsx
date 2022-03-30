@@ -11,6 +11,8 @@ import moment from 'moment';
 import {numberFormat} from 'common/helpers';
 import Swal from 'sweetalert2';
 
+const startMonth = 1;
+const startYear = 2022;
 const Capacity = (props) => {
 	const authContext = useContext(AuthContext);
 	const [dataCenter, setDataCenter] = useState([])
@@ -27,14 +29,17 @@ const Capacity = (props) => {
 	const [ascending,setAscending] = useState(true);
 	const [dataHallAscending,setDataHallAscending] = useState(true);
 	const [isReadOnly,setIsReadOnly] = useState(true);
+	const [isDataChanged,setDataChanged] = useState(false);
 
 	useEffect(() => {
 
 		
-		if(initialMount.current === false){
+		if(initialMount.current === true){
 			setMonth(moment().format('M'));
 			setYear(moment().format('YYYY'));
 			selectDataCenterFloor(currentDataCenter);
+			//getCapacity();
+			initialMount.current = false
 
 			if(authContext?.getAuth?.role?.space === 3 || 
 				authContext?.getAuth?.role?.m_e === 3 || 
@@ -45,15 +50,15 @@ const Capacity = (props) => {
 			
 		}else{
 			
-			getAllDataCenter()
+			
+			setDataChanged(false);
 			
 		}
-		getCapacity();
-
+		getAllDataCenter();
 
 		//console.log(currentDataCenter);
 		
-	},[authContext.getFloor,currentDataCenter]);
+	},[authContext.getFloor,currentDataCenter,isDataChanged]);
 
 
 	const onChangeData = (event,data,slug) => {
@@ -64,6 +69,7 @@ const Capacity = (props) => {
 			
 			if(capacity.id === data.id){
 				setSubmitEnabled(true);
+				setDataChanged(true);
 				capacity.monthly_utilization[slug] = event.target.value
 			}
 		});
@@ -74,7 +80,7 @@ const Capacity = (props) => {
 		capcityData && capcityData.map(util => data.push(util.monthly_utilization));
 		
 		CapacityService.store(authContext.token(),{data}).then(res => {
-			getCapacity();
+			selectDataCenterFloor(currentDataCenter);
 			Swal.fire("Data Updated");
 		});
 
@@ -83,19 +89,7 @@ const Capacity = (props) => {
 	const onClose = () => {
 		modalRef.current.click();
 	}
-	const getCapacity = async () => {
-
-		const data = {
-			dataCenterId: currentDataCenter.id,
-			month: moment().format('M') - 1,
-			year: year
-		};
-
-		await CapacityService.index(authContext.token(),data).then(async res => {
-			
-			await setCapacityData(res.data.data);
-		})
-	}	
+	
 
 	const getAllDataCenter = async () => {
 		setCountryName("Country");
@@ -150,8 +144,17 @@ const Capacity = (props) => {
 	
 	const selectDataCenterFloor = async(e) => {
 		
-		setCurrentDataCenter(e)
+		setCurrentDataCenter(e);
+		const data = {
+			dataCenterId: e.id,
+			month: moment().format('M') - 1,
+			year: year
+		};
 
+		await CapacityService.index(authContext.token(),data).then(async res => {
+			
+			await setCapacityData(res.data.data);
+		})
 		
 	}
 
@@ -166,6 +169,16 @@ const Capacity = (props) => {
 				getDataCenterById(data)
 			} }>{data.name} </a>
 		})
+	}
+
+
+	const renderMonth = () => {
+		let currentMonth = moment().format("M");
+		let currentYear = moment().format("YYYY");
+
+		for(let i = 1; i<= currentMonth; i++){
+			console.log(i)
+		}
 	}
 
 	
@@ -269,8 +282,14 @@ const Capacity = (props) => {
             <div className="col-12 col-sm-12 col-md-12 col-lg-3">
                 <div className="left_box_month">
                 	<div className="choose_date">
-                		<select className="form-select" aria-label="Default select example" defaultValue="1">
+                	{renderMonth()}
+                		<select 
+                		className="form-select" 
+                		aria-label="Default select example" 
+                		defaultValue="1">
+
                 			<option value="1">Feb, 2022</option>
+
                         </select>
                   	</div>
                   	<div className="excel_icon">
@@ -309,7 +328,7 @@ const Capacity = (props) => {
       				<th 
       				scope="col" 
       				colSpan="3" 
-      				className="entvs">Entered vs. Total</th>
+      				className="entvs">Delta</th>
       			</tr>
       		</thead>
       	<thead>
@@ -413,41 +432,50 @@ const Capacity = (props) => {
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
 			      	{isReadOnly == true?(
-			      	<label htmlFor={capacity.design_cabs}>{capacity.design_cabs}</label>
+			      	<label >{capacity.design_cabs}</label>
 			      	):(
 			      		<input type="text"
 			      		
 			      			defaultValue={capacity.design_cabs}
-			      			onChange={(event) => onChangeData(event,capacity,'total_cabs')}
+			      			onChange={(event) => {
+			      				capacity.design_cabs = event.target.value;
+			      				onChangeData(event,capacity,'total_cabs')
+			      			}}
 			      		/>
 			      	)}
 			      	</td>
 			      	<td className="bg_gray">
 			      	{isReadOnly == true?(
-			      		<label htmlFor={capacity.design_cages}>{capacity.design_cages}</label>
+			      		<label >{capacity.design_cages}</label>
 			      		):(
 			      		<input type="text"
 			      		
 			      			defaultValue={capacity.design_cages}
-			      			onChange={(event) => onChangeData(event,capacity,'total_cages')}
+			      			onChange={(event) => {
+			      				capacity.design_cages = event.target.value;
+			      				onChangeData(event,capacity,'total_cages')
+			      			}}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="bg_gray">
 			      		{isReadOnly == true?(
-			      			<label htmlFor={capacity.design_power}>{capacity.design_power}</label>
+			      			<label >{capacity.design_power}</label>
 			      		):(
 			      		<input type="text"
 			      		
 			      			defaultValue={capacity.design_power}
-			      			onChange={(event) => onChangeData(event,capacity,'total_power')}
+			      			onChange={(event) => {
+			      				capacity.design_power = event.target.value;
+			      				onChangeData(event,capacity,'total_power')
+			      			}}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label htmlFor="">{capacity.monthly_utilization?.sold_cabs}</label>
+			      			<label >{capacity.monthly_utilization?.sold_cabs}</label>
 			      		):(
 			      		<input type="text"
 			      		
@@ -458,7 +486,7 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="tbr">
 			      		{isReadOnly == true?(
-			      			<label htmlFor="">{capacity.monthly_utilization?.sold_cages}</label>
+			      			<label >{capacity.monthly_utilization?.sold_cages}</label>
 			      		):(
 			      		<input type="text"
 			      		
@@ -470,7 +498,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label htmlFor="">{capacity.monthly_utilization?.sold_power}</label>
+			      			<label >{capacity.monthly_utilization?.sold_power}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -482,7 +510,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_cabs}</label>
+			      		<label >{capacity.monthly_utilization?.reserved_cabs}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -494,7 +522,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_cages}</label>
+			      		<label >{capacity.monthly_utilization?.reserved_cages}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -506,7 +534,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_power}</label>
+			      		<label >{capacity.monthly_utilization?.reserved_power}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -518,7 +546,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_cabs}</label>
+			      		<label >{capacity.monthly_utilization?.blocked_cabs}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -530,7 +558,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_cages}</label>
+			      		<label >{capacity.monthly_utilization?.blocked_cages}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -542,7 +570,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_power}</label>
+			      		<label >{capacity.monthly_utilization?.blocked_power}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -554,7 +582,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.available_cabs}</label>
+			      		<label >{capacity.monthly_utilization?.available_cabs}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -566,7 +594,7 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.available_cages}</label>
+			      		<label >{capacity.monthly_utilization?.available_cages}</label>
 			      		):(
 			      		<input type="text"
 			      		 
@@ -577,7 +605,7 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="tbr">
 			      	{isReadOnly == true?(
-			      		<label htmlFor="">{capacity.monthly_utilization?.available_power}</label>
+			      		<label >{capacity.monthly_utilization?.available_power}</label>
 			      		):(
 			      	<input type="text"
 			      	 

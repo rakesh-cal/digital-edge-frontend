@@ -3,7 +3,7 @@ import baseURL from './baseURL';
 
 //api, localdedc,stgdedc
 
-const endPoint = 'localdedc';
+const endPoint = 'api';
 
 
 const axiosWithToken = token => {

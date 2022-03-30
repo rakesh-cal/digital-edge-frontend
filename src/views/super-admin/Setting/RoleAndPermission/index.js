@@ -160,6 +160,8 @@ const [permission,setPermission] = useState([]);
 				       {checkstatus(data.is_active)}
 
 				    </td>
+				    	{contextStore.getAuth.role.country_id === 6?(
+
 				    <td className="center-col">
 				        <p> 
 				        <a 
@@ -170,6 +172,7 @@ const [permission,setPermission] = useState([]);
 				        <i className="fas fa-edit"></i> </a> </p>
 				       
 				    </td>
+				    	):null}
 				</tr>
 			);
 		})
@@ -187,9 +190,11 @@ return (
             <div className="row">
 				<div className='col-12 col-sm-2'>
 				<div className="add-new-button">
+					{contextStore.getAuth.role.country_id === 6?(
                     <a href="#" id="addnew" className="btn btn-primary me-3 btn-sm" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
                         <img src="/images/plus-circle.svg" />&nbsp; Add New Role
                     </a>
+					):null}
                     <CreateRole 
                     retriveCurrentData={getData} 
                     permission={permission}
@@ -229,7 +234,10 @@ return (
                                         <th><strong> Network </strong></th>
                                         <th className="center-col"><strong> User </strong></th>
                                         <th className="center-col"><strong> Status </strong></th>
+                                        	{contextStore.getAuth.role.country_id === 6?(
+
                                         <th className="center-col"><strong> Actions </strong></th>
+                                        	):null}
                                     </tr>
                                 </thead>
                                 <tbody>

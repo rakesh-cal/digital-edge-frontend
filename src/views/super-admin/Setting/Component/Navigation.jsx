@@ -52,7 +52,9 @@ const Navigation = () => {
                             </li>
                         	):null}
                           
-                          	{contextData.getAuth.role.country_id === 6?(
+                          	{contextData?.getAuth?.role?.space >= 2 || 
+	               			contextData?.getAuth?.role?.m_e >= 2 ||
+	               			contextData?.getAuth?.role?.network >= 2 ?(
 	                            <li className="nav-item gap_s">
 	                            	<Link 
 	                            	className={activeClass('/setting/role-and-permissions')}

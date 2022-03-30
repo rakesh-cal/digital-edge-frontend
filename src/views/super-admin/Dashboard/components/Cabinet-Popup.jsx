@@ -26,7 +26,7 @@ const CabinetPopup = (props) => {
                  let article = document.querySelector('#title-'+ val.id);
                 //article.textContent = val.name.split("-")[5]
                 let allChildren = document.querySelectorAll("#popup-" + val.id + " .content > p"); 
-                console.log(allChildren)               
+                           
                 allChildren[1].textContent = status[val.status-1]
                 allChildren[3].textContent = val.customer
                 allChildren[5].textContent = val.max_kw != null ? parseFloat(val.max_kw).toFixed(3) : 0

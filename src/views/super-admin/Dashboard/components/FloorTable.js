@@ -95,7 +95,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 	const getCabsStatus = data => {
 
-		if (Number(data.status) === 1) {
+		//if (Number(data.status) === 1) {
 
 			let available = 0;
 			let soldPer = 0;
@@ -106,11 +106,23 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 
 			
 			available = Number(design_cabs)- Number(sold_cabs);
-			if (available) {
+
+			if(design_cabs === 0){
+				sold_cabs = 0;
+				available = 0;
+				soldPer = 0;
+				availPer = 0;
+			}else if(available === 0){
+				soldPer = 100;
+				available = 0;
+				availPer = 0;
+			}else if(sold_cabs === 0){
+				soldPer = 0;
+				availPer = 100;
+			}else{
 				soldPer = sold_cabs*100/design_cabs;
 				availPer = available*100/design_cabs;
 			}
-			
 
 			return <Line
 			totalText={design_cabs}
@@ -120,7 +132,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			availablePercent={availPer}
 			totalPercent={0}/>
 
-		}else{
+		/*}else{
 
 			let design_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
 			return <Line
@@ -130,12 +142,12 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			inServicePercent={0}
 			availablePercent={0}
 			totalPercent={100}/>
-		}
+		}*/
 
 	}
 	const getCagesStatus = data => {
 
-		if (Number(data.status) === 1) {
+		//if (Number(data.status) === 1) {
 			
 			let available = 0;
 			let soldPer = 0;
@@ -145,7 +157,20 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			let sold_cages = data.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0);
 
 				available = Number(design_cages)- Number(sold_cages);
-				if (available) {
+			
+				if(design_cages === 0){
+					sold_cages = 0;
+					available = 0;
+					soldPer = 0;
+					availPer = 0;
+				}else if(available === 0){
+					soldPer = 100;
+					available = 0;
+					availPer = 0;
+				}else if(sold_cages === 0){
+					soldPer = 0;
+					availPer = 100;
+				}else{
 					soldPer = sold_cages*100/design_cages;
 					availPer = available*100/design_cages;
 				}
@@ -159,7 +184,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			availablePercent={availPer}
 			totalPercent={0}/>
 
-		}else{
+	/*	}else{
 
 			let design_cages = data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
 
@@ -170,12 +195,12 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			inServicePercent={0}
 			availablePercent={0}
 			totalPercent={100}/>
-		}
+		}*/
 
 	}
 	const getPowerStatus = data => {
 
-		if (Number(data.status) === 1) {
+		//if (Number(data.status) === 1) {
 
 			let available = 0;
 			let soldPer = 0;
@@ -184,14 +209,24 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			let design_power = data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
 			let sold_power = data.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0);
 
-
 			available = Number((Number(design_power)- Number(sold_power)).toFixed(3));
 
-			if (available) {
-
-				soldPer = sold_power*100/design_power;
-				availPer = available*100/design_power;
-			}
+				if(design_power === 0){
+					sold_power = 0;
+					available = 0;
+					soldPer = 0;
+					availPer = 0;
+				}else if(available === 0){
+					soldPer = 100;
+					available = 0;
+					availPer = 0;
+				}else if(sold_power === 0){
+					soldPer = 0;
+					availPer = 100;
+				}else{
+					soldPer = sold_power*100/design_power;
+					availPer = available*100/design_power;
+				}
 			
 
 
@@ -202,7 +237,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			inServicePercent={soldPer}
 			availablePercent={availPer}
 			totalPercent={0}/>
-
+/*
 		}else{
 
 			let design_power = data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
@@ -213,7 +248,7 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			inServicePercent={0}
 			availablePercent={0}
 			totalPercent={100}/>
-		}
+		}*/
 
 	}
 
