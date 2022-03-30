@@ -7,18 +7,16 @@ const CanAccess = ({children}) => {
 	const contextStore = useContext(StorageContext);
 	let location = useLocation();
 	if(
-		contextStore.getAuth && 
-		contextStore.getAuth.role.user_management && 
-		children?.props?.name === 'user'
+		contextStore.getAuth
 	){
 
 		return children;
 	}
 
 
-	if(contextStore.getAuth && contextStore.getAuth.role.country_id === 6){
+	/*if(contextStore.getAuth && contextStore.getAuth.role.country_id === 6){
 		return children
-	}
+	}*/
 
 	return <Navigate to="/forbidden" state={{ from: location }} />;
 	

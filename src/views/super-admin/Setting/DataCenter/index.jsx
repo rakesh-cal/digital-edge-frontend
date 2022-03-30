@@ -36,11 +36,20 @@ const DataCenter = (props) => {
 	const initialMount = useRef(true);
 	const [ascending,setAscending] = useState(true);
 	const [dataHallAscending,setDataHallAscending] = useState(true);
+	const [isReadOnly,setIsReadOnly] = useState(true);
 
 	useEffect(() => {
 		getData();
+
+		if(authContext?.getAuth?.role?.space === 3 || 
+			authContext?.getAuth?.role?.m_e === 3 || 
+			authContext?.getAuth?.role?.network === 3){
+				setIsReadOnly(false);
+			}
+
 		if(initialMount.current === false){
-			selectDataCenterFloor(currentDataCenter, floorIndex)
+			selectDataCenterFloor(currentDataCenter, floorIndex);
+			
 		}
 		getAllDataCenter();
 		
@@ -310,8 +319,13 @@ const DataCenter = (props) => {
                            </div>
                         </div>
 							<div id="title" style={{marginBottom: "-2.687rem"}}>
-								<div className="row"><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6" style={{textAlign:"right"}}><a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
-		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Center</a> </p></div>
+								<div className="row"><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6" style={{textAlign:"right"}}>
+								{isReadOnly == false?(
+								<a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
+		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Center</a>
+								):null}
+
+		 </p></div>
 								<p> Each data center can set capacity thresholds at the data center, floor or data hall level. </p>
 							</div>
 
@@ -322,8 +336,10 @@ const DataCenter = (props) => {
 		<div className="invtab">
 		<p>Floor</p>
 
+		{isReadOnly == false?(
 		<p><a href="#" id="addneww" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
 		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Floor</a> </p>
+		):null}
 
 	
 		
@@ -341,13 +357,15 @@ const DataCenter = (props) => {
 					allFloorData.sort((a,b)=> (a.name > b.name ? 1 : -1))
 				}
 
-			}} style={{cursor:"pointer"}}> Floor <i 
+			}} style={{cursor:"pointer"}}> Floor {/*<i 
 			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
 
-			></i> </th>
+			></i> */}</th>
 			<th> Cabs </th>
 			<th> kW </th>
+			{isReadOnly == false ? (
 			<th> </th>
+			):null}
 			</tr>
 		</thead>
 		<tbody>
@@ -365,13 +383,15 @@ const DataCenter = (props) => {
 			    </td>
 			    <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0))} </td>
 			     <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_power),0),3)} </td>
-			    <td> 
-			    <a 
-			    onClick={() => getEditFloorPopup(res)} 
-			    style={{cursor:"pointer"}}>
-			    <i className="fas fa-edit"></i>
-			    </a> 
-			    </td>
+			     {isReadOnly == false?(
+				    <td> 
+				    <a 
+				    onClick={() => getEditFloorPopup(res)} 
+				    style={{cursor:"pointer"}}>
+				    <i className="fas fa-edit"></i>
+				    </a> 
+				    </td>
+			     	):null}
 			    </tr>
 			})}
 		</tbody>
@@ -379,6 +399,7 @@ const DataCenter = (props) => {
 
 		</table>
 		</div> 
+		{/*{isReadOnly == false?(
 		<button 
 	        type="button" 
 	        onClick={() => deleteDataCenter()}
@@ -388,13 +409,14 @@ const DataCenter = (props) => {
 	        	style={{width: "11px", marginTop: "-0.188rem",marginRight:"0.5rem"}} /> 
 	        	Delete
 	    </button>
+		):null}*/}
 	</div> 
 
 	<div className="col-xl-8 col-lg-8">	
 
 			<div className="leftnav">
 			<p> Data Halls </p>
-
+			{isReadOnly == false?(
 			<p>
 			<a 
 			href="#" 
@@ -402,6 +424,7 @@ const DataCenter = (props) => {
 			data-bs-toggle="modal" 
 			data-bs-target="#exampleModalCenter">
 			<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Halls </a> </p>
+			):null}
 
 			
 
@@ -426,12 +449,14 @@ const DataCenter = (props) => {
 	                    	style={{cursor:"pointer"}}
 	                    > 
 	                    Name {" "}
-	                    <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>
+	                  {/*  <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>*/}
 	                    </th>
 	                    <th scope="col" > Status </th>
 	                    <th scope="col" > Cabs </th>
 	                    <th scope="col" > kW </th>
+	                    {isReadOnly?(
 	                    <th scope="col" >  </th>
+	                    ):null}
 	                </tr>
 	            </thead>
 	            <tbody id="cardnew">
@@ -457,8 +482,9 @@ const DataCenter = (props) => {
 	                        </td>
 	                         <td> {numberFormat(res.design_cabs)} </td>
 			    			<td> {numberFormat(res.design_power,3)} </td>
-	                      
+	                      {isReadOnly == false?(
 	                        <td> <a onClick={() => getEditDataHallPopup(res)}> <i className="fas fa-edit"></i></a> </td>
+	                      ):null}
 	                    </tr>
 	                })
 	            }

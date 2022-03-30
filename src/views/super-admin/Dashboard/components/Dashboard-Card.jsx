@@ -10,7 +10,14 @@ const graphSetting = {
 	maintainAspectRatio: false ,
 	rotation: -90,
 	circumference: 180,
-	cutout: 60
+	cutout: 60,
+	plugins: {
+      datalabels: {
+        formatter: (value) => {
+          return value;
+        }
+      }
+    }
 };
 
 const DashboardCard = ({cardData}) => {

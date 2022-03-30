@@ -255,10 +255,12 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 					contextStore.getDataCenterFloor.sort((a,b)=> (a.name > b.name ? 1 : -1))
 				}
 
-			}} style={{cursor:"pointer"}}> Floors <i 
+			}} style={{cursor:"pointer"}}> Floors 
+			{/*<i 
 			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
 
-			></i></th>
+			></i>*/}
+			</th>
 				<th> Cabinets </th>
 				<th> Cages</th>
 				<th> Power(kW) </th>

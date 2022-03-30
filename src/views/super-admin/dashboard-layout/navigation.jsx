@@ -119,7 +119,7 @@ const Navigation = () => {
 	               	<ul className="navbar-nav header-right">
 
 	                  	
-	               		{contextData?.getAuth?.role?.user_management?(
+	               		{ contextData?.getAuth?.role?.user_management ?(
 	               			<li className="nav-item dropdown notification_dropdown">
 	                     	
 	                     	<Link 
@@ -127,7 +127,20 @@ const Navigation = () => {
 				            to="/setting/user" >
 				            	<img src="\images\settings-10@1x.png" alt="" />
 				            </Link>
-	                  	</li>):null}
+	                  	</li>):(contextData?.getAuth?.role?.space === 3 || 
+	               			contextData?.getAuth?.role?.m_e === 3 ||
+	               			contextData?.getAuth?.role?.network === 3 ?(
+	               			<li className="nav-item dropdown notification_dropdown">
+	                     	
+	                     	<Link 
+				            className="nav-link setting"
+				            to="/setting/data-center" >
+				            	<img src="\images\settings-10@1x.png" alt="" />
+				            </Link>
+	                  	</li>):null)}
+
+	               		
+
 	                  	<li className="nav-item dropdown header-profile">
 	                     	<a 
 	                     	className="nav-link" 

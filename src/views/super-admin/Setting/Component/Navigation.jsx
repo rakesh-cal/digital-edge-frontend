@@ -51,20 +51,25 @@ const Navigation = () => {
                             	to="/setting/user" >User Management </Link>
                             </li>
                         	):null}
-                            {contextData.getAuth.role.country_id === 6?(
-                            <React.Fragment>
-                            <li className="nav-item gap_s">
-                            	<Link 
-                            	className={activeClass('/setting/role-and-permissions')}
-                            	id="tab2" 
-                            	to="/setting/role-and-permissions" >Roles & Permissions </Link>
-                            </li>
+                          
+                          	{contextData.getAuth.role.country_id === 6?(
+	                            <li className="nav-item gap_s">
+	                            	<Link 
+	                            	className={activeClass('/setting/role-and-permissions')}
+	                            	id="tab2" 
+	                            	to="/setting/role-and-permissions" >Roles & Permissions </Link>
+	                            </li>
+                          	):null}
+                          	{contextData?.getAuth?.role?.space === 3 || 
+	               			contextData?.getAuth?.role?.m_e === 3 ||
+	               			contextData?.getAuth?.role?.network === 3 ?(
                             <li className="nav-item gap_s">
                             	<Link 
                             	className={activeClass(['/setting/data-center','/setting/capacity'])} 
                             	id="tab3" 
                             	to="/setting/data-center" >Data Centers </Link>
                             </li>
+	               			):null}
 							<li className="nav-item gap_s">
                             	<Link 
                             	className="nav-link"
@@ -72,8 +77,7 @@ const Navigation = () => {
                             	id="tab4" 
                             	to="/setting/reports" >Reports </Link>
                             </li>
-                            </React.Fragment>
-                            ):null}
+                           
                         </ul>
                     </div>
                 </div>

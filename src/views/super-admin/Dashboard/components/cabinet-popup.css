@@ -333,7 +333,7 @@ thead {
   @media (min-width: 992px) {
     .cabinet-popup .modal-lg,
     .modal-xl {
-      max-width: 75rem;
+      max-width: 85rem;
     }
   
     .cabinet-popup .modal-dialog {

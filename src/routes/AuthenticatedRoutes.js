@@ -20,29 +20,29 @@ const AuthenticatedRoutes = () => {
 			<Routes>
 				<Route path="/data-center" element={<Dashboard />} />
 				<Route path="/setting/role-and-permissions" element={
-					<CanAccess>
+					
 						<RoleAndPermission name="roleandpermission"/>
-					</CanAccess>
+					
 				} />
 				<Route path="/setting/user" element={
-					<CanAccess>
+					
 						<User name="user"/>
-					</CanAccess>
+					
 				} />
 				<Route path="/setting/data-center" element={
-					<CanAccess>
+				
 						<DataCenter name="datacenter"/>
-					</CanAccess>
+					
 				} />
 				<Route path="/setting/capacity" element={
-					<CanAccess>
+					
 						<Capacity name="capacity"/>
-					</CanAccess>
+					
 				} />
 				<Route path="/setting/reports" element={
-					<CanAccess>
+					
 						<Reports name="report" />
-					</CanAccess>
+					
 				} />
 				<Route path="/test-graph" exact element={<Test />} />
 				<Route path="/graph-state-chart" exact element={<StateChart />} />

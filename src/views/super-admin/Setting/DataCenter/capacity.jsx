@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import CapacityService from 'services/capacityService';
 import moment from 'moment';
 import {numberFormat} from 'common/helpers';
+import Swal from 'sweetalert2';
 
 const Capacity = (props) => {
 	const authContext = useContext(AuthContext);
@@ -23,6 +24,9 @@ const Capacity = (props) => {
 	const [year,setYear] = useState("");
 	const modalRef = useRef(null);
 	const [isSubmitEnabled,setSubmitEnabled] = useState(false);
+	const [ascending,setAscending] = useState(true);
+	const [dataHallAscending,setDataHallAscending] = useState(true);
+	const [isReadOnly,setIsReadOnly] = useState(true);
 
 	useEffect(() => {
 
@@ -30,7 +34,14 @@ const Capacity = (props) => {
 		if(initialMount.current === false){
 			setMonth(moment().format('M'));
 			setYear(moment().format('YYYY'));
-			selectDataCenterFloor(currentDataCenter)
+			selectDataCenterFloor(currentDataCenter);
+
+			if(authContext?.getAuth?.role?.space === 3 || 
+				authContext?.getAuth?.role?.m_e === 3 || 
+				authContext?.getAuth?.role?.network === 3){
+				setIsReadOnly(false);
+			}
+			
 			
 		}else{
 			
@@ -64,6 +75,7 @@ const Capacity = (props) => {
 		
 		CapacityService.store(authContext.token(),{data}).then(res => {
 			getCapacity();
+			Swal.fire("Data Updated");
 		});
 
 		onClose();
@@ -302,8 +314,39 @@ const Capacity = (props) => {
       		</thead>
       	<thead>
       	<tr>
-      		<th scope="col">Floor</th>
-      		<th scope="col">Data Hall</th>
+      		<th scope="col" onClick={() => {
+				setAscending(!ascending);
+				if(ascending === true){
+
+					capcityData.sort((a,b)=> (a.floor.name < b.floor.name ? 1 : -1))
+				}
+				if (ascending === false) {
+					capcityData.sort((a,b)=> (a.floor.name > b.floor.name ? 1 : -1))
+				}
+
+			}} style={{cursor:"pointer"}}> Floor 
+		{/*	<i 
+			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
+
+			></i> */}
+			</th>
+      		<th scope="col" onClick={() => {
+				setDataHallAscending(!dataHallAscending);
+				if(dataHallAscending === true){
+
+					capcityData.sort((a,b)=> (a.name < b.name ? 1 : -1))
+				}
+				if (dataHallAscending === false) {
+					capcityData.sort((a,b)=> (a.name > b.name ? 1 : -1))
+				}
+
+			}} style={{cursor:"pointer"}}> Data Hall 
+			{/*<i 
+			className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}
+
+			></i> */}
+			</th>
+      		
       		<th scope="col" className="bg_gray">CabE</th>
       		<th scope="col" className="bg_gray">Cages</th>
       		<th scope="col" className="bg_gray">(kW)</th>
@@ -369,94 +412,179 @@ const Capacity = (props) => {
 			      	<td>{capacity.floor.name} </td>
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
+			      	{isReadOnly == true?(
+			      	<label htmlFor={capacity.design_cabs}>{capacity.design_cabs}</label>
+			      	):(
 			      		<input type="text"
+			      		
 			      			defaultValue={capacity.design_cabs}
 			      			onChange={(event) => onChangeData(event,capacity,'total_cabs')}
 			      		/>
+			      	)}
 			      	</td>
 			      	<td className="bg_gray">
+			      	{isReadOnly == true?(
+			      		<label htmlFor={capacity.design_cages}>{capacity.design_cages}</label>
+			      		):(
 			      		<input type="text"
+			      		
 			      			defaultValue={capacity.design_cages}
 			      			onChange={(event) => onChangeData(event,capacity,'total_cages')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="bg_gray">
-
+			      		{isReadOnly == true?(
+			      			<label htmlFor={capacity.design_power}>{capacity.design_power}</label>
+			      		):(
 			      		<input type="text"
+			      		
 			      			defaultValue={capacity.design_power}
 			      			onChange={(event) => onChangeData(event,capacity,'total_power')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
+
+			      		{isReadOnly == true?(
+			      			<label htmlFor="">{capacity.monthly_utilization?.sold_cabs}</label>
+			      		):(
 			      		<input type="text"
+			      		
 			      			defaultValue={capacity.monthly_utilization?.sold_cabs}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
+			      		{isReadOnly == true?(
+			      			<label htmlFor="">{capacity.monthly_utilization?.sold_cages}</label>
+			      		):(
 			      		<input type="text"
+			      		
 			      			defaultValue={capacity.monthly_utilization?.sold_cages}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+
+			      		{isReadOnly == true?(
+			      			<label htmlFor="">{capacity.monthly_utilization?.sold_power}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.sold_power}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_cabs}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.reserved_cabs}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_cages}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.reserved_cages}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.reserved_power}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.reserved_power}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_cabs}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.blocked_cabs}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_cages}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.blocked_cages}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.blocked_power}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.blocked_power}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.available_cabs}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.available_cabs}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">
-			      		<input type="text" 
+			      		
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.available_cages}</label>
+			      		):(
+			      		<input type="text"
+			      		 
 			      			defaultValue={capacity.monthly_utilization?.available_cages}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
+			      		)}
 			      	</td>
-			      	<td className="tbr"><input type="text" 
+			      	<td className="tbr">
+			      	{isReadOnly == true?(
+			      		<label htmlFor="">{capacity.monthly_utilization?.available_power}</label>
+			      		):(
+			      	<input type="text"
+			      	 
 			      			defaultValue={capacity.monthly_utilization?.available_power}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
+			      		)}
 			      	</td>
 			      	<td className="tbr">{numberFormat(totalCabs)}</td>
 			      	<td className="tbr">{numberFormat(totalCages)}</td>
@@ -467,6 +595,7 @@ const Capacity = (props) => {
   </tbody>
 </table>
             </div> 
+            {isReadOnly === false?(
             <div className="monthly_last_btn">
                <div className="toolbar toolbar-bottom d-flex" role="toolbar">   
                    <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
@@ -478,6 +607,7 @@ const Capacity = (props) => {
                    data-bs-target=".bd-example-modal-lg"> Save </button>
                </div>
             </div>
+            ):null}
             <div>
                       
                      <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
@@ -498,7 +628,10 @@ const Capacity = (props) => {
                                            <p>Please confirm before updating the database.</p>
                                         </div>
                                         <div className="toolbar toolbar-bottom mt-51 d-flex justify-content-end" role="toolbar">   
-                   <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
+                   <button 
+                   type="button" 
+                   onClick={onClose}
+                   className="btn btn-outline-primary mr_1"> Cancel </button>
                    <button 
                    type="button" 
                    

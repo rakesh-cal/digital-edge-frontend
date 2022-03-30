@@ -124,7 +124,8 @@ const DataHallTable = ({selectedFloor, getCabinetData}) => {
 								}
 	                    	}}
 	                    	style={{cursor:"pointer"}}> Name {" "}
-	                    <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i></th>
+	                {/*<i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>*/}
+	                </th>
 					<th scope="col" width="5%"> Status </th>
 					<th scope="col" width="10%"> Cabinets </th>
 					<th scope="col" width="10%"> Cages</th>
