@@ -15,6 +15,10 @@ function App() {
 	const [selectedCountryContext,setSelectedCountryContext] = useState("");
 	const [dataHallContext,setDataHallContext] = useState([]);
 	const [uFloorsContext,setUFloorContext] = useState([]);
+	const [monthYearContext,setMonthYearContext] = useState({
+		month:"",
+		year:""
+	});
 
 	const contextData = React.useMemo(() => {
 		return {
@@ -30,6 +34,9 @@ function App() {
 				setPermissionContext([]);
 				setFloorsContext([]);
 				setSelectedCountryContext("");
+			},
+			setMonthYear: (month,year) => {
+				setMonthYearContext({month,year});
 			},
 			login: token => {
 				setApiToken(token)
@@ -77,7 +84,8 @@ function App() {
 			getFloor: floorsContext,
 			getDataCenterFloor: uFloorsContext,
 			getDataHall: dataHallContext,
-			selectedCountry:selectedCountryContext
+			selectedCountry:selectedCountryContext,
+			getMonthYear:monthYearContext
 		};
 	}, [
 		authData,
@@ -90,7 +98,8 @@ function App() {
 		floorsContext,
 		dataHallContext,
 		selectedCountryContext,
-		uFloorsContext
+		uFloorsContext,
+		monthYearContext
 	]);
 
   	return (

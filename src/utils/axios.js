@@ -5,7 +5,6 @@ import baseURL from './baseURL';
 
 const endPoint = 'api';
 
-
 const axiosWithToken = token => {
 
 	const AuthHeader = {

@@ -33,12 +33,11 @@ const Capacity = (props) => {
 
 	useEffect(() => {
 
-		
 		if(initialMount.current === true){
-			setMonth(moment().format('M'));
-			setYear(moment().format('YYYY'));
-			selectDataCenterFloor(currentDataCenter);
-			//getCapacity();
+			setMonth(Number(authContext.getMonthYear.month)-1);
+			setYear(authContext.getMonthYear.year);
+			selectDataCenterFloor(authContext.getDataCenters[0]);
+		
 			initialMount.current = false
 
 			if(authContext?.getAuth?.role?.space === 3 || 
@@ -53,8 +52,10 @@ const Capacity = (props) => {
 			
 			setDataChanged(false);
 			
+			
 		}
 		getAllDataCenter();
+		
 
 		//console.log(currentDataCenter);
 		
@@ -141,20 +142,46 @@ const Capacity = (props) => {
 			}	
 		}
 	}
-	
-	const selectDataCenterFloor = async(e) => {
-		
-		setCurrentDataCenter(e);
-		const data = {
-			dataCenterId: e.id,
-			month: moment().format('M') - 1,
-			year: year
-		};
+	const getCapacity = async (dataCenter) => {
 
+		const data = {
+			dataCenterId: dataCenter.id,
+			month: authContext.getMonthYear.month -1,
+			year: authContext.getMonthYear.year
+		};
+		
 		await CapacityService.index(authContext.token(),data).then(async res => {
 			
 			await setCapacityData(res.data.data);
 		})
+	}
+	const selectDataCenterFloor = async(e) => {
+		
+		getCapacity(e);
+		setCurrentDataCenter(e);
+		
+	}
+	const onFilter = async () => {
+
+		const data = {
+			dataCenterId: currentDataCenter.id,
+			month: month,
+			year: year
+		};
+		if(month >= Number(authContext.getMonthYear.month) || year > authContext.getMonthYear.year){
+			Swal.fire("You can not select future date");
+		}else{
+			
+			await CapacityService.index(authContext.token(),data).then(async res => {
+				if(Number(authContext.getMonthYear.month)-1 == Number(month) && authContext.getMonthYear.year == year){
+					setIsReadOnly(false);	
+				}else{
+					setIsReadOnly(true);
+				}
+				
+				await setCapacityData(res.data.data);
+			})
+		}
 		
 	}
 
@@ -173,14 +200,26 @@ const Capacity = (props) => {
 
 
 	const renderMonth = () => {
-		let currentMonth = moment().format("M");
-		let currentYear = moment().format("YYYY");
+		
+		let months = [];
 
-		for(let i = 1; i<= currentMonth; i++){
-			console.log(i)
+		for(let i = 1; i<=12; i++){
+			
+			months.push(moment(i,'M').format('MMM'));
 		}
+		return months.map((m,key) => <option value={key+1} key={key}>{m}</option>)
 	}
 
+	const renderYear = () => {
+
+		let years = [];
+
+		for(let i = 2022; i<=moment().format('YYYY'); i++){
+			
+			years.push(moment(i,'YYYY').format('YYYY'));
+		}
+		return years.map((y,key) => <option value={y} key={y}>{y}</option>)	
+	}
 	
 
 
@@ -282,15 +321,48 @@ const Capacity = (props) => {
             <div className="col-12 col-sm-12 col-md-12 col-lg-3">
                 <div className="left_box_month">
                 	<div className="choose_date">
-                	{renderMonth()}
+                
+                		<select 
+                		className="form-select" 
+                		aria-label="Default select example"
+                		onChange={(event) => {
+                			setMonth(event.target.value);
+                		}}
+                		defaultValue={authContext.getMonthYear.month -1 }>
+                		{
+
+                			renderMonth()
+                		}
+
+                        </select>
+                
+                  	</div>
+                  	<div className="choose_date">
+                
                 		<select 
                 		className="form-select" 
                 		aria-label="Default select example" 
-                		defaultValue="1">
+                		onChange={(event) => {
+                			setYear(event.target.value)
+                		}}
+                		defaultValue={authContext.getMonthYear.year}>
 
-                			<option value="1">Feb, 2022</option>
+                			{
+
+                				renderYear()
+                			}
+
 
                         </select>
+                
+                  	</div>
+                  	<div className="choose_date">
+                
+                		<button 
+                		className="btn btn-secondary"
+                		onClick={onFilter}
+                		>Go</button>
+                
                   	</div>
                   	<div className="excel_icon">
                       	<img src="\images\excel.png" width="25px" /> 
@@ -389,6 +461,7 @@ const Capacity = (props) => {
   	<tbody>
   		{capcityData && capcityData.map(capacity => {
 
+  			console.log("called Capacity");
   			let totalCabs = 0;
   			let totalCages = 0;
   			let totalpower = 0;
@@ -614,7 +687,7 @@ const Capacity = (props) => {
 			      		/>
 			      		)}
 			      	</td>
-			      	<td className="tbr">{numberFormat(totalCabs)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalCabs))< 0?'red':'white'}}>{numberFormat(totalCabs)}</td>
 			      	<td className="tbr">{numberFormat(totalCages)}</td>
 			      	<td className="tbr">{numberFormat(totalpower)}</td>
 		    	</tr>
