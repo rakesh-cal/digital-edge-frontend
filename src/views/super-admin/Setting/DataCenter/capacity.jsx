@@ -291,7 +291,7 @@ const Capacity = (props) => {
 <div className="row">
 	<div>
         <div className="row gy-4 align-items-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-9">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-7">
                	<div className="card-header" id="header">
                   	<div className="d-sm-flex d-block justify-content-between align-items-center">
                      	<div className="card-action coin-tabs mt-3 mt-sm-0">
@@ -315,7 +315,7 @@ const Capacity = (props) => {
                   	</div>
                </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-12 col-lg-3">
+            <div className="col-12 col-sm-12 col-md-12 col-lg-5">
                 <div className="left_box_month">
                 	<div className="choose_date">
                 
