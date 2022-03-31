@@ -512,7 +512,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      	<label >{capacity.design_cabs}</label>
 			      	):(
-			      		<input type="text"
+			      		<input type="number"
 			      		
 			      			defaultValue={capacity.design_cabs}
 			      			onChange={(event) => {
@@ -526,7 +526,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{capacity.design_cages}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		
 			      			defaultValue={capacity.design_cages}
 			      			onChange={(event) => {
@@ -540,7 +540,7 @@ const Capacity = (props) => {
 			      		{isReadOnly == true?(
 			      			<label >{numberFormat(capacity.design_power,3)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		
 			      			defaultValue={numberFormat(capacity.design_power,3)}
 			      			onChange={(event) => {
@@ -555,7 +555,7 @@ const Capacity = (props) => {
 			      		{isReadOnly == true?(
 			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cabs)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
@@ -566,7 +566,7 @@ const Capacity = (props) => {
 			      		{isReadOnly == true?(
 			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cages)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
@@ -578,7 +578,7 @@ const Capacity = (props) => {
 			      		{isReadOnly == true?(
 			      			<label >{numberFormat(capacity.monthly_utilization?.sold_power,3)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
@@ -590,7 +590,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cabs)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
@@ -602,7 +602,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cages)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
@@ -614,7 +614,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_power,3)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
@@ -626,7 +626,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cabs)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
@@ -638,7 +638,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cages)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
@@ -650,7 +650,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_power,3)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
@@ -662,7 +662,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.available_cabs)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
@@ -674,7 +674,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.available_cages)}</label>
 			      		):(
-			      		<input type="text"
+			      		<input type="number"
 			      		 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
@@ -685,7 +685,7 @@ const Capacity = (props) => {
 			      	{isReadOnly == true?(
 			      		<label >{numberFormat(capacity.monthly_utilization?.available_power,3)}</label>
 			      		):(
-			      	<input type="text"
+			      	<input type="number"
 			      	 
 			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
