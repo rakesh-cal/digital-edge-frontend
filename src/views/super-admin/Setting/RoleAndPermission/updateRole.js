@@ -57,7 +57,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		getDataCenters(data.country_id);
 		//addDataCenter(data.role_datacenter)
 		let data_Center = addDataCenter(data.role_datacenter, data.country)
-		console.log(data_Center)
+		
 		setIsOpen(show);
 		setState({
 			id: data.id,
@@ -96,7 +96,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
   }
 
   const addDataCenter = (data_centers, country) => {
-	  console.log(country.country_code)
+	
 	  if(data_centers.length > 0){
 		if(country.country_code == "global"){
 			//setPlaceHolder("All")
@@ -108,7 +108,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 				dataCenter.push({"label": k.datacenter.name, "value":k.data_center_id})
 			}
 			
-		  console.log(dataCenter)
+		 
 		  return dataCenter
 		}
 		 
@@ -149,7 +149,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 				contextStore.setDataCenter(data.allData);
 			} )
 		}
-		console.log("data center"+dataCenter)
+		
 	}
 
 	const onChangeCountry = async id => {
@@ -364,7 +364,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 
 	const renderDataCenterMulti = () => {
 		let data_center = []
-		console.log(dataCenters)
+		
 		for(const dataCenter of dataCenters){
 			data_center.push({ value: dataCenter.id, label: dataCenter.name }) 
 
@@ -373,7 +373,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 	}
 
 	const onChangeDataCenter = async value => {
-		console.log(value)
+		
 		setState({...state,dataCenter:value})
 		setDisabled(false);
 	}

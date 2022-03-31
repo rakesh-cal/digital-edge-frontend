@@ -97,18 +97,17 @@ const Test = () => {
     const getLinkedNode = data => {
 
 
-    	//console.log(linkDataArray,"tst");
-	console.log(linkData,"tst");
+    
     	const aEnd = linkData.filter(link => link.to === data.key);
     	const zEnd = linkData.filter(link => link.from === data.key);
     	if(aEnd.length){
-    		console.log(aEnd[0])
+    		
     		setANode(aEnd[0]);
     	}else{
     		setANode("");
     	}
     	if(zEnd.length){
-    		console.log(zEnd[0])
+    	
     		setZNode(zEnd[0]);
     	}else{
     		setZNode("");
@@ -141,7 +140,7 @@ const Test = () => {
     		}
     	});
     	setLinkData(filteredLink);
-    	//console.log(showButton);
+    	
     }
 
 	async function init() {
@@ -261,7 +260,7 @@ const Test = () => {
 
     	const jsonData = JSON.parse(diagram.model.toJson());
 
-    //	console.log(jsonData);
+  
     	setNodeData(jsonData.nodeDataArray);
     	setLinkData(jsonData.linkDataArray);
 
@@ -271,7 +270,7 @@ const Test = () => {
     		linked:JSON.stringify(jsonData.linkDataArray),
     		dataHalls: JSON.stringify(dataHallsArray)
     	});
-    	//console.log(jsonData,jsonData.nodeDataArray,jsonData.linkDataArray);
+    
 
     }
     const onLoad = () => {
@@ -291,7 +290,7 @@ const Test = () => {
   $(go.Node, "Auto",
    		
    new go.Binding("location", "",function(data) {
-   	//	console.log(data);
+ 
    		return new go.Point(data.x, data.y);
    		//return loc;
    }).makeTwoWay((loc,data,model)=> {
@@ -307,7 +306,7 @@ const Test = () => {
    	 		}
    	 	});
    	 	setNodeData(localData);
-   	 	//console.log(data);
+   	 	
 
    }),  // get the Node.location from the data.loc value
     $(go.Shape, "Rectangle",
@@ -472,7 +471,7 @@ const Test = () => {
 										toggleColorBtn(showButton,color,false);
 									}
 
-									//console.log(showButton);
+								
 									setShowButton(showButton);
 									showSelectColor(showButton)
 								}} />

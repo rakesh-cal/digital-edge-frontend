@@ -11,8 +11,7 @@ import moment from 'moment';
 import {numberFormat} from 'common/helpers';
 import Swal from 'sweetalert2';
 
-const startMonth = 1;
-const startYear = 2022;
+
 const Capacity = (props) => {
 	const authContext = useContext(AuthContext);
 	const [dataCenter, setDataCenter] = useState([])
@@ -56,8 +55,6 @@ const Capacity = (props) => {
 		}
 		getAllDataCenter();
 		
-
-		//console.log(currentDataCenter);
 		
 	},[authContext.getFloor,currentDataCenter,isDataChanged]);
 
@@ -461,7 +458,6 @@ const Capacity = (props) => {
   	<tbody>
   		{capcityData && capcityData.map(capacity => {
 
-  			console.log("called Capacity");
   			let totalCabs = 0;
   			let totalCages = 0;
   			let totalpower = 0;
@@ -469,8 +465,8 @@ const Capacity = (props) => {
   			if (capacity.monthly_utilization == null) {
   				
 	  			capacity.monthly_utilization = {
-					month: Number(month) - 1,
-					year: year,
+					month: Number(authContext.getMonthYear.month) - 1,
+					year: authContext.getMonthYear.year,
 					data_hall_id: capacity.id,
 					data_center_id: currentDataCenter.id,
 					country_id: currentDataCenter.country_id,

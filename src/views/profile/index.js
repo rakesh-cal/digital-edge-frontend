@@ -26,17 +26,11 @@ const Profile = () => {
         email: "",
         password: "",
         confirm_password: ""
-	});
-
-	useEffect(() => {
-        
-		console.log(contextStore.getAuth)
-        //getUserData()
-	},[]); 
+	}); 
 
     const getUserData = async () => {
         await ProfileService.get(contextStore.token()).then(res => {
-            console.log(res.data.data)
+           
             setState({...state,
                 name: res.data.data.name,
                 email: res.data.data.email,
@@ -121,7 +115,7 @@ const Profile = () => {
 
     const onChangePicture = e => {
         if (e.target.files[0]) {
-          console.log("picture: ", e.target.files);
+       
           var FR= new FileReader();
     
         FR.addEventListener("load", function(e) {
@@ -132,7 +126,7 @@ const Profile = () => {
         });
         FR.readAsDataURL( e.target.files[0] );
         }
-        console.log(state)
+       
       };
 
       const getStatus = status => {
