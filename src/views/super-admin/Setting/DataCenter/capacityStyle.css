@@ -1,9 +1,10 @@
 .choose_date select {
-             padding: 10px 10px;
+             padding: 5px 10px;
              border-radius: 5px;
              font-size: 1.125rem;
              font-weight: 500;
              font-family: 'DM sans';
+             border: 1px solid #aaa;
 }
 .left_box_month {
     display: flex;
@@ -88,7 +89,7 @@ td.bg_gray input {
     padding: 0px 5px;
 }
 .choose_date button.btn.btn-secondary {
-    padding: 10px 1rem;
-    width: 8rem;
+    padding: 5px 1rem;
+    width: 4rem;
     border-radius: 5px;
 }
