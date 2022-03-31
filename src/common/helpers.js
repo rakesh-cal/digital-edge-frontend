@@ -8,15 +8,19 @@ export const numberFormat = (x,decimal = 0) => {
 	if (decimal === 0 && x > 1 ) {
 
 		let newNumber = parseInt(Math.round(x));
-    	return  newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    	let replacedNumber = newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    	return isNaN(replacedNumber)?0:replacedNumber;
 
 	}else if(decimal === 0 && x < 1 && x > 0){
-		return Number(x).toFixed(3);
+		let newNumber =  Number(x).toFixed(3);
+		return isNaN(newNumber)?0:newNumber;		
 	}
 
 
 	let newNumber = Number(x).toFixed(decimal);
 	
-    return  newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let decimalNum = newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+    return isNaN(decimalNum)?0:decimalNum;
 
 }
