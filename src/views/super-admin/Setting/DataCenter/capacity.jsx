@@ -475,24 +475,33 @@ const Capacity = (props) => {
   				totalCages = Number(capacity.design_cages);
   				totalpower = Number(capacity.design_power);
   			}else{
-  				let subCab = Number(capacity.monthly_utilization?.sold_cabs) + Number(capacity.monthly_utilization?.reserved_cabs)+ Number(capacity.monthly_utilization?.blocked_cabs)+ Number(capacity.monthly_utilization?.available_cabs);
 
-  				let subCages = (Number(capacity.monthly_utilization?.sold_cages) + Number(capacity.monthly_utilization?.reserved_cages)+ Number(capacity.monthly_utilization?.blocked_cages)+ Number(capacity.monthly_utilization?.available_cages));
+  				let subCab = Number(capacity.monthly_utilization?.sold_cabs || 0) + Number(capacity.monthly_utilization?.reserved_cabs || 0)+ Number(capacity.monthly_utilization?.blocked_cabs || 0)+ Number(capacity.monthly_utilization?.available_cabs || 0);
 
-  				let subPower = (Number(capacity.monthly_utilization?.sold_power) + Number(capacity.monthly_utilization?.reserved_power)+ Number(capacity.monthly_utilization?.blocked_power)+ Number(capacity.monthly_utilization?.available_power));
+  				let subCages = (Number(capacity.monthly_utilization?.sold_cages || 0) + Number(capacity.monthly_utilization?.reserved_cages || 0)+ Number(capacity.monthly_utilization?.blocked_cages || 0)+ Number(capacity.monthly_utilization?.available_cages || 0));
+
+  				let subPower = (Number(capacity.monthly_utilization?.sold_power || 0) + Number(capacity.monthly_utilization?.reserved_power || 0)+ Number(capacity.monthly_utilization?.blocked_power || 0)+ Number(capacity.monthly_utilization?.available_power || 0));
   					
   				if (isNaN(subCab) === false) {
 
   					totalCabs = Number(capacity.design_cabs) - subCab;
+  				}else{
+  					totalCabs = Number(capacity.design_cabs);
   				}
   				if(isNaN(subCages) === false){
 
   					totalCages = Number(capacity.design_cages) - subCages;
+  				}else{
+  					totalCages = Number(capacity.design_cages);
   				}
   				if(isNaN(subPower) === false){
 
   					totalpower = Number(capacity.design_power) - subPower;
+  				}else{
+  					totalpower = Number(capacity.design_power);
   				}
+
+  				console.log(subCab,"subCab");
   			}
 
   			return(
@@ -529,11 +538,11 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      		{isReadOnly == true?(
-			      			<label >{capacity.design_power}</label>
+			      			<label >{numberFormat(capacity.design_power,3)}</label>
 			      		):(
 			      		<input type="text"
 			      		
-			      			defaultValue={capacity.design_power}
+			      			defaultValue={numberFormat(capacity.design_power,3)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
@@ -544,22 +553,22 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label >{capacity.monthly_utilization?.sold_cabs}</label>
+			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cabs)}</label>
 			      		):(
 			      		<input type="text"
 			      		
-			      			defaultValue={capacity.monthly_utilization?.sold_cabs}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="tbr">
 			      		{isReadOnly == true?(
-			      			<label >{capacity.monthly_utilization?.sold_cages}</label>
+			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cages)}</label>
 			      		):(
 			      		<input type="text"
 			      		
-			      			defaultValue={capacity.monthly_utilization?.sold_cages}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
 			      		)}
@@ -567,11 +576,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label >{capacity.monthly_utilization?.sold_power}</label>
+			      			<label >{numberFormat(capacity.monthly_utilization?.sold_power,3)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.sold_power}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
 			      		/>
 			      		)}
@@ -579,11 +588,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.reserved_cabs}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cabs)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.reserved_cabs}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
 			      		)}
@@ -591,11 +600,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.reserved_cages}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cages)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.reserved_cages}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
 			      		)}
@@ -603,11 +612,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.reserved_power}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_power,3)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.reserved_power}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
 			      		)}
@@ -615,11 +624,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.blocked_cabs}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cabs)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.blocked_cabs}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
 			      		)}
@@ -627,11 +636,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.blocked_cages}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cages)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.blocked_cages}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
 			      		)}
@@ -639,11 +648,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.blocked_power}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_power,3)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.blocked_power}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
 			      		)}
@@ -651,11 +660,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.available_cabs}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.available_cabs)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.available_cabs}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
 			      		)}
@@ -663,29 +672,29 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.available_cages}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.available_cages)}</label>
 			      		):(
 			      		<input type="text"
 			      		 
-			      			defaultValue={capacity.monthly_utilization?.available_cages}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="tbr">
 			      	{isReadOnly == true?(
-			      		<label >{capacity.monthly_utilization?.available_power}</label>
+			      		<label >{numberFormat(capacity.monthly_utilization?.available_power,3)}</label>
 			      		):(
 			      	<input type="text"
 			      	 
-			      			defaultValue={capacity.monthly_utilization?.available_power}
+			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalCabs))< 0?'red':'white'}}>{numberFormat(totalCabs)}</td>
-			      	<td className="tbr">{numberFormat(totalCages)}</td>
-			      	<td className="tbr">{numberFormat(totalpower)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalCages))< 0?'red':'white'}}>{numberFormat(totalCages)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalpower))< 0?'red':'white'}}>{numberFormat(totalpower,3)}</td>
 		    	</tr>
   			)
   		})}
