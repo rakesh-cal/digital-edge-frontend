@@ -9,6 +9,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap:1rem;
 }
 .choose_date{
    width: 80%;
@@ -85,4 +86,9 @@ td.tbr input {
 td.bg_gray input {
     max-width: 55px;
     padding: 0px 5px;
+}
+.choose_date button.btn.btn-secondary {
+    padding: 10px 1rem;
+    width: 8rem;
+    border-radius: 5px;
 }
