@@ -538,7 +538,7 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      		{isReadOnly == true?(
-			      			<label >{isReadOnly == true?(numberFormat2(capacity.monthly_utilization?.total_power)):numberFormat2(capacity.design_power,3)}</label>
+			      			<label >{isReadOnly == true?(numberFormat2(capacity.monthly_utilization?.total_power,3)):numberFormat2(capacity.design_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		
