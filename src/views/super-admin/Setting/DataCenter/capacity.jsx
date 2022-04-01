@@ -509,7 +509,7 @@ const Capacity = (props) => {
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
 			      	{isReadOnly == true?(
-			      	<label >{capacity.design_cabs}</label>
+			      	<label >{isReadOnly == true?(capacity.monthly_utilization?.total_cabs || 0):capacity.design_cabs}</label>
 			      	):(
 			      		<input type="number"
 			      		
@@ -523,7 +523,8 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      	{isReadOnly == true?(
-			      		<label >{capacity.design_cages}</label>
+			      		
+			      		<label >{isReadOnly == true?(capacity.monthly_utilization?.total_cages || 0):capacity.design_cages}</label>
 			      		):(
 			      		<input type="number"
 			      		
@@ -537,7 +538,7 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      		{isReadOnly == true?(
-			      			<label >{numberFormat2(capacity.design_power,3)}</label>
+			      			<label >{isReadOnly == true?(numberFormat2(capacity.monthly_utilization?.total_power)):numberFormat2(capacity.design_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		
