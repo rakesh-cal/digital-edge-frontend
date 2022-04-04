@@ -462,6 +462,9 @@ const DataCenter = (props) => {
 	            <tbody id="cardnew">
 	            {
 	                dataHall && dataHall.length > 0 && dataHall.map((res)=>{
+	                	if(res.deletedAt != null){
+	                		return null;
+	                	}
 	                    return <tr key={res.id}>
 	                        <th className="pd-l bold-txt"> 
 	                        {res.name} 

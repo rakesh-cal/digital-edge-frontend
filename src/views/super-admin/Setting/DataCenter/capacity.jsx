@@ -508,191 +508,157 @@ const Capacity = (props) => {
 			      	<td>{capacity.floor.name} </td>
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
-			      	{isReadOnly == true?(
-			      	<label >{isReadOnly == true?(capacity.monthly_utilization?.total_cabs || 0):capacity.design_cabs}</label>
-			      	):(
+			      
 			      		<input type="number"
-			      		
-			      			value={capacity.design_cabs}
+			      			value={ isReadOnly?capacity.monthly_utilization?.total_cabs:capacity.design_cabs}
 			      			onChange={(event) => {
 			      				capacity.design_cabs = event.target.value;
 			      				onChangeData(event,capacity,'total_cabs')
 			      			}}
 			      		/>
-			      	)}
+			     
 			      	</td>
 			      	<td className="bg_gray">
-			      	{isReadOnly == true?(
-			      		
-			      		<label >{isReadOnly == true?(capacity.monthly_utilization?.total_cages || 0):capacity.design_cages}</label>
-			      		):(
+			      	
 			      		<input type="number"
 			      		
-			      			value={capacity.design_cages}
+			      			value={isReadOnly?capacity.monthly_utilization?.total_cages:capacity.design_cages}
 			      			onChange={(event) => {
 			      				capacity.design_cages = event.target.value;
 			      				onChangeData(event,capacity,'total_cages')
 			      			}}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="bg_gray">
-			      		{isReadOnly == true?(
-			      			<label >{isReadOnly == true?(numberFormat2(capacity.monthly_utilization?.total_power,3)):numberFormat2(capacity.design_power,3)}</label>
-			      		):(
+			      		
 			      		<input type="number"
 			      		
-			      			value={numberFormat2(capacity.design_power,3)}
+		value={isReadOnly?numberFormat2(capacity.monthly_utilization?.total_power):numberFormat2(capacity.design_power)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
 			      			}}
 			      		/>
-			      		)}
+			      	
 			      	</td>
 			      	<td className="tbr">
 
-			      		{isReadOnly == true?(
-			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_cabs)}</label>
-			      		):(
+			      		
 			      		<input type="number"
 			      			
 			      			value={numberFormat2(capacity.monthly_utilization?.sold_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
 			      		/>
 
-			      		)}
+			      		
 			      		
 			      	</td>
 			      	<td className="tbr">
-			      		{isReadOnly == true?(
-			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_cages)}</label>
-			      		):(
+			      		
 			      		<input type="number"
 			      		
 			      			value={numberFormat2(capacity.monthly_utilization?.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 
-			      		{isReadOnly == true?(
-			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_power,3)}</label>
-			      		):(
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.sold_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_cabs)}</label>
-			      		):(
+			      
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
-			      		)}
+			      	
 			      	</td>
 			      	<td className="tbr">
-			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_cages)}</label>
-			      		):(
+			      	
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
-			      		)}
+			      	
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_power,3)}</label>
-			      		):(
+			      	
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.reserved_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_cabs)}</label>
-			      		):(
+			      
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_cages)}</label>
-			      		):(
+			      
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_power,3)}</label>
-			      		):(
+			      
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.blocked_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.available_cabs)}</label>
-			      		):(
+			      
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
-			      		)}
+
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.available_cages)}</label>
-			      		):(
+			      	
 			      		<input type="number"
 			      		 
 			      			value={numberFormat2(capacity.monthly_utilization?.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
-			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
-			      	{isReadOnly == true?(
-			      		<label >{numberFormat2(capacity.monthly_utilization?.available_power,3)}</label>
-			      		):(
+			      
 			      	<input type="number"
 			      	 
 			      			value={numberFormat2(capacity.monthly_utilization?.available_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
-			      		)}
+			      	
 			      	</td>
 			      	<td className="tbr" style={{backgroundColor: Number(numberFormat2(totalCabs))< 0?'red':'white'}}>{numberFormat2(totalCabs)}</td>
 			      	<td className="tbr" style={{backgroundColor: Number(numberFormat2(totalCages))< 0?'red':'white'}}>{numberFormat2(totalCages)}</td>
@@ -703,7 +669,7 @@ const Capacity = (props) => {
   </tbody>
 </table>
             </div> 
-            {isReadOnly === false?(
+         
             <div className="monthly_last_btn">
                <div className="toolbar toolbar-bottom d-flex" role="toolbar">   
                    <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
@@ -715,7 +681,7 @@ const Capacity = (props) => {
                    data-bs-target=".bd-example-modal-lg"> Save </button>
                </div>
             </div>
-            ):null}
+         
             <div>
                       
                      <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
