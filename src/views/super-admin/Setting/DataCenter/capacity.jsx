@@ -88,7 +88,6 @@ const Capacity = (props) => {
 		modalRef.current.click();
 	}
 	
-
 	const getAllDataCenter = async () => {
 		setCountryName("Country");
 		if(authContext.getDataCenters.length === 0){
@@ -465,7 +464,7 @@ const Capacity = (props) => {
   			if (capacity.monthly_utilization == null) {
   				
 	  			capacity.monthly_utilization = {
-					month: Number(authContext.getMonthYear.month) - 1,
+					month: month?month:Number(authContext.getMonthYear.month) - 1,
 					year: authContext.getMonthYear.year,
 					data_hall_id: capacity.id,
 					data_center_id: currentDataCenter.id,
@@ -510,7 +509,7 @@ const Capacity = (props) => {
 			      	<td className="bg_gray">
 			      
 			      		<input type="number"
-			      			value={ isReadOnly?capacity.monthly_utilization?.total_cabs:capacity.design_cabs}
+			      			value={ isReadOnly?(capacity.monthly_utilization?.total_cabs || 0):capacity.design_cabs}
 			      			onChange={(event) => {
 			      				capacity.design_cabs = event.target.value;
 			      				onChangeData(event,capacity,'total_cabs')
@@ -522,7 +521,7 @@ const Capacity = (props) => {
 			      	
 			      		<input type="number"
 			      		
-			      			value={isReadOnly?capacity.monthly_utilization?.total_cages:capacity.design_cages}
+			      			value={isReadOnly?(capacity.monthly_utilization?.total_cages || 0):capacity.design_cages}
 			      			onChange={(event) => {
 			      				capacity.design_cages = event.target.value;
 			      				onChangeData(event,capacity,'total_cages')
@@ -534,7 +533,7 @@ const Capacity = (props) => {
 			      		
 			      		<input type="number"
 			      		
-		value={isReadOnly?numberFormat2(capacity.monthly_utilization?.total_power):numberFormat2(capacity.design_power)}
+		value={isReadOnly?numberFormat2((capacity.monthly_utilization?.total_power || 0)):numberFormat2(capacity.design_power)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
@@ -547,7 +546,7 @@ const Capacity = (props) => {
 			      		
 			      		<input type="number"
 			      			
-			      			value={numberFormat2(capacity.monthly_utilization?.sold_cabs)}
+			      			value={numberFormat2((capacity.monthly_utilization?.sold_cabs || 0))}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
 			      		/>
 
