@@ -143,8 +143,8 @@ const Capacity = (props) => {
 
 		const data = {
 			dataCenterId: dataCenter.id,
-			month: authContext.getMonthYear.month -1,
-			year: authContext.getMonthYear.year
+			month: month?month:authContext.getMonthYear.month -1,
+			year: year?year:authContext.getMonthYear.year
 		};
 		
 		await CapacityService.index(authContext.token(),data).then(async res => {
