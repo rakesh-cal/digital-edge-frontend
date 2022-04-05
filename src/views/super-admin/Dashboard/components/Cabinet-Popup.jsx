@@ -27,7 +27,7 @@ const CabinetPopup = (props) => {
      </div>
      <div class="content">
         <p>#Xconnects</p><p>${val.num_xconnents != null ? val.num_xconnents : 0}</p>
-     </div>`
+     </div>` 
     }
 
     const returnEdited = (data, data_hall_id, data_center, selectedFloor, jsondata) => {
