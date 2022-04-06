@@ -29,7 +29,7 @@ export const numberFormat2 = (x,decimal = 0) => {
 	}
 
 
-	let newNumber = Number(x).toFixed(decimal);
+	let newNumber = Number(x);
 	return isNaN(newNumber)?0:newNumber;
 	
 
