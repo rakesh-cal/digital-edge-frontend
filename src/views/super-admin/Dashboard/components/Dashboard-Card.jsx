@@ -3,6 +3,12 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import AuthContext from "context";
 import {numberFormat} from "common/helpers";
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available } from "components/ColorTile";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -72,7 +78,6 @@ const DashboardCard = ({cardData}) => {
 		let total = 0;
 		let totalAvail = 0;
 		let totalsold = 0;
-
 		if(floors.length){
 			let cabData = graphData.filter(data => data.title === 'Cabinets');
 			floors.map(floor => {
@@ -81,13 +86,14 @@ const DashboardCard = ({cardData}) => {
 				totalsold += floor.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0);
 			});
 
+
 			totalAvail = total - totalsold;
 
 			cabData[0].totalNumber = total;
 			cabData[0].graph = [totalsold,totalAvail];
 
 			const res = graphData.map(obj => cabData.find(o => o.title === obj.title) || obj);
-
+			console.log(res);
 			setGraphData(res);
 		}else{
 			let cabData = graphData.filter(data => data.title === 'Cabinets');
@@ -238,13 +244,19 @@ const DashboardCard = ({cardData}) => {
 							<h3>{data.title}</h3>
 						</div>
 						<div className="txt_card_2">
-							{data.types.map((type,i) => {
+							<InService/> In Services
+							<Reserved/> Reserved
+							<ROFR/> ROFR
+							<Blocked/> Blocked
+							<Available/> Available
+
+							{/*{data.types.map((type,i) => {
 								return(
 									<p key={i}>
 										<img src={type.imagePath} width="13px" /> {type.title}
 									</p>
 								)
-							})}
+							})}*/}
 						</div>
 					</div>
 					<div className="card_diag outer" style={{height:"200px",width:"200px"}}>

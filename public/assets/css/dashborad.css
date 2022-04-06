@@ -141,7 +141,7 @@ ul.navbar-nav.right_sec li {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #E7E8E9;
-    padding: .2rem .5rem .1rem 1rem;
+    padding: .2rem .5rem .1rem .7rem;
 }
 .card_diag img {
     width: 200px;
@@ -150,8 +150,11 @@ ul.navbar-nav.right_sec li {
 .txt_card_2 {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-left: 10px;
+    align-items: flex-start;
+    margin-left: .3rem;
+    font-size: 0.563rem;
+    gap: 2px;
+    color:#000;
 }
 .txt_card h3{
     font-family:'DM SANS';

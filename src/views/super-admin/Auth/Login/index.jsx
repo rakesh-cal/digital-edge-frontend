@@ -30,8 +30,9 @@ const Login = () => {
 
 
 	useEffect(() => {
-		if(location.pathname === "/" && token){
-
+		console.log(location.pathname)
+		if(token){
+			
 			verifyEmail({vToken:token}).then(res => {
 				setMessage({
 					message:res.data.message,

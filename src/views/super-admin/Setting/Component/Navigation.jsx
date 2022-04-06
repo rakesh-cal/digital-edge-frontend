@@ -34,7 +34,7 @@ const Navigation = () => {
 	return(
 		<div className="container-fluid">
 			<div id="title">
-                <h4 className="card-title"> Settings </h4>
+                <h4 className="card-title"> Settings2 </h4>
                 <p> Manage users, roles & permissions and data centers </p>
             </div>
 

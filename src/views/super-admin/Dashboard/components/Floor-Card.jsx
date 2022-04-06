@@ -1,6 +1,12 @@
 import React from 'react';
 import { floorData } from '../data';
 import FloorTable from './FloorTable';
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available } from "components/ColorTile";
 
 const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
 	return(
@@ -19,12 +25,11 @@ const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
 						</div>*/}
 
 					<div className="txt_card_2">
-						<p>
-							<img src="/images/orange.png" width="13px"/> Sold
-						</p>
-						<p>
-							<img src="/images/green.png" width="13px" /> Available
-						</p>
+						
+						<InService/> Sold
+						
+						<Available/> Available
+						
 					</div>
 					</div>
                     <div className='table_scrll'>

@@ -4,6 +4,12 @@ import { hallData } from '../data';
 import CabinetPopup from './Cabinet-Popup'
 import CabinetServices from "../../../../services/CabinetService";
 import AuthContext from "context";
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available } from "components/ColorTile";
 
 const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
 	const authContext = useContext(AuthContext);
@@ -29,12 +35,11 @@ const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
 					</div>
 				
 					<div className="txt_card_2">
-						<p>
-							<img src="/images/orange.png" width="13px"/> In Services
-						</p>
-						<p>
-							<img src="/images/green.png" width="13px" /> Available
-						</p>
+						
+						<InService/> In Services
+						
+						<Available/> Available
+						
 					</div>
 				</div>
 				<div className="card-body">
