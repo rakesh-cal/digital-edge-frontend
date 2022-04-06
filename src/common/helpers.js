@@ -5,16 +5,18 @@ export const validateEmail = email => {
 };
 
 export const numberFormat = (x,decimal = 0) => {
+	
+	let newNumber = Number(x);
+
 	if (decimal === 0 ) {
 
-		let newNumber = parseInt(Math.round(x));
-    	return newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+    	let newNumber2 = newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    	return isNaN(newNumber)?0:newNumber2;
 	}
-
-	let newNumber = Number(x).toFixed(decimal);
 	
-   	return newNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+   	let newNumber2 = newNumber.toFixed(decimal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+   	return isNaN(newNumber)?0:newNumber2;
 
 }
 

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import Floors from "services/floorServices" 
 import Modal from 'react-modal';
 import Common from "services/commonService";
+import {numberFormat} from "common/helpers";
 
 const customStyles = {
     content: {
@@ -23,27 +24,32 @@ const EditFloor = (props) => {
 	const authContext = useContext(AuthContext);
     const [isLoading,setIsLoading] = useState(false);
     const [statusData,setStatusData] = useState([]);
+    const [dataState,setDataState] = useState({
+    	design_power:0,
+    	design_cabs:0,
+    	design_cages:0,
+    	sold_power:0,
+    	sold_cabs:0,
+    	sold_cages:0,
+    	reserved_power:0,
+    	reserved_cabs:0,
+    	reserved_cages:0,
+    	rofr_power:0,
+    	rofr_cabs:0,
+    	rofr_cages:0,
+    	blocked_power:0,
+    	blocked_cabs:0,
+    	blocked_cages:0
+    });
 
     const [state,setState] = useState({
         floor_id:"",
 		name:"",
-		/*soldCabinet:"",
-		cabinet:"",
-		cages:"",
-		soldCages:"",*/
 		status:""
-		/*kva:"",
-		soldkva:""*/
 	});
     const [error,setError] = useState({
 		name:"",
-		/*soldCabinet:"",
-		cabinet:"",
-		cages:"",
-		soldCages:"",*/
 		status:""
-		/*kva:"",
-		soldkva:""*/
 	});
 
 	useEffect(() => {
@@ -53,14 +59,10 @@ const EditFloor = (props) => {
         setState({
             floor_id: props.floor_data.id,
             name: props.floor_data.name,
-			cabinet: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0),
-			kva: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0),
-			soldCabinet: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0),
-			cages: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0),
-			soldCages: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0),
-			soldkva: props.floor_data.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0),
 			status:props.floor_data.status,
         });
+        calculateDataHall();
+        
         //props.selectDataCenterFloor(props.data_center_id);
 
         return () => {
@@ -267,6 +269,82 @@ const EditFloor = (props) => {
 		}
 	}
 
+	const calculateDataHall = () => {
+
+		const data = props.floor_data.data_halls.reduce(
+        	({
+        		preTotalCabs,
+        		preTotalCage,
+        		preTotalPower,
+        		preSoldCabs,
+        		preSoldCage,
+        		preSoldPower,
+        		preReservedCabs,
+        		preReservedCage,
+        		preReservedPower,
+        		preROFRCabs,
+        		preROFRCage,
+        		preROFRPower,
+        		preBlockedCabs,
+        		preBlockedCage,
+        		preBlockedPower
+        	},{
+        		design_power,
+	    		design_cabs,
+	    		design_cages,
+	    		sold_power,
+	    		sold_cabs,
+	    		sold_cages,
+	    		reserved_power,
+	    		reserved_cabs,
+	    		reserved_cages,
+	    		rofr_power,
+	    		rofr_cabs,
+	    		rofr_cages,
+	    		blocked_power,
+	    		blocked_cabs,
+	    		blocked_cages
+	    	}) => {
+        		return {
+        			design_power: Number(preTotalPower) + Number(design_power),
+			    	design_cabs: Number(preTotalCabs) + Number(design_cabs),
+			    	design_cages: Number(preTotalCage) + Number(design_cages),
+			    	sold_power: Number(preSoldPower) + Number(sold_power),
+			    	sold_cabs: Number(preSoldCabs) + Number(sold_cabs),
+			    	sold_cages: Number(preSoldCage) + Number(sold_cages),
+			    	reserved_power: Number(preReservedPower) + Number(reserved_power),
+			    	reserved_cabs: Number(preReservedCabs) + Number(reserved_cabs),
+			    	reserved_cages: Number(preReservedCage) + Number(reserved_cages),
+			    	rofr_power: Number(preROFRPower) + Number(rofr_power),
+			    	rofr_cabs: Number(preROFRCabs) + Number(rofr_cabs),
+			    	rofr_cages: Number(preROFRCage) + Number(rofr_cages),
+			    	blocked_power: Number(preBlockedPower) + Number(blocked_power),
+			    	blocked_cabs: Number(preBlockedCabs) + Number(blocked_cabs),
+			    	blocked_cages: Number(preBlockedCage) + Number(blocked_cages)
+        		}
+        	},
+        	{
+        		preTotalCabs: 0,
+        		preTotalCage: 0,
+        		preTotalPower: 0,
+        		preSoldCabs: 0,
+        		preSoldCage: 0,
+        		preSoldPower: 0,
+        		preReservedCabs: 0,
+        		preReservedCage: 0,
+        		preReservedPower: 0,
+        		preROFRCabs: 0,
+        		preROFRCage: 0,
+        		preROFRPower: 0,
+        		preBlockedCabs: 0,
+        		preBlockedCage: 0,
+        		preBlockedPower: 0
+        	}
+        );
+
+		setDataState({...data})
+	}
+
     return (
     	<div className="modal show bd-example-modal-lg"
     	style={{display:'block'}}
@@ -293,8 +371,54 @@ const EditFloor = (props) => {
                 <XError message={error.name} />
             </div>									
         </div>
+         <div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <table>
+                	<thead>
+	                	<tr style={{borderBottom:"2px solid black"}}>
+	                		<th></th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>CabEs</th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>Cages</th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>kWs</th>
+	                	</tr>
+                	</thead>
+                	<tbody>
+                		<tr>
+                			<td>Total: </td>
+                			<td>{numberFormat(dataState.design_cabs)}</td>
+                			<td>{numberFormat(dataState.design_cages)}</td>
+                			<td>{numberFormat(dataState.design_power,3)}</td>
+                		</tr>
+                		<tr>
+                			<td>Sold: </td>
+                			<td>{numberFormat(dataState.sold_cabs)}</td>
+                			<td>{numberFormat(dataState.sold_cages)}</td>
+                			<td>{numberFormat(dataState.sold_power,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>Reserved: </td>
+                			<td>{numberFormat(dataState.reserved_cabs)}</td>
+                			<td>{numberFormat(dataState.reserved_cages)}</td>
+                			<td>{numberFormat(dataState.reserved_power,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>ROFR: </td>
+                			<td>{numberFormat(dataState.rofr_cabs)}</td>
+                			<td>{numberFormat(dataState.rofr_cages)}</td>
+                			<td>{numberFormat(dataState.rofr_power,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>Blocked: </td>
+                			<td>{numberFormat(dataState.blocked_cabs)}</td>
+                			<td>{numberFormat(dataState.blocked_cages)}</td>
+                			<td>{numberFormat(dataState.blocked_power,3)}</td>
+                		</tr> 
+                	</tbody>
+                </table>
+            </div>									
+        </div>
         
-        <div className="row">
+        {/*<div className="row">
             <div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                <input 
@@ -369,8 +493,8 @@ const EditFloor = (props) => {
                 
                 />
                 <XError message={error.kva} />
-            </div>	
-			<div className="mb-3 col-md-6 mt-2313">
+            </div>	*/}
+			{/*<div className="mb-3 col-md-6 mt-2313">
                 <label className="form-label"> Sold kWs <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
@@ -380,30 +504,11 @@ const EditFloor = (props) => {
                 defaultValue={state.soldkva}
                 style={{border:"oldlace"}}
                 readOnly
-                //onChange={(event) => validateSoldPower(event)
-                /*{
-                	let value = event.target.value.replace(/[^\d]/,'');
-
-                	if( Number(value) <= Number(state.kva)){
-                		setError({
-							...error,
-							soldkva:""
-						});
-	                	setState({
-		                	...state,
-		                	soldkva:event.target.value.length<=9?value:state.soldkva
-	                	});
-                	}else{
-				        setError({
-							...error,
-							soldkva:"Sold kWs should not greater than total kWs"
-						})
-                	}
-                }}*/
+               
                 />
                 <XError message={error.soldkva} />
             </div>								
-        </div>
+        </div>*/}
 		<div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Status <small className="text-danger">*</small></label>

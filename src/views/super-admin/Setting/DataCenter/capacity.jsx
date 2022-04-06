@@ -307,7 +307,6 @@ const Capacity = (props) => {
 	                              	id="tab2" 
 	                              	data-bs-toggle="tab" 
 	                              	href="#"> Thresholds</a>
-	                              	{isReadOnly?"Read Only On":"Read Only Off"}
 	                           </li>
                         	</ul>
                      	</div>
