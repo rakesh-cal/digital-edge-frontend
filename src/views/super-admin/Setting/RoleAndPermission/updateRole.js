@@ -154,7 +154,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 
 	const onChangeCountry = async id => {
 
-		setState({...state,country:id})
+		//setState({...state,country:id})
 
 		await getDataCenters(id);
 		if(id){
@@ -162,6 +162,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		}else{
 			setPlaceHolder("Select")
 		}
+		setState({...state,dataCenter:null,country:id})
 
 		// let filterCountry = countries
 		// console.log(filterCountry)

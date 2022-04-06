@@ -72,13 +72,14 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 	}
 
 	const onChangeCountry = async id => {
-		setState({...state,country:id})
+		//setState({...state,country:id})
 		await getDataCenters(id);
 		if(id){
 			setPlaceHolder("All")
 		}else{
 			setPlaceHolder("Select")
 		}
+		setState({...state,dataCenter:null,country:id})
 		
 		// let filterCountry = countries
 		// console.log(filterCountry)
