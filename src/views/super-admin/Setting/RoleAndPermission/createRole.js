@@ -282,7 +282,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                            Country <small className="text-danger">*</small>
 		                                        </label>
 		                                        <select 
-		                                        defaultValue="" 
+		                                        value={state.country} 
 		                                        onChange={event => onChangeCountry(event.target.value)}
 		                                        className="default-select form-control wide"
 		                                        >	<option value="">Choose...</option>
@@ -312,7 +312,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label"> 
 		                                        Space <small className="text-danger">*</small>
 		                                        </label>
-		                                        <select 
+		                                        <select value={state.space} 
 		                                        onChange={event => {
 		                                        	setState({...state,space:event.target.value});
 		                                        }}
@@ -333,7 +333,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        M&E <small className="text-danger">*</small>
 		                                        </label>
 		                                        <select 
-		                                      
+		                                      	value={state.monitorAndEvalution}
 		                                        onChange={event => {
 		                                        	setState({
 		                                        	...state,
@@ -359,7 +359,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label">
 		                                        Network <small className="text-danger">*</small>
 		                                        </label>
-		                                        <select 
+		                                        <select value={state.network}
 		                                        onChange={event => {
 		                                        	setState({
 		                                        	...state,
