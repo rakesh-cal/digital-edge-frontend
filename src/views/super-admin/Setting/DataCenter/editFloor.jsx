@@ -372,7 +372,7 @@ const EditFloor = (props) => {
             </div>									
         </div>
          <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            <div className="mb-3 col-md-12 mt-2313 dt_td">
                 <table>
                 	<thead>
 	                	<tr style={{borderBottom:"2px solid black"}}>

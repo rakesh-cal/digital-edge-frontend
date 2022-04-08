@@ -528,7 +528,7 @@ const EditDataHall = (props) => {
             </div>								
         </div>*/}
         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
+            <div className="mb-3 col-md-12 mt-2313 dt_td">
                 <table>
                 	<thead>
 	                	<tr style={{borderBottom:"2px solid black"}}>
@@ -541,7 +541,7 @@ const EditDataHall = (props) => {
                 	<tbody>
                 		<tr>
                 			<td>Total: </td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text"
                 				value={state?.design_cabs || ""}
@@ -550,7 +550,7 @@ const EditDataHall = (props) => {
                 					design_cabs:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.design_cages || ""}
@@ -559,7 +559,7 @@ const EditDataHall = (props) => {
                 					design_cages:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.design_power || ""}
@@ -571,7 +571,7 @@ const EditDataHall = (props) => {
                 		</tr>
                 		<tr>
                 			<td>Sold: </td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.sold_cabs || ""}
@@ -580,7 +580,7 @@ const EditDataHall = (props) => {
                 					sold_cabs:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.sold_cages || ""}
@@ -589,7 +589,7 @@ const EditDataHall = (props) => {
                 					sold_cages:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.sold_power || ""}
@@ -601,7 +601,7 @@ const EditDataHall = (props) => {
                 		</tr> 
                 		<tr>
                 			<td>Reserved: </td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.reserved_cabs || ""}
@@ -610,7 +610,7 @@ const EditDataHall = (props) => {
                 					reserved_cabs:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.reserved_cages || ""}
@@ -619,7 +619,7 @@ const EditDataHall = (props) => {
                 					reserved_cages:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.reserved_power || ""}
@@ -631,7 +631,7 @@ const EditDataHall = (props) => {
                 		</tr> 
                 		<tr>
                 			<td>ROFR: </td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.rofr_cabs || ""}
@@ -640,7 +640,7 @@ const EditDataHall = (props) => {
                 					rofr_cabs:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.rofr_cages || ""}
@@ -649,7 +649,7 @@ const EditDataHall = (props) => {
                 					rofr_cages:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.rofr_power || ""}
@@ -661,7 +661,7 @@ const EditDataHall = (props) => {
                 		</tr> 
                 		<tr>
                 			<td>Blocked: </td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.blocked_cabs || ""}
@@ -670,7 +670,7 @@ const EditDataHall = (props) => {
                 					blocked_cabs:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.blocked_cages || ""}
@@ -679,7 +679,7 @@ const EditDataHall = (props) => {
                 					blocked_cages:target.value
                 				})} />
                 			</td>
-                			<td className="tbr">
+                			<td>
                 				<input 
                 				type="text" 
                 				value={state?.blocked_power || ""}
