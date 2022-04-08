@@ -68,8 +68,9 @@ const DataCenter = (props) => {
 		
 	}
 
-	const getFloorData = (data) => {
-        const sortedData = data.data_halls.sort((a,b)=> (a.name > b.name ? 1 : -1))
+	const getFloorData = data => {
+		setDataHallAscending(true);
+        const sortedData = data.data_halls.sort((a,b)=> (a.name < b.name ? 1 : -1))
         setDataHall(sortedData)
         setActiveTab(data.id)
 		setFloorIndex(data.id)
@@ -229,6 +230,7 @@ const DataCenter = (props) => {
 			if (result.isConfirmed) {
 				await DataCenterChart.destroy(authContext.token(),{data_center_id:currentDataCenter.id}).then(async res => {
 					await Floors.findAllFloor(authContext.token()).then(res => {
+						Swal.fire("Data center has been deleted!")
 						authContext.setFloor(res.data.data);
 						authContext.setDataCenterFloor(res.data.data);
 					}).catch(err => {
@@ -351,16 +353,16 @@ const DataCenter = (props) => {
 				setAscending(!ascending);
 				if(ascending === true){
 
-					allFloorData.sort((a,b)=> (a.name < b.name ? 1 : -1))
-				}
-				if (ascending === false) {
 					allFloorData.sort((a,b)=> (a.name > b.name ? 1 : -1))
 				}
+				if (ascending === false) {
+					allFloorData.sort((a,b)=> (a.name < b.name ? 1 : -1))
+				}
 
-			}} style={{cursor:"pointer"}}> Floor {/*<i 
+			}} style={{cursor:"pointer"}}> Floor <i 
 			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
 
-			></i> */}</th>
+			></i></th>
 			<th> Cabs </th>
 			<th> kW </th>
 			{isReadOnly == false ? (
@@ -399,7 +401,6 @@ const DataCenter = (props) => {
 
 		</table>
 		</div> 
-		{/*{isReadOnly == false?(
 		<button 
 	        type="button" 
 	        onClick={() => deleteDataCenter()}
@@ -409,7 +410,6 @@ const DataCenter = (props) => {
 	        	style={{width: "11px", marginTop: "-0.188rem",marginRight:"0.5rem"}} /> 
 	        	Delete
 	    </button>
-		):null}*/}
 	</div> 
 
 	<div className="col-xl-8 col-lg-8">	
@@ -440,16 +440,16 @@ const DataCenter = (props) => {
 	                    		setDataHallAscending(!dataHallAscending);
 								if(dataHallAscending === true){
 
-									dataHall.sort((a,b)=> (a.name < b.name ? 1 : -1))
+									dataHall.sort((a,b)=> (a.name > b.name ? 1 : -1))
 								}
 								if (dataHallAscending === false) {
-									dataHall.sort((a,b)=> (a.name > b.name ? 1 : -1))
+									dataHall.sort((a,b)=> (a.name < b.name ? 1 : -1))
 								}
 	                    	}}
 	                    	style={{cursor:"pointer"}}
 	                    > 
 	                    Name {" "}
-	                  {/*  <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>*/}
+	                    <i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>
 	                    </th>
 	                    <th scope="col" > Status </th>
 	                    <th scope="col" > Cabs </th>

@@ -34,8 +34,8 @@ const Navigation = () => {
 	return(
 		<div className="container-fluid">
 			<div id="title">
-                <h4 className="card-title"> Settings2 </h4>
-                <p> Manage users, roles & permissions and data centers </p>
+                <h4 className="card-title"> Settings </h4>
+                <p> Manage users, roles & permissions and data centres </p>
             </div>
 
             <div className="card-header" id="header">
@@ -52,9 +52,7 @@ const Navigation = () => {
                             </li>
                         	):null}
                           
-                          	{contextData?.getAuth?.role?.space >= 2 || 
-	               			contextData?.getAuth?.role?.m_e >= 2 ||
-	               			contextData?.getAuth?.role?.network >= 2 ?(
+                          	{contextData.getAuth.role.user_management?(
 	                            <li className="nav-item gap_s">
 	                            	<Link 
 	                            	className={activeClass('/setting/role-and-permissions')}
@@ -69,12 +67,11 @@ const Navigation = () => {
                             	<Link 
                             	className={activeClass(['/setting/data-center','/setting/capacity'])} 
                             	id="tab3" 
-                            	to="/setting/data-center" >Data Centers </Link>
+                            	to="/setting/data-center" >Data Centres </Link>
                             </li>
 	               			):null}
 							<li className="nav-item gap_s">
                             	<Link 
-                            	className="nav-link"
                             	className={activeClass('/setting/reports')} 
                             	id="tab4" 
                             	to="/setting/reports" >Reports </Link>

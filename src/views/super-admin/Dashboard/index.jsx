@@ -20,6 +20,8 @@ const Dashboard = () => {
 	const contextStore = useContext(AuthContext);
 	const [selectedDataCenter,selectDataCenter] = useState("");
 	const [selectedFloor,selectFloor] = useState("");
+	const [floorSort,setFloorSort] = useState(true);
+	const [hallSort,setHallSort] = useState(true);
 	const [menuTab,setMenuTab] = useState({
 		inventory: true,
 		capacity:false,
@@ -29,6 +31,9 @@ const Dashboard = () => {
 	useEffect(() => {
 
 		getFloorData();
+		setFloorSort(true);
+		setHallSort(true);
+
 	},[selectedDataCenter,contextStore.selectedCountry]);
 
 	const getFloorData = async () => {
@@ -117,9 +122,14 @@ const Dashboard = () => {
 									selectedDataCenter={selectedDataCenter}
 									selectedFloor={selectedFloor}
 									selectFloor={selectFloor}
+									setFloorSort={setFloorSort}
+									floorSort={floorSort}
 									/>
 									<DataHallCard
-									selectedFloor={selectedFloor} selectedDataCenter={selectedDataCenter}
+									selectedFloor={selectedFloor} 
+									selectedDataCenter={selectedDataCenter}
+									hallSort={hallSort}
+									setHallSort={setHallSort}
 									></DataHallCard>
 							</div>:null
 						}

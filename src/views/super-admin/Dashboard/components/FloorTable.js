@@ -4,7 +4,14 @@ import AuthContext from "context";
 import CabinetServices from "services/CabinetService";
 import DataFloorPopup from  "./dataFloor-popup"
 
-const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) => {
+const FloorTable = ({
+	floorData,
+	selectedDataCenter,
+	selectFloor,
+	selectedFloor,
+	setFloorSort,
+	floorSort
+}) => {
 
 	const contextStore = useContext(AuthContext);
 	const [fileExists,setFileExists] = useState(false);
@@ -281,20 +288,20 @@ const FloorTable = ({floorData,selectedDataCenter,selectFloor,selectedFloor}) =>
 			<thead>
 			<tr>
 				<th onClick={() => {
-				setAscending(!ascending);
-				if(ascending === true){
+				setFloorSort(!floorSort);
+				if(floorSort === true){
 
-					contextStore.getDataCenterFloor.sort((a,b)=> (a.name < b.name ? 1 : -1))
-				}
-				if (ascending === false) {
 					contextStore.getDataCenterFloor.sort((a,b)=> (a.name > b.name ? 1 : -1))
+				}
+				if (floorSort === false) {
+					contextStore.getDataCenterFloor.sort((a,b)=> (a.name < b.name ? 1 : -1))
 				}
 
 			}} style={{cursor:"pointer"}}> Floors 
-			{/*<i 
-			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
+			<i 
+			className={`fa fa-solid fa-sort-${floorSort?'down':'up'}`}
 
-			></i>*/}
+			></i>
 			</th>
 				<th> Cabinets </th>
 				<th> Cages</th>

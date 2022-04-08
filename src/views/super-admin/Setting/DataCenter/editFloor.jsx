@@ -305,22 +305,23 @@ const EditFloor = (props) => {
 	    		blocked_cabs,
 	    		blocked_cages
 	    	}) => {
+	    		
         		return {
-        			design_power: Number(preTotalPower) + Number(design_power),
-			    	design_cabs: Number(preTotalCabs) + Number(design_cabs),
-			    	design_cages: Number(preTotalCage) + Number(design_cages),
-			    	sold_power: Number(preSoldPower) + Number(sold_power),
-			    	sold_cabs: Number(preSoldCabs) + Number(sold_cabs),
-			    	sold_cages: Number(preSoldCage) + Number(sold_cages),
-			    	reserved_power: Number(preReservedPower) + Number(reserved_power),
-			    	reserved_cabs: Number(preReservedCabs) + Number(reserved_cabs),
-			    	reserved_cages: Number(preReservedCage) + Number(reserved_cages),
-			    	rofr_power: Number(preROFRPower) + Number(rofr_power),
-			    	rofr_cabs: Number(preROFRCabs) + Number(rofr_cabs),
-			    	rofr_cages: Number(preROFRCage) + Number(rofr_cages),
-			    	blocked_power: Number(preBlockedPower) + Number(blocked_power),
-			    	blocked_cabs: Number(preBlockedCabs) + Number(blocked_cabs),
-			    	blocked_cages: Number(preBlockedCage) + Number(blocked_cages)
+        			preTotalPower: Number(preTotalPower) + Number(design_power),
+			    	preTotalCabs: Number(preTotalCabs) + Number(design_cabs),
+			    	preTotalCage: Number(preTotalCage) + Number(design_cages),
+			    	preSoldPower: Number(preSoldPower) + Number(sold_power),
+			    	preSoldCabs: Number(preSoldCabs) + Number(sold_cabs),
+			    	preSoldCage: Number(preSoldCage) + Number(sold_cages),
+			    	preReservedPower: Number(preReservedPower) + Number(reserved_power),
+			    	preReservedCabs: Number(preReservedCabs) + Number(reserved_cabs),
+			    	preReservedCage: Number(preReservedCage) + Number(reserved_cages),
+			    	preROFRPower: Number(preROFRPower) + Number(rofr_power),
+			    	preROFRCabs: Number(preROFRCabs) + Number(rofr_cabs),
+			    	preROFRCage: Number(preROFRCage) + Number(rofr_cages),
+			    	preBlockedPower: Number(preBlockedPower) + Number(blocked_power),
+			    	preBlockedCabs: Number(preBlockedCabs) + Number(blocked_cabs),
+			    	preBlockedCage: Number(preBlockedCage) + Number(blocked_cages)
         		}
         	},
         	{
@@ -385,33 +386,33 @@ const EditFloor = (props) => {
                 	<tbody>
                 		<tr>
                 			<td>Total: </td>
-                			<td>{numberFormat(dataState.design_cabs)}</td>
-                			<td>{numberFormat(dataState.design_cages)}</td>
-                			<td>{numberFormat(dataState.design_power,3)}</td>
+                			<td>{numberFormat(dataState.preTotalCabs)}</td>
+                			<td>{numberFormat(dataState.preTotalCage)}</td>
+                			<td>{numberFormat(dataState.preTotalPower,3)}</td>
                 		</tr>
                 		<tr>
                 			<td>Sold: </td>
-                			<td>{numberFormat(dataState.sold_cabs)}</td>
-                			<td>{numberFormat(dataState.sold_cages)}</td>
-                			<td>{numberFormat(dataState.sold_power,3)}</td>
+                			<td>{numberFormat(dataState.preSoldCabs)}</td>
+                			<td>{numberFormat(dataState.preSoldCage)}</td>
+                			<td>{numberFormat(dataState.preSoldPower,3)}</td>
                 		</tr> 
                 		<tr>
                 			<td>Reserved: </td>
-                			<td>{numberFormat(dataState.reserved_cabs)}</td>
-                			<td>{numberFormat(dataState.reserved_cages)}</td>
-                			<td>{numberFormat(dataState.reserved_power,3)}</td>
+                			<td>{numberFormat(dataState.preReservedCabs)}</td>
+                			<td>{numberFormat(dataState.preReservedCage)}</td>
+                			<td>{numberFormat(dataState.preReservedPower,3)}</td>
                 		</tr> 
                 		<tr>
                 			<td>ROFR: </td>
-                			<td>{numberFormat(dataState.rofr_cabs)}</td>
-                			<td>{numberFormat(dataState.rofr_cages)}</td>
-                			<td>{numberFormat(dataState.rofr_power,3)}</td>
+                			<td>{numberFormat(dataState.preROFRCabs)}</td>
+                			<td>{numberFormat(dataState.preROFRCage)}</td>
+                			<td>{numberFormat(dataState.preROFRPower,3)}</td>
                 		</tr> 
                 		<tr>
                 			<td>Blocked: </td>
-                			<td>{numberFormat(dataState.blocked_cabs)}</td>
-                			<td>{numberFormat(dataState.blocked_cages)}</td>
-                			<td>{numberFormat(dataState.blocked_power,3)}</td>
+                			<td>{numberFormat(dataState.preBlockedCabs)}</td>
+                			<td>{numberFormat(dataState.preBlockedCage)}</td>
+                			<td>{numberFormat(dataState.preBlockedPower,3)}</td>
                 		</tr> 
                 	</tbody>
                 </table>

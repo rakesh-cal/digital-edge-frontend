@@ -62,13 +62,13 @@ const Capacity = (props) => {
 	const onChangeData = (event,data,slug) => {
 
 		capcityData.map(capacity => {
-			console.log(capacity.monthly_utilization[slug],"before");
+		
 			if(capacity.id === data.id){
 				setSubmitEnabled(true);
 				setDataChanged(true);
 				capacity.monthly_utilization[slug] = event.target.value
 			}
-			console.log(capacity,"after");
+		
 		});
 	}
 	const onSubmit = async () => {
@@ -137,7 +137,7 @@ const Capacity = (props) => {
 			}	
 		}
 	}
-	const getCapacity = async (dataCenter) => {
+	const getCapacity = async dataCenter => {
 
 		const data = {
 			dataCenterId: dataCenter.id,
@@ -214,6 +214,28 @@ const Capacity = (props) => {
 			years.push(moment(i,'YYYY').format('YYYY'));
 		}
 		return years.map((y,key) => <option value={y} key={y}>{y}</option>)	
+	}
+	const extractValue = data => {
+		
+		if(data === undefined){
+			return "";
+		}else{
+			if(data === 0){
+				return "-";
+			}else{
+				return data;
+			}
+		}
+	}
+	const extVal = (util,hall) => {
+
+		if(isReadOnly === true){
+		
+			return extractValue(util);
+		}else{
+			
+			return extractValue(hall);
+		}
 	}
 	
 
@@ -371,7 +393,9 @@ const Capacity = (props) => {
                		<th 
                		scope="col" 
                		colSpan="2" 
-               		style={{textAlign:"left",paddingLeft:"17px !important"}}>TYO1</th>
+               		style={{textAlign:"left",paddingLeft:"17px !important"}}>
+               			{currentDataCenter.name}
+               		</th>
       				<th 
       				scope="col" 
       				colSpan="3" 
@@ -400,37 +424,11 @@ const Capacity = (props) => {
       		</thead>
       	<thead>
       	<tr>
-      		<th scope="col" onClick={() => {
-				setAscending(!ascending);
-				if(ascending === true){
-
-					capcityData.sort((a,b)=> (a.floor.name < b.floor.name ? 1 : -1))
-				}
-				if (ascending === false) {
-					capcityData.sort((a,b)=> (a.floor.name > b.floor.name ? 1 : -1))
-				}
-
-			}} style={{cursor:"pointer"}}> Floor 
-		{/*	<i 
-			className={`fa fa-solid fa-sort-${ascending?'down':'up'}`}
-
-			></i> */}
+      		<th scope="col" > Floor 
+			
 			</th>
-      		<th scope="col" onClick={() => {
-				setDataHallAscending(!dataHallAscending);
-				if(dataHallAscending === true){
-
-					capcityData.sort((a,b)=> (a.name < b.name ? 1 : -1))
-				}
-				if (dataHallAscending === false) {
-					capcityData.sort((a,b)=> (a.name > b.name ? 1 : -1))
-				}
-
-			}} style={{cursor:"pointer"}}> Data Hall 
-			{/*<i 
-			className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}
-
-			></i> */}
+      		<th scope="col" > Data Hall 
+			
 			</th>
       		
       		<th scope="col" className="bg_gray">CabE</th>
@@ -522,15 +520,15 @@ const Capacity = (props) => {
   				totalpower = isReadOnly?0:Number(capacity.design_power);
   			}
 
-
+  			let mu = capacity.monthly_utilization;
   			return(
 		    	<tr key={capacity.id}>
 			      	<td>{capacity.floor.name} </td>
 			      	<td>{capacity.name}</td>
 			      	<td className="bg_gray">
 			      
-			      		<input type="number"
-			      			value={ isReadOnly?(capacity.monthly_utilization?.total_cabs || ""):capacity.design_cabs}
+			      		<input type="text"
+			      			value={ extVal(mu.total_cabs,capacity.design_cabs)}
 			      			onChange={(event) => {
 			      				capacity.design_cabs = event.target.value;
 			      				onChangeData(event,capacity,'total_cabs')
@@ -540,9 +538,8 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      	
-			      		<input type="number"
-			      		
-			      			value={isReadOnly?(capacity.monthly_utilization?.total_cages || ""):capacity.design_cages}
+			      		<input type="text"
+			      			value={ extVal(mu.total_cages,capacity.design_cages)}
 			      			onChange={(event) => {
 			      				capacity.design_cages = event.target.value;
 			      				onChangeData(event,capacity,'total_cages')
@@ -552,8 +549,8 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      		
-			      		<input type="number"
-			      			value={isReadOnly?(capacity.monthly_utilization?.total_power || ""):capacity.design_power}
+			      		<input type="text"
+			      			value={ extVal(mu.total_power,capacity.design_power)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
@@ -563,10 +560,8 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="tbr">
 
-			      		
-			      		<input type="number"
-			      			
-			      			value={capacity.monthly_utilization?.sold_cabs || ""}
+			      		<input type="text"
+			      			value={extractValue(mu.sold_cabs)}
 			      			onChange={(event) =>  {
 
 			      				onChangeData(event,capacity,'sold_cabs')
@@ -578,18 +573,18 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="tbr">
 			      		
-			      		<input type="number"
+			      		<input type="text"
 			      		
-			      			value={capacity.monthly_utilization?.sold_cages || ""}
+			      			value={extractValue(mu.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
 			      		
 			      	</td>
 			      	<td className="tbr">
 
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.sold_power || ""}
+			      			value={extractValue(mu.sold_power)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
 			      		/>
 			      		
@@ -597,18 +592,18 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.reserved_cabs || ""}
+			      			value={extractValue(mu.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
 			      	
 			      	</td>
 			      	<td className="tbr">
 			      	
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.reserved_cages || ""}
+			      			value={extractValue(mu.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
 			      	
@@ -616,9 +611,9 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.reserved_power || ""}
+			      			value={extractValue(mu.reserved_power)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
 			      		
@@ -626,9 +621,9 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.blocked_cabs || ""}
+			      			value={extractValue(mu.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
 			      		
@@ -636,9 +631,9 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.blocked_cages || ""}
+			      			value={extractValue(mu.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
 			      		
@@ -646,9 +641,9 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.blocked_power || ""}
+			      			value={extractValue(mu.blocked_power)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
 			      		
@@ -656,9 +651,9 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.available_cabs || ""}
+			      			value={extractValue(mu.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
 
@@ -666,18 +661,18 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	
-			      		<input type="number"
+			      		<input type="text"
 			      		 
-			      			value={capacity.monthly_utilization?.available_cages || ""}
+			      			value={extractValue(mu.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
 			      		
 			      	</td>
 			      	<td className="tbr">
 			      
-			      	<input type="number"
+			      	<input type="text"
 			      	 
-			      			value={capacity.monthly_utilization?.available_power || ""}
+			      			value={extractValue(mu.available_power)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
 			      	
@@ -694,7 +689,10 @@ const Capacity = (props) => {
          
             <div className="monthly_last_btn">
                <div className="toolbar toolbar-bottom d-flex" role="toolbar">   
-                   <button type="button" className="btn btn-outline-primary mr_1"> Cancel </button>
+                   <button 
+                   type="button" 
+                   onClick={() => getCapacity(currentDataCenter)}
+                   className="btn btn-outline-primary mr_1"> Cancel </button>
                    <button 
                    type="submit" 
                    className="btn btn-primary" 

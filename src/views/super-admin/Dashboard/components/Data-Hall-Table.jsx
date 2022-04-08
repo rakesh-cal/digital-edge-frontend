@@ -2,15 +2,23 @@ import React,{useEffect,useState,useContext} from 'react';
 import {Line,Line2} from 'components/graph';
 import AuthContext from "context";
 
-const DataHallTable = ({selectedFloor, getCabinetData}) => {
+const DataHallTable = ({
+	selectedFloor, 
+	getCabinetData,
+	hallSort,
+	setHallSort
+}) => {
 
 	const [state,setState] = useState([]);
 	const contextStore = useContext(AuthContext);
 	const [dataHallAscending,setDataHallAscending] = useState(true);
 
 	useEffect(() => {
-
+		if(Object.keys(selectedFloor).length && selectedFloor.data_halls.length){
+			selectedFloor.data_halls.sort((a,b)=> (a.name < b.name ? 1 : -1));
+		}
 		setState(selectedFloor);
+		setHallSort(true);
 			
 	},[selectedFloor,contextStore.selectedCountry]);
 	const getCabsStatus = data => {
@@ -114,17 +122,17 @@ const DataHallTable = ({selectedFloor, getCabinetData}) => {
 			<thead>
 				<tr>
 					<th scope="col" width="10%" onClick={() => {
-	                    		setDataHallAscending(!dataHallAscending);
-								if(dataHallAscending === true){
+	                    		setHallSort(!hallSort);
+								if(hallSort === true){
 
-									state.data_halls.sort((a,b)=> (a.name < b.name ? 1 : -1))
-								}
-								if (dataHallAscending === false) {
 									state.data_halls.sort((a,b)=> (a.name > b.name ? 1 : -1))
+								}
+								if (hallSort === false) {
+									state.data_halls.sort((a,b)=> (a.name < b.name ? 1 : -1))
 								}
 	                    	}}
 	                    	style={{cursor:"pointer"}}> Name {" "}
-	                {/*<i className={`fa fa-solid fa-sort-${dataHallAscending?'down':'up'}`}></i>*/}
+	                <i className={`fa fa-solid fa-sort-${hallSort?'down':'up'}`}></i>
 	                </th>
 					<th scope="col" width="5%"> Status </th>
 					<th scope="col" width="10%"> Cabinets </th>

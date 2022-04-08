@@ -26,7 +26,7 @@ const CabinetPopup = (props) => {
         <p>#Breakers</p><p>${val.num_breakers != null ? val.num_breakers : 0}</p>
      </div>
      <div class="content">
-        <p>#Xconnects</p><p>${val.num_xconnents != null ? val.num_xconnents : 0}</p>
+        <p>#Xconnects</p><p>${val.num_xconnects != null ? val.num_xconnects : 0}</p>
      </div>` 
     }
 
