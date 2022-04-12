@@ -17,7 +17,7 @@ const CabinetPopup = (props) => {
 
     const getPopupInnerContent = (val) => {
         return `<div class="content"><p>Status:</p><p>${status[val.status-1]}</p></div><div class="content"><p>Customer:</p>
-        <p>${val.customer}</p>
+        <p>${val.customer ===null ? "NA":val.customer}</p>
      </div>
      <div class="content">
         <p>Max kW:</p>
