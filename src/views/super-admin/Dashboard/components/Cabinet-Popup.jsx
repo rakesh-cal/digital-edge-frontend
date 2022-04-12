@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import './cabinet-popup.css'
+import './cabinet-popup.css';
+import './Layoutcss/65hall.css';
 
 const CabinetPopup = (props) => {
     const [status, setStatus] = React.useState(['In Service', 'Complete', 'Construction', 'Planning'])
