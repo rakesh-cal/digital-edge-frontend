@@ -82,7 +82,7 @@ const CabinetPopup = (props) => {
                 props.data?.dataHallHtml == null &&
                 <div className="not-found-popup modal show bd-example-modal-lg" style={{ display: "block" }} id="exampleModalCenter">
                     <div className="modal-dialog modal-lg">
-                        <div className={`modal-content `}>
+                        <div className={`modal-content model-content-not-found`}>
                             <div className="modal-header mt-24">
                                 <h3 className="modal-title notfound">Info not found
                                 </h3>
@@ -95,7 +95,7 @@ const CabinetPopup = (props) => {
                 props.data?.dataHallHtml != null &&
                 <div className="cabinet-popup modal show bd-example-modal-lg" style={{ display: "block" }} id="exampleModalCenter">
                     <div className={`modal-dialog modal-lg model-${props.data.dataHallHtml.data_hall.id}`}>
-                        <div className='modal-content'>
+                        <div className='modal-content model-content-layout'>
                             <div className="modal-header mt-24">
                                 {props.data?.dataHallHtml != null &&
                                     <h3 className="modal-title">
