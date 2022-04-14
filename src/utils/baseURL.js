@@ -1,4 +1,3 @@
-
 export default 'http://localhost:7071/';
 
 //export default 'https://depapim.azure-api.net/';

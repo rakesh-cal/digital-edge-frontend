@@ -105,39 +105,58 @@ const FloorTable = ({
 		//if (Number(data.status) === 1) {
 
 			let available = 0;
-			let soldPer = 0;
+			let inservicePer = 0;
 			let availPer = 0;
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
+			let reserved = 0;
+			let rofr = 0;
+			let blocked = 0;
 
 			let design_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
+
+			reserved = data.data_halls.reduce((previous,current) => previous += Number(current.reserved_cabs),0);
+
+
+			rofr = data.data_halls.reduce((previous,current) => previous += Number(current.rofr_cabs),0);
+
+			blocked = data.data_halls.reduce((previous,current) => previous += Number(current.blocked_cabs),0);
+
 			let sold_cabs = data.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0);
 
 			
-			available = Number(design_cabs)- Number(sold_cabs);
+			available = Number(design_cabs) - (Number(sold_cabs) + Number(reserved)+ Number(rofr)+ Number(blocked));
 
 			if(design_cabs === 0){
 				sold_cabs = 0;
 				available = 0;
-				soldPer = 0;
+				inservicePer = 0;
 				availPer = 0;
-			}else if(available === 0){
-				soldPer = 100;
-				available = 0;
-				availPer = 0;
-			}else if(sold_cabs === 0){
-				soldPer = 0;
-				availPer = 100;
 			}else{
-				soldPer = sold_cabs*100/design_cabs;
+				inservicePer = sold_cabs*100/design_cabs;
 				availPer = available*100/design_cabs;
+				reservedPer = reserved*100/design_cabs;
+				rofrPer = rofr*100/design_cabs;
+				blockedPer = blocked*100/design_cabs;
 			}
+
 
 			return <Line
 			totalText={design_cabs}
 			inServiceText={sold_cabs}
 			availableText={available}
-			inServicePercent={soldPer}
+			inServicePercent={inservicePer}
 			availablePercent={availPer}
-			totalPercent={0}/>
+			totalPercent={0}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			reserved={reserved}
+			rofr={rofr}
+			blocked={blocked}
+
+			/>
 
 		/*}else{
 
@@ -159,27 +178,37 @@ const FloorTable = ({
 			let available = 0;
 			let soldPer = 0;
 			let availPer = 0;
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
+			let reserved = 0;
+			let rofr = 0;
+			let blocked = 0;
 
 			let design_cages = data.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
+
+			reserved = data.data_halls.reduce((previous,current) => previous += Number(current.reserved_cages),0);
+
+			rofr = data.data_halls.reduce((previous,current) => previous += Number(current.rofr_cages),0);
+
+			blocked = data.data_halls.reduce((previous,current) => previous += Number(current.blocked_cages),0);
+
 			let sold_cages = data.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0);
 
-				available = Number(design_cages)- Number(sold_cages);
+				available = Number(design_cages)- (Number(sold_cages) + Number(reserved) + Number(rofr) + Number(blocked));
 			
 				if(design_cages === 0){
 					sold_cages = 0;
 					available = 0;
 					soldPer = 0;
 					availPer = 0;
-				}else if(available === 0){
-					soldPer = 100;
-					available = 0;
-					availPer = 0;
-				}else if(sold_cages === 0){
-					soldPer = 0;
-					availPer = 100;
 				}else{
 					soldPer = sold_cages*100/design_cages;
 					availPer = available*100/design_cages;
+
+					reservedPer = reserved*100/design_cages;
+					rofrPer = rofr*100/design_cages;
+					blockedPer = blocked*100/design_cages;
 				}
 			
 			
@@ -189,7 +218,14 @@ const FloorTable = ({
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
-			totalPercent={0}/>
+			totalPercent={0}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			reserved={reserved}
+			rofr={rofr}
+			blocked={blocked}
+			/>
 
 	/*	}else{
 
@@ -212,27 +248,37 @@ const FloorTable = ({
 			let available = 0;
 			let soldPer = 0;
 			let availPer = 0;
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
+			let reserved = 0;
+			let rofr = 0;
+			let blocked = 0;
 
 			let design_power = data.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
+
+			reserved = data.data_halls.reduce((previous,current) => previous += Number(current.reserved_power),0);
+
+			rofr = data.data_halls.reduce((previous,current) => previous += Number(current.rofr_power),0);
+
+			blocked = data.data_halls.reduce((previous,current) => previous += Number(current.blocked_power),0);
+
 			let sold_power = data.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0);
 
-			available = Number((Number(design_power)- Number(sold_power)).toFixed(3));
+			available = Number((Number(design_power)- (Number(sold_power) + Number(reserved) + Number(rofr) + Number(blocked) ) ).toFixed(3));
 
 				if(design_power === 0){
 					sold_power = 0;
 					available = 0;
 					soldPer = 0;
 					availPer = 0;
-				}else if(available === 0){
-					soldPer = 100;
-					available = 0;
-					availPer = 0;
-				}else if(sold_power === 0){
-					soldPer = 0;
-					availPer = 100;
 				}else{
 					soldPer = sold_power*100/design_power;
 					availPer = available*100/design_power;
+
+					reservedPer = reserved*100/design_power;
+					rofrPer = rofr*100/design_power;
+					blockedPer = blocked*100/design_power;
 				}
 			
 
@@ -243,7 +289,14 @@ const FloorTable = ({
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
-			totalPercent={0}/>
+			totalPercent={0}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			reserved={reserved}
+			rofr={rofr}
+			blocked={blocked}
+			/>
 /*
 		}else{
 

@@ -106,3 +106,25 @@ input[type=number]::-webkit-outer-spin-button {
 .dt_td table tr td input {
     width: 60px;
 }
+
+/*New up table code strat*/
+table.table.table-borderless.tb_dcp tr td {
+    padding: 2px 5px !important;
+}
+table.table.table-borderless.tb_dcp tr td input {
+    height: 20px;
+}
+table.table.table-borderless.tb_dcp tr td span {
+    border-radius: 3px;
+}
+table.table.table-borderless.tb_dcp_view tr td {
+    padding: 2px 22px !important;
+}
+
+/*New up table code end*/
+
+.flex_table {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}

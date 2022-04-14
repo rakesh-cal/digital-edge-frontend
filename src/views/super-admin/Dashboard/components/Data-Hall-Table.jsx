@@ -23,12 +23,21 @@ const DataHallTable = ({
 	},[selectedFloor,contextStore.selectedCountry]);
 	const getCabsStatus = data => {
 
-		if (Number(data.status) === 1) {
 
-			let available = Number(data.design_cabs)- Number(data.sold_cabs);
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
+			let reserved = 0;
+			let rofr = 0;
+			let blocked = 0;
+
+			let available = Number(data.design_cabs)- (Number(data.sold_cabs) + Number(data.reserved_cabs) + Number(data.rofr_cabs) + Number(data.blocked_cabs));
 
 			let soldPer = data.sold_cabs*100/data.design_cabs;
 			let availPer = available*100/data.design_cabs;
+			reservedPer = data.reserved_cabs*100/data.design_cabs;
+			rofrPer = data.rofr_cabs*100/data.design_cabs;
+			blockedPer = data.blocked_cabs*100/data.design_cabs;
 
 
 			return <Line2
@@ -37,33 +46,37 @@ const DataHallTable = ({
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
-			totalPercent={0}/>
-
-		}else{
-
-			return <Line2
-			totalText={data.design_cabs}
-			inServiceText={0}
-			availableText={0}
-			inServicePercent={0}
-			availablePercent={0}
-			totalPercent={100}/>
-		}
+			totalPercent={0}
+			reserved={data.reserved_cabs}
+			rofr={data.rofr_cabs}
+			blocked={data.blocked_cabs}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			/>
 
 	}
 	const getCagesStatus = data => {
 
-		if (Number(data.status) === 1) {
+		
 
 			let available = 0;
 			let soldPer = 0;
 			let availPer = 0;
 
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
+
 			if (data.design_cages && data.design_cages!== null && data.design_cages !=="") {
 
-				available = Number(data.design_cages)- Number(data.sold_cages);
+				available = Number(data.design_cages)-( Number(data.sold_cages) + Number(data.reserved_cages) + Number(data.rofr_cages) + Number(data.blocked_cages));
+			
 				soldPer = data.sold_cages*100/data.design_cages;
 				availPer = available*100/data.design_cages;
+				reservedPer = data.reserved_cages*100/data.design_cages;
+				rofrPer = data.rofr_cages*100/data.design_cages;
+				blockedPer = data.blocked_cages*100/data.design_cages;
 
 			}
 
@@ -73,28 +86,30 @@ const DataHallTable = ({
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
-			totalPercent={0}/>
+			totalPercent={0}
+			reserved={data.reserved_cages}
+			rofr={data.rofr_cages}
+			blocked={data.blocked_cages}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			/>
 
-		}else{
-
-			return <Line2
-			totalText={data.design_cages}
-			inServiceText={0}
-			availableText={0}
-			inServicePercent={0}
-			availablePercent={0}
-			totalPercent={100}/>
-		}
 
 	}
 	const getPowerStatus = data => {
 
-		if (Number(data.status) === 1) {
+			let reservedPer = 0;
+			let rofrPer = 0;
+			let blockedPer = 0;
 
-			let available = Number(data.design_power)- Number(data.sold_power);
+			let available = Number(data.design_power)- (Number(data.sold_power)+ Number(data.reserved_power) + Number(data.rofr_power) + Number(data.blocked_power));
 
 			let soldPer = data.sold_power*100/data.design_power;
 			let availPer = available*100/data.design_power;
+			reservedPer = data.reserved_power*100/data.design_power;
+			rofrPer = data.rofr_power*100/data.design_power;
+			blockedPer = data.blocked_power*100/data.design_power;
 
 
 			return <Line2
@@ -103,18 +118,16 @@ const DataHallTable = ({
 			availableText={available}
 			inServicePercent={soldPer}
 			availablePercent={availPer}
-			totalPercent={0}/>
+			totalPercent={0}
+			reserved={data.reserved_power}
+			rofr={data.rofr_power}
+			blocked={data.blocked_power}
+			reservedPer={reservedPer}
+			rofrPer={rofrPer}
+			blockedPer={blockedPer}
+			/>
 
-		}else{
-
-			return <Line2
-			totalText={data.design_power}
-			inServiceText={0}
-			availableText={0}
-			inServicePercent={0}
-			availablePercent={0}
-			totalPercent={100}/>
-		}
+		
 
 	}
 	return(

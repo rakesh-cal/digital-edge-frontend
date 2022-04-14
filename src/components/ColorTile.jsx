@@ -2,52 +2,94 @@ import React from "react";
 
 const InService = () => {
 
-	return <div style={{
-		height: "10px",
-	    width: "10px",
-	    borderRadius: "3px",
-		marginLeft:".2rem",
-	    backgroundColor: "#f89903"}} ></div>;
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#f89903"}} ></div>
+		    In Services
+		</React.Fragment>
+	);
 }
 
 const Reserved = () => {
 
-	return <div style={{
-		height: "10px",
-	    width: "10px",
-	    borderRadius: "3px",
-		marginLeft:".2rem",
-	    backgroundColor: "#1b70c0"}} ></div>;
+	return(
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+	    	width: "10px",
+	    	borderRadius: "3px",
+			marginLeft:".2rem",
+	    	backgroundColor: "#1b70c0"}} ></div>	
+	    	Reserved	
+		</React.Fragment>
+	);
 }
 
 const ROFR = () => {
 
-	return <div style={{
+	return(
+		<React.Fragment>
+			
+	 	<div style={{
 		height: "10px",
 	    width: "10px",
 	    borderRadius: "3px",
 		marginLeft:".2rem",
-	    backgroundColor: "#595959"}} ></div>;
+	    backgroundColor: "#595959"}} ></div>
+	    ROFR
+		</React.Fragment>
+	)
 }
 
 const Blocked = () => {
 
-	return <div style={{
+	return(
+		<React.Fragment>
+			
+		<div style={{
 		height: "10px",
 	    width: "10px",
 	    borderRadius: "3px",
 		marginLeft:".2rem",
-	    backgroundColor: "#000000"}} ></div>;
+	    backgroundColor: "#000000"}} ></div>
+	    Blocked
+		</React.Fragment>
+	)
 }
 
 const Available = () => {
 
-	return <div style={{
+	return(
+		<React.Fragment>
+			
+		<div style={{
 		height: "10px",
 	    width: "10px",
 	    borderRadius: "3px",
 		marginLeft:".2rem",
-	    backgroundColor: "#70ad47"}} ></div>;
+	    backgroundColor: "#70ad47"}} ></div>
+	    Available
+		</React.Fragment>
+	)
+}
+const Unavailable = () => {
+
+	return(
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#e0e2e5"}} ></div>
+		    Unavailable
+		</React.Fragment>
+	);
 }
 
 export {
@@ -55,5 +97,6 @@ export {
 	Reserved,
 	ROFR,
 	Blocked,
-	Available
+	Available,
+	Unavailable
 };

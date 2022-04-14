@@ -3,6 +3,14 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import AuthContext from "context";
 import {numberFormat} from "common/helpers";
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available,
+	Unavailable
+} from 'components/ColorTile';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -72,19 +80,31 @@ const DashboardCard = ({cardData}) => {
 		let total = 0;
 		let totalAvail = 0;
 		let totalsold = 0;
+		let totalReserved = 0;
+		let totalRofr = 0;
+		let totalBlocked = 0;
+
 
 		if(floors.length){
 			let cabData = graphData.filter(data => data.title === 'Cabinets');
 			floors.map(floor => {
 
 				total += floor.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0);
+
+				totalReserved += floor.data_halls.reduce((previous,current) => previous += Number(current.reserved_cabs),0);
+
+				totalRofr += floor.data_halls.reduce((previous,current) => previous += Number(
+					current.rofr_cabs),0);
+
+				totalBlocked += floor.data_halls.reduce((previous,current) => previous += Number(current.blocked_cabs),0);
+
 				totalsold += floor.data_halls.reduce((previous,current) => previous += Number(current.sold_cabs),0);
 			});
 
-			totalAvail = total - totalsold;
+			totalAvail = total - (totalsold + totalReserved + totalRofr + totalBlocked);
 
 			cabData[0].totalNumber = total;
-			cabData[0].graph = [totalsold,totalAvail];
+			cabData[0].graph = [totalsold,totalAvail,totalReserved,totalRofr,totalBlocked];
 
 			const res = graphData.map(obj => cabData.find(o => o.title === obj.title) || obj);
 
@@ -93,7 +113,7 @@ const DashboardCard = ({cardData}) => {
 			let cabData = graphData.filter(data => data.title === 'Cabinets');
 
 			cabData[0].totalNumber = 0;
-			cabData[0].graph = [0,0];
+			cabData[0].graph = [0,0,0,0,0];
 
 			const res = graphData.map(obj => cabData.find(o => o.title === obj.title) || obj);
 
@@ -108,6 +128,9 @@ const DashboardCard = ({cardData}) => {
 		let totalPower = 0;
 		let totalAvail = 0;
 		let totalSold = 0;
+		let totalReserved = 0;
+		let totalRofr = 0;
+		let totalBlocked = 0;
 
 		if(floors.length){
 
@@ -116,14 +139,27 @@ const DashboardCard = ({cardData}) => {
 			floors.map(power => {
 
 				totalPower += power.data_halls.reduce((previous,current) => previous += Number(current.design_power),0);
+
+				totalReserved += power.data_halls.reduce((previous,current) => previous += Number(current.reserved_power),0);
+
+				totalRofr += power.data_halls.reduce((previous,current) => previous += Number(current.rofr_power),0);
+
+				totalBlocked += power.data_halls.reduce((previous,current) => previous += Number(current.blocked_power),0);
+
 				totalSold += power.data_halls.reduce((previous,current) => previous += Number(current.sold_power),0);
 				
 			});
 
-			totalAvail = totalPower - totalSold;
+			totalAvail = totalPower - (totalSold + totalReserved + totalRofr + totalBlocked);
 
 			powerData[0].totalNumber = totalPower.toFixed(3);
-			powerData[0].graph = [totalSold.toFixed(3),totalAvail.toFixed(3)];
+			powerData[0].graph = [
+				totalSold.toFixed(3),
+				totalAvail.toFixed(3),
+				totalReserved.toFixed(3),
+				totalRofr.toFixed(3),
+				totalBlocked.toFixed(3)
+			];
 
 			const res = graphData.map(obj => powerData.find(o => o.title === obj.title) || obj);
 
@@ -132,7 +168,7 @@ const DashboardCard = ({cardData}) => {
 			let powerData = graphData.filter(data => data.title == 'Power (kW)');
 
 			powerData[0].totalNumber = 0;
-			powerData[0].graph = [0,0];
+			powerData[0].graph = [0,0,0,0,0];
 
 			const res = graphData.map(obj => powerData.find(o => o.title === obj.title) || obj);
 
@@ -145,6 +181,9 @@ const DashboardCard = ({cardData}) => {
 		let totalCages = 0;
 		let totalAvail = 0;
 		let totalSold = 0;
+		let totalReserved = 0;
+		let totalRofr = 0;
+		let totalBlocked = 0;
 
 		if(floors.length){
 			let cagesData = graphData.filter(data => data.title == 'Cages');
@@ -152,14 +191,22 @@ const DashboardCard = ({cardData}) => {
 			floors.map(cage => {
 
 				totalCages += cage.data_halls.reduce((previous,current) => previous += Number(current.design_cages),0);
+
+				totalReserved += cage.data_halls.reduce((previous,current) => previous += Number(current.reserved_cages),0);
+
+				totalRofr += cage.data_halls.reduce((previous,current) => previous += Number(current.rofr_cages),0);
+
+				totalBlocked += cage.data_halls.reduce((previous,current) => previous += Number(current.blocked_cages),0);
+
+
 				totalSold += cage.data_halls.reduce((previous,current) => previous += Number(current.sold_cages),0);
 				
 			});
 
-			totalAvail = totalCages - totalSold;
+			totalAvail = totalCages - (totalSold + totalReserved + totalRofr +totalBlocked);
 
 			cagesData[0].totalNumber = totalCages;
-			cagesData[0].graph = [totalSold,totalAvail];
+			cagesData[0].graph = [totalSold,totalAvail,totalReserved,totalRofr,totalBlocked];
 
 			const res = graphData.map(obj => cagesData.find(o => o.title === obj.title) || obj);
 
@@ -208,15 +255,24 @@ const DashboardCard = ({cardData}) => {
 					    data: args.graph,
 					    backgroundColor: [
 					    	"#FE8600",
-					    	"#3FEB7B"
+					    	"#3FEB7B",
+					    	"#1b70c0",
+					    	"#595959",
+					    	"#000000"
 					    ],
 					    hoverBackgroundColor: [
 					    	"#FE8600",
-					    	"#3FEB7B"
+					    	"#3FEB7B",
+					    	"#1b70c0",
+					    	"#595959",
+					    	"#000000"
 					    ],
 					    borderColor: [
 					    	"#FE8600",
 					    	"#3FEB7B",
+					    	"#1b70c0",
+					    	"#595959",
+					    	"#000000"
 					    ],
 					    borderWidth: 3,
 					}
@@ -226,7 +282,29 @@ const DashboardCard = ({cardData}) => {
 		}
 	}
 
+	const labelColor = text => {
 
+		switch(text) {
+		  	case "In Services":
+		    	return <InService/>;
+		    break;
+		    case "Reserved":
+		    	return <Reserved/>;
+		    break;
+		    case "ROFR":
+		    	return <ROFR/>;
+		    break;
+		    case "Blocked":
+		    	return <Blocked/>;
+		    break;
+		    case "Available":
+		    	return <Available/>;
+		    break;
+		 	default:
+		    	return <Unavailable/>;
+		}
+		
+	}
 	return graphData && graphData.map((data,index) => {
 
 		return(
@@ -238,12 +316,10 @@ const DashboardCard = ({cardData}) => {
 							<h3>{data.title}</h3>
 						</div>
 						<div className="txt_card_2">
+
 							{data.types.map((type,i) => {
-								return(
-									<p key={i}>
-										<img src={type.imagePath} width="13px" /> {type.title}
-									</p>
-								)
+								return labelColor(type.title);
+								
 							})}
 						</div>
 					</div>

@@ -500,6 +500,7 @@ const DataCenter = (props) => {
 
 	</div>
 </div>
+
 							{/* {currentDataCenter && <Floor allFloorData={allFloorData} dataCenterId={dataCenterId} selectDataCenterFloor={selectDataCenterFloor}/>} */}
 							</div>
 						</div>

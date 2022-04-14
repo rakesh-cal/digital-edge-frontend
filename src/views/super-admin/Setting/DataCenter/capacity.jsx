@@ -10,9 +10,10 @@ import CapacityService from 'services/capacityService';
 import moment from 'moment';
 import {numberFormat} from 'common/helpers';
 import Swal from 'sweetalert2';
+import Floors from "services/floorServices"
 
 
-const Capacity = (props) => {
+const Capacity = props => {
 	const authContext = useContext(AuthContext);
 	const [dataCenter, setDataCenter] = useState([])
 	const [currentDataCenter, setCurrentDataCenter] = useState([])
@@ -29,6 +30,16 @@ const Capacity = (props) => {
 	const [dataHallAscending,setDataHallAscending] = useState(true);
 	const [isReadOnly,setIsReadOnly] = useState(true);
 	const [isDataChanged,setDataChanged] = useState(false);
+	
+	const [infraImpact,setInfraImpact] = useState([{
+		impact:""
+	}]);
+	const [securityImpact,setSecurityImpact] = useState([{
+		impact:""
+	}]);
+	const [ehsImpact,setEhsImpact] = useState([{
+		impact:""
+	}]);
 
 	useEffect(() => {
 
@@ -78,6 +89,13 @@ const Capacity = (props) => {
 		
 		CapacityService.store(authContext.token(),{data}).then(res => {
 			selectDataCenterFloor(currentDataCenter);
+			Floors.findAllFloor(authContext.token()).then(res => {
+				
+				authContext.setFloor(res.data.data);
+				authContext.setDataCenterFloor(res.data.data);
+			}).catch(err => {
+				/*500 internal server error*/
+			})
 			Swal.fire("Data Updated");
 		});
 
@@ -237,6 +255,71 @@ const Capacity = (props) => {
 			return extractValue(hall);
 		}
 	}
+	const addInfraInputField = () => {
+        
+        setInfraImpact([...infraImpact, {
+            impact:'',
+        }])
+    }
+
+    const removeInfraInputFields = (index) => {
+        
+        const rows = [...infraImpact];
+        rows.splice(index, 1);
+        setInfraImpact(rows);
+   	}
+
+   	const handleInfraChange = (index, evnt)=>{
+    
+    	const { name, value } = evnt.target;
+    	const list = [...infraImpact];
+    	list[index][name] = value;
+    	setInfraImpact(list);
+	}
+
+	const addSecurityInputField = () => {
+        
+        setSecurityImpact([...securityImpact, {
+            impact:'',
+        }])
+    }
+
+    const removeSecurityInputFields = (index) => {
+        
+        const rows = [...securityImpact];
+        rows.splice(index, 1);
+        setSecurityImpact(rows);
+   	}
+
+   	const handleSecurityChange = (index, evnt)=>{
+    
+    	const { name, value } = evnt.target;
+    	const list = [...securityImpact];
+    	list[index][name] = value;
+    	setSecurityImpact(list);
+	}
+
+	const addEHSInputField = () => {
+        
+        setEhsImpact([...ehsImpact, {
+            impact:'',
+        }])
+    }
+
+    const removeEHSInputFields = (index) => {
+        
+        const rows = [...ehsImpact];
+        rows.splice(index, 1);
+        setEhsImpact(rows);
+   	}
+
+   	const handleEHSChange = (index, evnt)=>{
+    
+    	const { name, value } = evnt.target;
+    	const list = [...ehsImpact];
+    	list[index][name] = value;
+    	setEhsImpact(list);
+	}
 	
 
 
@@ -387,6 +470,299 @@ const Capacity = (props) => {
                </div>
             </div>
             <div className="table_monthly mt-4" style={{overflowX:"auto"}}>
+            	<div className="flex_table">
+            	<table class="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
+                  <thead>
+                     <tr>
+                        <th colspan="7" class="text-start" style={{
+                        	fontWeight: "600 !important",
+                        	fontSize: "1.2rem",
+                        	border: "none"
+                        }}>Data Center Performance</th>
+                     </tr>
+                     
+                     <tr>
+                        <td class="text-start"  style={{fontWeight: 600}}>Service Availability:</td>
+                        <td class="text-start">
+                        <input type="text" style={{width: "70px"}}/></td>
+                        <td class="text-start"></td>
+                        
+                     </tr>
+                     <tr>
+                        <td class="text-start">Operating PUE</td>
+                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        <td class="text-start"></td>
+                       
+                     </tr>
+                     <tr>
+                        <td class="text-start">Design PUE</td>
+                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        
+                     </tr>
+                     <tr>
+                        <td class="text-start">Installed IT Capacity (KVA)</td>
+                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        
+                     </tr>
+                     <tr>
+                        <td class="text-start">Operating IT Consumption</td>
+                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        
+                     </tr>
+                     <tr>
+                        <td class="text-start"></td>
+                        <td class="text-start"></td>           
+                     </tr>
+                     <tr>
+                        <td class="text-start"></td>
+                        <td class="text-start"></td>
+                     </tr>
+                  </thead>
+               </table>
+               <table class="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
+               		<thead>
+                     	<tr>
+                         	<th colspan="7" class="text-start" style={{
+                        	fontWeight: "600 !important",
+                        	fontSize: "1.2rem",
+                        	border: "none"
+                        	}}></th>
+                     	</tr>
+                     	<tr>
+                     		<td className="text-start" 
+	                        style={{background:"#595959",color: "#fff"}}>
+	                        	Incidents
+	                        </td>
+	                        <td className="text-start" 
+	                        style={{background:"#595959",color: "#fff"}}>
+	                        	Infra
+	                        </td>
+	                        <td className="text-start" 
+	                        style={{background:"#595959",color: "#fff"}}>
+	                        	Security
+	                        </td>
+	                        <td className="text-start" 
+	                        style={{background:"#595959",color: "#fff"}}>
+	                        	EHS
+	                        </td>
+                     	</tr>
+                     	<tr>
+	                        <td class="text-start">Number</td>
+	                        <td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+	                         <td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+	                        <td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+                     	</tr>
+                     	<tr>
+                     		
+                        	<td class="text-start">Types</td>
+                        	<td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+	                         <td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+	                        <td className="text-start">
+	                        	<input type="text" style={{width:'70px'}} />
+	                        </td>
+                     
+                     	</tr>
+                     	<tr>
+	                       <td class="text-start" valign="top">Who's Impacted</td>
+	                       <td className="text-start" valign="top">
+
+                        	{infraImpact && infraImpact.map((impact,index) => {
+
+                        		if (index === 0) {
+
+	                        		return(
+
+			                        	<div >
+			                        		<input 
+			                        		type="text" 
+			                        		onChange={(evnt)=>handleInfraChange(index, evnt)} value={impact.impact}
+			                        		style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "green", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-plus" 
+				                        	aria-hidden="true" 
+				                        	onClick={addInfraInputField}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}else{
+                        			return(
+
+			                        	<div style={{marginTop:"5px"}}>
+			                        		<input type="text" style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "red", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-times" 
+				                        	aria-hidden="true" 
+				                        	onClick={removeInfraInputFields}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}
+                        	})}
+                        	
+                        </td>
+	                        <td className="text-start" valign="top">
+                        	{securityImpact && securityImpact.map((impact,index) => {
+
+                        		if (index === 0) {
+
+	                        		return(
+
+			                        	<div >
+			                        		<input 
+			                        		type="text" 
+			                        		onChange={(evnt)=>handleSecurityChange(index, evnt)} value={impact.impact}
+			                        		style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "green", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-plus" 
+				                        	aria-hidden="true" 
+				                        	onClick={addSecurityInputField}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}else{
+                        			return(
+
+			                        	<div style={{marginTop:"5px"}}>
+			                        		<input type="text" style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "red", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-times" 
+				                        	aria-hidden="true" 
+				                        	onClick={removeSecurityInputFields}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}
+                        	})}
+                       		</td>
+	                       	<td className="text-start" valign="top">
+                        	{ehsImpact && ehsImpact.map((impact,index) => {
+
+                        		if (index === 0) {
+
+	                        		return(
+
+			                        	<div >
+			                        		<input 
+			                        		type="text" 
+			                        		onChange={(evnt)=>handleEHSChange(index, evnt)} value={impact.impact}
+			                        		style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "green", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-plus" 
+				                        	aria-hidden="true" 
+				                        	onClick={addEHSInputField}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}else{
+                        			return(
+
+			                        	<div style={{marginTop:"5px"}}>
+			                        		<input type="text" style={{width:"70px"}} />
+				                        	<span style={{
+				                        		marginLeft: "5px", 
+				                        		cursor: "pointer", 
+				                        		background: "red", 
+				                        		color:"#fff", 
+				                        		padding: "2px 5px", 
+				                        		fontSize: "12px"
+				                        	}}>
+				                        	<i 
+				                        	className="fa fa-times" 
+				                        	aria-hidden="true" 
+				                        	onClick={removeEHSInputFields}
+				                        	style={{
+				                        		color:"#fff",
+				                        		fontSize: "12px",
+				                        		padding: "2px 5px"
+				                        	}}></i>
+				                        	</span>
+			                        	</div>
+	                        		);
+                        		}
+                        	})}
+                       		</td>
+                     	</tr>
+                     	
+                    </thead>
+               </table>
+            	
+               </div>
+              
                	<table className="table border border-light table-borderless">
                	<thead>
                		<tr>
