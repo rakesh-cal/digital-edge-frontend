@@ -3,6 +3,7 @@ import Layout from "../../Layouts";
 import Navigation from "../Component/Navigation";
 import DataCenterNav from "./Navigation";
 import RoleModel from "services/roleServices";
+import CabinetServices from "services/CabinetService"
 import DataCenterChart from "services/dataCenterChart";
 import Floors from "services/floorServices"
 import AuthContext from "context";
@@ -10,11 +11,13 @@ import Floor from "./floor"
 import EditFloor from './editFloor';
 import CreateDataHall from './dataHall'
 import EditDataHall from './editDataHall' 
+import EditCabinet from './editCabinet'
 import CreateDataCenter from './dataCenter'
 import './dataCenter.css';
 import {numberFormat} from 'common/helpers';
 import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2'
+import Common from "services/commonService";
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
@@ -23,12 +26,16 @@ const DataCenter = (props) => {
 	const [currentDataCenter, setCurrentDataCenter] = useState([])
 	const [allFloorData, setAllFloorData] = useState([])
 	const [dataHall, setDataHall] = useState([])
+	const [selectedDataHall, setSelectedDataHall] = useState({})
+	const [cabinets, setCabinets] = useState([])
 	const [floorIndex, setFloorIndex] = useState(0)
 	const [dataCenterId, setDataCenterId] = useState()
 	const [editFloorData, setEditFloorData] = useState()
 	const [showFloorEdit, setShowFloorEdit] = useState(false)
 	const [editDataHall, setEditDataHall] = useState()
 	const [showDataHallEdit, setShowDataHallEdit] = useState(false)
+	const [editCabinets, setEditCabinets] = useState()
+	const [showCabinetsEdit, setShowCabinetsEdit] = useState(false)
 	const [countryName, setCountryName] = useState("Country");
 	const [currentTab,setCurrentTab] = useState(0);
 	const [activeTab,setActiveTab] = useState();
@@ -36,9 +43,12 @@ const DataCenter = (props) => {
 	const initialMount = useRef(true);
 	const [ascending,setAscending] = useState(true);
 	const [dataHallAscending,setDataHallAscending] = useState(true);
+	const [cabinetAscending,setCabinetAscending] = useState(true);
 	const [isReadOnly,setIsReadOnly] = useState(true);
+	const [statusData,setStatusData] = useState([]);
 
 	useEffect(() => {
+		Common.status().then(res => setStatusData(res.data.data));
 		getData();
 
 		if(authContext?.getAuth?.role?.space === 3 || 
@@ -72,9 +82,22 @@ const DataCenter = (props) => {
 		setDataHallAscending(true);
         const sortedData = data.data_halls.sort((a,b)=> (a.name < b.name ? 1 : -1))
         setDataHall(sortedData)
+		if(sortedData.length > 0){	
+			getCabinetsData(sortedData[0])	
+		}else{	
+			setCabinets([])	
+		}
         setActiveTab(data.id)
 		setFloorIndex(data.id)
     }
+
+	const getStatus = id => {	
+		let statusDataMod = statusData.filter((data) => {	
+			return data.id == id	
+		})	
+		//console.log(statusDataMod)	
+		return statusDataMod[0].name	
+	}
 
 	const getAllDataCenter = async () => {
 		setCountryName("Country");
@@ -126,6 +149,18 @@ const DataCenter = (props) => {
 			}	
 		}
 	}
+
+	const getCabinetsData = async(e) => {	
+		setCabinetAscending(true)	
+			
+		setSelectedDataHall(e)	
+		await CabinetServices.selectByHallId(authContext.token(), {data_hall_id: e.id}).then(res => {	
+				//console.log(res.data.data)	
+			//	if(res.data.data.length > 0){	
+				setCabinets(res.data.data.sort((a,b)=> (a.name < b.name ? 1 : -1)))	
+			//	}	
+		})	
+	}
 	
 	const selectDataCenterFloor = async(e, floor_id = 0) => {
 		//console.log("called data center",e,floor_id)
@@ -142,6 +177,7 @@ const DataCenter = (props) => {
 
 					setAllFloorData(res.data.data);
 				 	setDataHall(res.data.data[floor_id].data_halls)
+					 getCabinetsData(res.data.data[floor_id].data_halls[0])
 					setFloorIndex(floor_id)
 					setActiveTab(floor_id)
 				}
@@ -154,11 +190,13 @@ const DataCenter = (props) => {
 				//console.log(data,floor_id,dataObj)
 				setAllFloorData(data);
 				setDataHall(dataObj[0].data_halls);
+				getCabinetsData(dataObj[0].data_halls[0])
 				setFloorIndex(dataObj[0].id)
 				setActiveTab(dataObj[0].id)
 			}else{
 				setAllFloorData(authContext.getFloor.filter(data => data.data_center_id === e.id));
 				setDataHall(data[floor_id].data_halls);
+				getCabinetsData(data[floor_id].data_halls[0])
 				setFloorIndex(data[floor_id].id)
 				setActiveTab(data[floor_id].id)
 			}
@@ -215,6 +253,11 @@ const DataCenter = (props) => {
 		
 		setEditDataHall(res)
 		setShowDataHallEdit(true)
+	}
+
+	const getEditCabinetPopup = (res) => {	
+		setEditCabinets(res)	
+		setShowCabinetsEdit(true)	
 	}
 
 	const deleteDataCenter = () => {
@@ -432,7 +475,7 @@ const DataCenter = (props) => {
 
 	<div className="card-body data-hall-block">
 	    <div className="table-responsive">
-	        <table className="table header-border table-hover verticle-middle">
+	        <table className="table header-border verticle-middle">
 	            <thead>
 	                <tr>
 	                    <th scope="col" className="pd-l" width="25%"
@@ -465,11 +508,9 @@ const DataCenter = (props) => {
 	                	if(res.deletedAt != null){
 	                		return null;
 	                	}
-	                    return <tr key={res.id}>
-	                        <th className="pd-l bold-txt"> 
-	                        {res.name} 
-
-
+	                    return <tr key={res.id} className={selectedDataHall.id === res.id?"tr_active":""}>	
+	                        <th className="pd-l bold-txt" onClick={() => getCabinetsData(res)} style={{cursor:"pointer"}}> 	
+	                        {res.name} 	
 	                        </th>
 	                        <td>
 	                            <div 
@@ -499,6 +540,112 @@ const DataCenter = (props) => {
 
 
 	</div>
+	<div class="col-xl-4 col-lg-4"></div>
+
+	<div className="col-xl-8 col-lg-8">	
+			<h5 class="card-title">{selectedDataHall.name}</h5>
+			<div className="leftnav mt-0">
+			<p> Cabinets </p>
+			{isReadOnly == false?(
+			<p style={{display:'none'}}>
+			<a 
+			href="#" 
+			id="addneww" 
+			data-bs-toggle="modal" 
+			data-bs-target="#exampleModalCenter">
+			<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Halls </a> </p>
+			):null}
+
+			
+
+			</div>
+
+	<div className="card-body data-hall-block">
+	    <div className="table-responsive" style={{'overflow-x': 'auto', 'width': '100%', height: '400px', 'margin-bottom': '1.5rem'}}>
+	        <table className="table header-border verticle-middle" style={{'white-space': 'nowrap'}}>
+	            <thead>
+	                <tr >
+	                    <th scope="col" className="pd-l" width="25%"
+	                    	onClick={() => {
+	                    		setCabinetAscending(!cabinetAscending);
+								if(cabinetAscending === true){
+
+									cabinets.sort((a,b)=> (a.name > b.name ? 1 : -1))
+								}
+								if (cabinetAscending === false) {
+									cabinets.sort((a,b)=> (a.name < b.name ? 1 : -1))
+								}
+	                    	}}
+	                    	style={{cursor:"pointer"}}
+	                    > 
+	                    Name {" "}
+	                    <i className={`fa fa-solid fa-sort-${cabinetAscending?'down':'up'}`}></i>
+	                    </th>
+	                    <th scope="col" className="pd-l" onClick={() => {
+	                    		setCabinetAscending(!cabinetAscending);
+								if(cabinetAscending === true){
+
+									cabinets.sort((a,b)=> (a.customer > b.customer ? 1 : -1))
+								}
+								if (cabinetAscending === false) {
+									cabinets.sort((a,b)=> (a.customer < b.customer ? 1 : -1))
+								}
+	                    	}}> Customer {" "} <i className={`fa fa-solid fa-sort-${cabinetAscending?'down':'up'}`}></i></th>
+	                    <th scope="col" className="pd-l" onClick={() => {
+	                    		setCabinetAscending(!cabinetAscending);
+								if(cabinetAscending === true){
+
+									cabinets.sort((a,b)=> (a.status > b.status ? 1 : -1))
+								}
+								if (cabinetAscending === false) {
+									cabinets.sort((a,b)=> (a.status < b.status ? 1 : -1))
+								}
+	                    	}} > Status {" "} <i className={`fa fa-solid fa-sort-${cabinetAscending?'down':'up'}`}></i></th>
+	                    <th scope="col" > Max kWs </th>
+						<th scope="col" > Sold kWs </th>
+						<th scope="col" > # Breakers </th>
+						<th scope="col" > # X-Connects </th>
+	                    {isReadOnly?(
+	                    <th scope="col" >  </th>
+	                    ):null}
+	                </tr>
+	            </thead>
+	            <tbody id="cardnew">
+	            {
+	                cabinets && cabinets.length > 0 && cabinets.map((res)=>{
+	                	if(res.deletedAt != null){
+	                		return null;
+	                	}
+	                    return <tr key={res.id}>
+	                        <th className="pd-l bold-txt"> 
+	                        {res.name} 
+
+
+	                        </th>
+							<th className="pd-l bold-txt" style={{cursor:"pointer"}}> 
+	                        {res.customer}
+	                        </th>
+	                        <td>
+								{getStatus(res.status)}
+	                        </td>
+	                         <td> {numberFormat(res.max_kw,3)} </td>
+			    			<td> {numberFormat(res.sold_kw,3)} </td>
+							<td> {res.num_breakers} </td>
+							<td> {res.num_xconnects} </td>
+	                      {isReadOnly == false?(
+	                        <td> <a /*onClick={() => getEditCabinetPopup(res)}*/> <i className="fas fa-edit"></i></a> </td>
+	                      ):null}
+	                    </tr>
+	                })
+	            }
+	            </tbody>
+	        </table>
+	    </div>
+	</div>	
+
+
+
+	</div>
 </div>
 
 							{/* {currentDataCenter && <Floor allFloorData={allFloorData} dataCenterId={dataCenterId} selectDataCenterFloor={selectDataCenterFloor}/>} */}
@@ -513,6 +660,8 @@ const DataCenter = (props) => {
 				<CreateDataHall show={true} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex}/>
 
 				{showDataHallEdit && <EditDataHall data_hall={allFloorData[floorIndex]} show={showDataHallEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex} editDataHall={editDataHall} setShow={setShowDataHallEdit}/>}
+				{showCabinetsEdit && <EditCabinet data_hall={allFloorData[floorIndex]} show={showCabinetsEdit} data_center_id={currentDataCenter} selectDataCenterFloor={selectDataCenterFloor} floorIndex={floorIndex} setFloorIndex={setFloorIndex} editCabinets={editCabinets} setShow={setShowCabinetsEdit} getCabinetsData={getCabinetsData} selectedDataHall={selectedDataHall}/>}
+
 				<CreateDataCenter show={true} country={country} setDataCenter={setDataCenter} dataCenter={dataCenter}/>
 		</Layout>
 	)
