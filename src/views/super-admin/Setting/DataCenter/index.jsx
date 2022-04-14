@@ -177,7 +177,10 @@ const DataCenter = (props) => {
 
 					setAllFloorData(res.data.data);
 				 	setDataHall(res.data.data[floor_id].data_halls)
-					 getCabinetsData(res.data.data[floor_id].data_halls[0])
+					 if(res.data.data[floor_id].data_halls.length > 0){
+						getCabinetsData(res.data.data[floor_id].data_halls[0])
+					 }
+					 
 					setFloorIndex(floor_id)
 					setActiveTab(floor_id)
 				}
@@ -190,13 +193,17 @@ const DataCenter = (props) => {
 				//console.log(data,floor_id,dataObj)
 				setAllFloorData(data);
 				setDataHall(dataObj[0].data_halls);
-				getCabinetsData(dataObj[0].data_halls[0])
+				if(dataObj[0].data_halls.length > 0){
+					getCabinetsData(dataObj[0].data_halls[0])
+				}
 				setFloorIndex(dataObj[0].id)
 				setActiveTab(dataObj[0].id)
 			}else{
 				setAllFloorData(authContext.getFloor.filter(data => data.data_center_id === e.id));
 				setDataHall(data[floor_id].data_halls);
-				getCabinetsData(data[floor_id].data_halls[0])
+				if(data[floor_id].data_halls.length > 0){
+					getCabinetsData(data[floor_id].data_halls[0])
+				}
 				setFloorIndex(data[floor_id].id)
 				setActiveTab(data[floor_id].id)
 			}
@@ -540,10 +547,10 @@ const DataCenter = (props) => {
 
 
 	</div>
-	<div class="col-xl-4 col-lg-4"></div>
+	<div className="col-xl-4 col-lg-4"></div>
 
 	<div className="col-xl-8 col-lg-8">	
-			<h5 class="card-title">{selectedDataHall.name}</h5>
+			<h5 className="card-title">{selectedDataHall?.name || ""}</h5>
 			<div className="leftnav mt-0">
 			<p> Cabinets </p>
 			{isReadOnly == false?(
@@ -561,8 +568,8 @@ const DataCenter = (props) => {
 			</div>
 
 	<div className="card-body data-hall-block">
-	    <div className="table-responsive" style={{'overflow-x': 'auto', 'width': '100%', height: '400px', 'margin-bottom': '1.5rem'}}>
-	        <table className="table header-border verticle-middle" style={{'white-space': 'nowrap'}}>
+	    <div className="table-responsive" style={{'overflowX': 'auto', 'width': '100%', height: '400px', 'marginBottom': '1.5rem'}}>
+	        <table className="table header-border verticle-middle" style={{'whiteSpace': 'nowrap'}}>
 	            <thead>
 	                <tr >
 	                    <th scope="col" className="pd-l" width="25%"
