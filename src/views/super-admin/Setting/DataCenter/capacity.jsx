@@ -10,7 +10,8 @@ import CapacityService from 'services/capacityService';
 import moment from 'moment';
 import {numberFormat} from 'common/helpers';
 import Swal from 'sweetalert2';
-import Floors from "services/floorServices"
+import Floors from "services/floorServices";
+import DataCenterPerformance from "services/DataCenterPerformance";
 
 
 const Capacity = props => {
@@ -30,15 +31,31 @@ const Capacity = props => {
 	const [dataHallAscending,setDataHallAscending] = useState(true);
 	const [isReadOnly,setIsReadOnly] = useState(true);
 	const [isDataChanged,setDataChanged] = useState(false);
+	const [performanceState,setPerformanceState] = useState({
+		data_center_id:'',
+		month:'',
+		year:'',
+		availability:'',
+		opertating_pue:'',
+		design_pue:'',
+		installed_kw:'',
+		operating_kw:'',
+		infra_incident_num:'',
+		infra_incident_type:'',
+		security_incident_num:'',
+		security_incident_type:'',
+		ehs_incident_num:'',
+		ehs_incident_type:''
+	});
 	
 	const [infraImpact,setInfraImpact] = useState([{
-		impact:""
+		impact:"-"
 	}]);
 	const [securityImpact,setSecurityImpact] = useState([{
-		impact:""
+		impact:"-"
 	}]);
 	const [ehsImpact,setEhsImpact] = useState([{
-		impact:""
+		impact:"-"
 	}]);
 
 	useEffect(() => {
@@ -54,15 +71,11 @@ const Capacity = props => {
 				authContext?.getAuth?.role?.m_e === 3 || 
 				authContext?.getAuth?.role?.network === 3){
 				setIsReadOnly(false);
-			}
-			
+			}		
 			
 		}else{
-			
-			
+		
 			setDataChanged(false);
-			
-			
 		}
 		getAllDataCenter();
 		
@@ -82,24 +95,97 @@ const Capacity = props => {
 		
 		});
 	}
+	const getPeformanceData = async payload => {
+
+
+		await DataCenterPerformance.index(authContext.token(),payload).then(data => {
+			
+			setPerformanceState(data.data.data);
+			if(data.data.data?.infra_incidents && data.data.data.infra_incidents.length){
+
+				setInfraImpact(data.data.data.infra_incidents);
+			}else{
+				setInfraImpact([{impact:"-"}]);
+			}
+			if(data.data.data?.security_incidents && data.data.data.security_incidents.length){
+
+				setSecurityImpact(data.data.data.security_incidents);
+			}else{
+				setSecurityImpact([{impact:"-"}]);	
+			}
+			if(data.data.data?.ehs_incidents && data.data.data.ehs_incidents.length){
+
+				setEhsImpact(data.data.data.ehs_incidents);
+			}else{
+				setEhsImpact([{impact:"-"}]);
+			}
+		})
+	}
 	const onSubmit = async () => {
+
+		delete performanceState.infra_incidents;
+		delete performanceState.security_incidents;
+		delete performanceState.ehs_incidents;
+
+		const performanceData = {
+			...performanceState,
+			data_center_id: currentDataCenter.id,
+			month: month?month:authContext.getMonthYear.month -1,
+			year: year?year:authContext.getMonthYear.year,
+			infra:infraImpact,
+			security:securityImpact,
+			ehs:ehsImpact
+		};
+
+		
 
 		let data = [];
 		capcityData && capcityData.map(util => data.push(util.monthly_utilization));
 		
 		CapacityService.store(authContext.token(),{data}).then(res => {
-			selectDataCenterFloor(currentDataCenter);
-			Floors.findAllFloor(authContext.token()).then(res => {
+			
+			DataCenterPerformance.updateOrCreate(authContext.token(),performanceData)
+			.then(() => {
 				
-				authContext.setFloor(res.data.data);
-				authContext.setDataCenterFloor(res.data.data);
-			}).catch(err => {
-				/*500 internal server error*/
+				Swal.fire({
+				  	icon: 'success',
+					title: 'Success',
+					text: 'Data Updated'
+				});
+
+			}).catch(() => {
+				Swal.fire({
+				    icon: 'error',
+				    title: 'Oops...',
+				    text: 'Something went wrong!'
+				})
+			});
+			
+			selectDataCenterFloor(currentDataCenter);
+			findFloor();
+			
+			
+		}).catch(() => {
+
+			Swal.fire({
+			    icon: 'error',
+			    title: 'Oops...',
+			    text: 'Something went wrong!'
 			})
-			Swal.fire("Data Updated");
 		});
 
 		onClose();
+	}
+	const findFloor = () => {
+
+		Floors.findAllFloor(authContext.token()).then(res => {
+				
+			authContext.setFloor(res.data.data);
+			authContext.setDataCenterFloor(res.data.data);
+		}).catch(err => {
+			//500 internal server error
+				
+		})
 	}
 	const onClose = () => {
 		modalRef.current.click();
@@ -162,6 +248,8 @@ const Capacity = props => {
 			month: month?month:authContext.getMonthYear.month -1,
 			year: year?year:authContext.getMonthYear.year
 		};
+
+		getPeformanceData(data);
 		
 		await CapacityService.index(authContext.token(),data).then(async res => {
 			
@@ -181,6 +269,8 @@ const Capacity = props => {
 			month: month,
 			year: year
 		};
+		getPeformanceData(data);
+
 		if(month >= Number(authContext.getMonthYear.month) || year > authContext.getMonthYear.year){
 			Swal.fire("You can not select future date");
 		}else{
@@ -262,7 +352,7 @@ const Capacity = props => {
         }])
     }
 
-    const removeInfraInputFields = (index) => {
+    const removeInfraInputFields = index => {
         
         const rows = [...infraImpact];
         rows.splice(index, 1);
@@ -271,6 +361,7 @@ const Capacity = props => {
 
    	const handleInfraChange = (index, evnt)=>{
     
+    	setSubmitEnabled(true);
     	const { name, value } = evnt.target;
     	const list = [...infraImpact];
     	list[index][name] = value;
@@ -284,7 +375,7 @@ const Capacity = props => {
         }])
     }
 
-    const removeSecurityInputFields = (index) => {
+    const removeSecurityInputFields = index => {
         
         const rows = [...securityImpact];
         rows.splice(index, 1);
@@ -293,6 +384,7 @@ const Capacity = props => {
 
    	const handleSecurityChange = (index, evnt)=>{
     
+    	setSubmitEnabled(true);
     	const { name, value } = evnt.target;
     	const list = [...securityImpact];
     	list[index][name] = value;
@@ -306,7 +398,7 @@ const Capacity = props => {
         }])
     }
 
-    const removeEHSInputFields = (index) => {
+    const removeEHSInputFields = index => {
         
         const rows = [...ehsImpact];
         rows.splice(index, 1);
@@ -315,6 +407,7 @@ const Capacity = props => {
 
    	const handleEHSChange = (index, evnt)=>{
     
+    	setSubmitEnabled(true);
     	const { name, value } = evnt.target;
     	const list = [...ehsImpact];
     	list[index][name] = value;
@@ -471,10 +564,10 @@ const Capacity = props => {
             </div>
             <div className="table_monthly mt-4" style={{overflowX:"auto"}}>
             	<div className="flex_table">
-            	<table class="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
+            	<table className="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
                   <thead>
                      <tr>
-                        <th colspan="7" class="text-start" style={{
+                        <th colSpan="7" className="text-start" style={{
                         	fontWeight: "600 !important",
                         	fontSize: "1.2rem",
                         	border: "none"
@@ -482,47 +575,87 @@ const Capacity = props => {
                      </tr>
                      
                      <tr>
-                        <td class="text-start"  style={{fontWeight: 600}}>Service Availability:</td>
-                        <td class="text-start">
-                        <input type="text" style={{width: "70px"}}/></td>
-                        <td class="text-start"></td>
+                        <td className="text-start" style={{fontWeight: 600}}>Service Availability:</td>
+                        <td className="text-start">
+
+                        	<input 
+                        	type="text" 
+                        	value={extractValue(performanceState?.availability)}
+                        	onChange={event =>{
+                        	setSubmitEnabled(true);
+                        	 setPerformanceState({...performanceState,availability:event.target.value})}}
+                        	style={{width: "70px"}}/>
+                        </td>
+                        <td className="text-start"></td>
                         
                      </tr>
                      <tr>
-                        <td class="text-start">Operating PUE</td>
-                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
-                        <td class="text-start"></td>
+                        <td className="text-start">Operating PUE</td>
+                        <td className="text-start">
+                        	<input 
+                        	type="text" 
+                        	value={extractValue(performanceState?.opertating_pue)}
+                        	onChange={event => {
+                        		setSubmitEnabled(true);
+                        		setPerformanceState({...performanceState,opertating_pue:event.target.value})}}
+                        	style={{width: "70px"}} />
+                        </td>
+                        <td className="text-start"></td>
                        
                      </tr>
                      <tr>
-                        <td class="text-start">Design PUE</td>
-                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        <td className="text-start">Design PUE</td>
+                        <td className="text-start">
+                        	<input 
+                        	type="text" 
+                        	value={extractValue(performanceState?.design_pue)}
+                        	onChange={event => {
+                        		setSubmitEnabled(true);
+                        		setPerformanceState({...performanceState,design_pue:event.target.value})}}
+                        	style={{width: "70px"}} />
+                        </td>
                         
                      </tr>
                      <tr>
-                        <td class="text-start">Installed IT Capacity (KVA)</td>
-                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        <td className="text-start">Installed IT Capacity (KVA)</td>
+                        <td className="text-start">
+                        	<input 
+                        	type="text" 
+                        	value={extractValue(performanceState?.installed_kw)}
+                        	onChange={event => {
+                        		setSubmitEnabled(true);
+                        		setPerformanceState({...performanceState,installed_kw:event.target.value})}}
+                        	style={{width: "70px"}} />
+                        </td>
                         
                      </tr>
                      <tr>
-                        <td class="text-start">Operating IT Consumption</td>
-                        <td class="text-start"><input type="text" style={{width: "70px"}} /></td>
+                        <td className="text-start">Operating IT Consumption</td>
+                        <td className="text-start">
+                        	<input 
+                        	type="text" 
+                        	value={extractValue(performanceState?.operating_kw)}
+                        	onChange={event => {
+                        		setSubmitEnabled(true);
+                        		setPerformanceState({...performanceState,operating_kw:event.target.value})}}
+                        	style={{width: "70px"}} />
+                        </td>
                         
                      </tr>
                      <tr>
-                        <td class="text-start"></td>
-                        <td class="text-start"></td>           
+                        <td className="text-start"></td>
+                        <td className="text-start"></td>           
                      </tr>
                      <tr>
-                        <td class="text-start"></td>
-                        <td class="text-start"></td>
+                        <td className="text-start"></td>
+                        <td className="text-start"></td>
                      </tr>
                   </thead>
                </table>
-               <table class="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
+               <table className="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
                		<thead>
                      	<tr>
-                         	<th colspan="7" class="text-start" style={{
+                         	<th colSpan="7" className="text-start" style={{
                         	fontWeight: "600 !important",
                         	fontSize: "1.2rem",
                         	border: "none"
@@ -547,45 +680,83 @@ const Capacity = props => {
 	                        </td>
                      	</tr>
                      	<tr>
-	                        <td class="text-start">Number</td>
+	                        <td className="text-start">Number</td>
 	                        <td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.infra_incident_num)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,infra_incident_num:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
 	                         <td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.security_incident_num)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,security_incident_num:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
 	                        <td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.ehs_incident_num)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,ehs_incident_num:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
                      	</tr>
                      	<tr>
                      		
-                        	<td class="text-start">Types</td>
+                        	<td className="text-start">Types</td>
                         	<td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.infra_incident_type)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,infra_incident_type:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
 	                         <td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.security_incident_type)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,security_incident_type:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
 	                        <td className="text-start">
-	                        	<input type="text" style={{width:'70px'}} />
+	                        	<input 
+	                        	type="text" 
+	                        	value={extractValue(performanceState?.ehs_incident_type)}
+                        		onChange={event => {
+                        			setSubmitEnabled(true);
+                        			setPerformanceState({...performanceState,ehs_incident_type:event.target.value})}}
+	                        	style={{width:'70px'}} />
 	                        </td>
                      
                      	</tr>
                      	<tr>
-	                       <td class="text-start" valign="top">Who's Impacted</td>
+	                       <td className="text-start" valign="top">Who's Impacted</td>
 	                       <td className="text-start" valign="top">
 
-                        	{infraImpact && infraImpact.map((impact,index) => {
+                        	{infraImpact && infraImpact.map((imp,index) => {
 
                         		if (index === 0) {
 
 	                        		return(
 
-			                        	<div >
+			                        	<div key={index}>
 			                        		<input 
 			                        		type="text" 
-			                        		onChange={(evnt)=>handleInfraChange(index, evnt)} value={impact.impact}
+			                        		name="impact"
+			                        		onChange={(evnt) => handleInfraChange(index, evnt)} 
+			                        		value={extractValue(imp?.impact)}
 			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
@@ -595,6 +766,7 @@ const Capacity = props => {
 				                        		padding: "2px 5px", 
 				                        		fontSize: "12px"
 				                        	}}>
+				                        
 				                        	<i 
 				                        	className="fa fa-plus" 
 				                        	aria-hidden="true" 
@@ -610,8 +782,13 @@ const Capacity = props => {
                         		}else{
                         			return(
 
-			                        	<div style={{marginTop:"5px"}}>
-			                        		<input type="text" style={{width:"70px"}} />
+			                        	<div style={{marginTop:"5px"}} key={index}>
+			                        		<input 
+			                        		type="text"
+			                        		name="impact" 
+			                        		value={extractValue(imp?.impact)}
+			                        		onChange={(evnt) => handleInfraChange(index, evnt)}
+			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
@@ -620,10 +797,11 @@ const Capacity = props => {
 				                        		padding: "2px 5px", 
 				                        		fontSize: "12px"
 				                        	}}>
+				                        
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={removeInfraInputFields}
+				                        	onClick={() =>removeInfraInputFields(index)}
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -637,16 +815,18 @@ const Capacity = props => {
                         	
                         </td>
 	                        <td className="text-start" valign="top">
-                        	{securityImpact && securityImpact.map((impact,index) => {
+                        	{securityImpact && securityImpact.map((imp,index) => {
 
                         		if (index === 0) {
 
 	                        		return(
 
-			                        	<div >
+			                        	<div key={index}>
 			                        		<input 
 			                        		type="text" 
-			                        		onChange={(evnt)=>handleSecurityChange(index, evnt)} value={impact.impact}
+			                        		name="impact"
+			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
+			                        		value={extractValue(imp?.impact)}
 			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
@@ -671,8 +851,13 @@ const Capacity = props => {
                         		}else{
                         			return(
 
-			                        	<div style={{marginTop:"5px"}}>
-			                        		<input type="text" style={{width:"70px"}} />
+			                        	<div style={{marginTop:"5px"}} key={index}>
+			                        		<input 
+			                        		type="text" 
+			                        		name="impact"
+			                        		value={extractValue(imp?.impact)}
+			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
+			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
@@ -684,7 +869,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={removeSecurityInputFields}
+				                        	onClick={() => removeSecurityInputFields(index)}
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -697,16 +882,18 @@ const Capacity = props => {
                         	})}
                        		</td>
 	                       	<td className="text-start" valign="top">
-                        	{ehsImpact && ehsImpact.map((impact,index) => {
+                        	{ehsImpact && ehsImpact.map((imp,index) => {
 
                         		if (index === 0) {
 
 	                        		return(
 
-			                        	<div >
+			                        	<div key={index}>
 			                        		<input 
 			                        		type="text" 
-			                        		onChange={(evnt)=>handleEHSChange(index, evnt)} value={impact.impact}
+			                        		name="impact"
+			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
+			                        		value={extractValue(imp.impact)}
 			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
@@ -731,8 +918,13 @@ const Capacity = props => {
                         		}else{
                         			return(
 
-			                        	<div style={{marginTop:"5px"}}>
-			                        		<input type="text" style={{width:"70px"}} />
+			                        	<div style={{marginTop:"5px"}} key={index}>
+			                        		<input 
+			                        		type="text" 
+			                        		name="impact"
+			                        		value={extractValue(imp.impact)}
+			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
+			                        		style={{width:"70px"}} />
 				                        	<span style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
@@ -744,7 +936,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={removeEHSInputFields}
+				                        	onClick={() => removeEHSInputFields(index)}
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",

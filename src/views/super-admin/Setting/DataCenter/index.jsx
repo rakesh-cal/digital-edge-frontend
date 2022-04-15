@@ -394,7 +394,6 @@ const DataCenter = (props) => {
 		):null}
 
 	
-		
 		</div>
 		<table>
 		<thead>
