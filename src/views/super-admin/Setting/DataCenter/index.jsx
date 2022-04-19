@@ -611,9 +611,9 @@ const DataCenter = (props) => {
 						<th scope="col" > Sold kWs </th>
 						<th scope="col" > # Breakers </th>
 						<th scope="col" > # X-Connects </th>
-	                    {isReadOnly?(
+	                    {/* {isReadOnly?(
 	                    <th scope="col" >  </th>
-	                    ):null}
+	                    ):null} */}
 	                </tr>
 	            </thead>
 	            <tbody id="cardnew">
@@ -638,9 +638,9 @@ const DataCenter = (props) => {
 			    			<td> {numberFormat(res.sold_kw,3)} </td>
 							<td> {res.num_breakers} </td>
 							<td> {res.num_xconnects} </td>
-	                      {isReadOnly == false?(
-	                        <td> <a /*onClick={() => getEditCabinetPopup(res)}*/> <i className="fas fa-edit"></i></a> </td>
-	                      ):null}
+	                      {/* {isReadOnly == false?(
+	                        <td> <a onClick={() => getEditCabinetPopup(res)}> <i className="fas fa-edit"></i></a> </td>
+	                      ):null} */}
 	                    </tr>
 	                })
 	            }
