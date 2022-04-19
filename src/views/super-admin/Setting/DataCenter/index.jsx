@@ -607,9 +607,9 @@ const DataCenter = (props) => {
 						<th scope="col" > Sold kWs </th>
 						<th scope="col" > # Breakers </th>
 						<th scope="col" > # X-Connects </th>
-	                    {isReadOnly?(
+	                    {/* {isReadOnly?(
 	                    <th scope="col" >  </th>
-	                    ):null}
+	                    ):null} */}
 	                </tr>
 	            </thead>
 	            <tbody id="cardnew">
