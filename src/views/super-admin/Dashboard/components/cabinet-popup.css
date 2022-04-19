@@ -6,7 +6,7 @@
   min-height: 80vh;
 }
 thead {
-  border-bottom: 0.0625rem solid #eeeeee;
+  /*border-bottom: 0.0625rem solid #eeeeee;*/
 }
 
 select.selectpicker {

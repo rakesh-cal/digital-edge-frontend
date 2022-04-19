@@ -11,6 +11,7 @@ import Profile from 'views/profile'
 import CanAccess from "./CanAccess";
 import Forbidden from "./Forbidden";
 import Capacity from "views/super-admin/Setting/DataCenter/capacity";
+import ESG from "views/super-admin/ESG";
 
 const AuthenticatedRoutes = () => {
 
@@ -47,6 +48,8 @@ const AuthenticatedRoutes = () => {
 				<Route path="/test-graph" exact element={<Test />} />
 				<Route path="/graph-state-chart" exact element={<StateChart />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/esg" element={<ESG />} />
+				
 			{/*	<Route path="/forbidden" element={<Forbidden />} />*/}
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
