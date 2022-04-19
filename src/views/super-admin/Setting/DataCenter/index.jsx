@@ -15,13 +15,11 @@ import EditCabinet from './editCabinet'
 import CreateDataCenter from './dataCenter'
 import './dataCenter.css';
 import {numberFormat} from 'common/helpers';
-import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2'
 import Common from "services/commonService";
 
 const DataCenter = (props) => {
 	const authContext = useContext(AuthContext);
-	const [state,setState] = useState([]);
 	const [dataCenter, setDataCenter] = useState([])
 	const [currentDataCenter, setCurrentDataCenter] = useState([])
 	const [allFloorData, setAllFloorData] = useState([])
@@ -29,7 +27,6 @@ const DataCenter = (props) => {
 	const [selectedDataHall, setSelectedDataHall] = useState({})
 	const [cabinets, setCabinets] = useState([])
 	const [floorIndex, setFloorIndex] = useState(0)
-	const [dataCenterId, setDataCenterId] = useState()
 	const [editFloorData, setEditFloorData] = useState()
 	const [showFloorEdit, setShowFloorEdit] = useState(false)
 	const [editDataHall, setEditDataHall] = useState()
@@ -93,7 +90,7 @@ const DataCenter = (props) => {
 
 	const getStatus = id => {	
 		let statusDataMod = statusData.filter((data) => {	
-			return data.id == id	
+			return data.id === id	
 		})	
 		//console.log(statusDataMod)	
 		return statusDataMod[0].name	
@@ -166,7 +163,6 @@ const DataCenter = (props) => {
 		//console.log("called data center",e,floor_id)
 		setAscending(true);
 		setCurrentDataCenter(e)
-		setDataCenterId(e)
 
 		if(authContext.getFloor.length === 0){
 
@@ -188,7 +184,7 @@ const DataCenter = (props) => {
 
 		}else{
 			const data = authContext.getFloor.filter(data => data.data_center_id === e.id);
-			if(floor_id != 0){
+			if(floor_id !== 0){
 				const dataObj = data.filter(data => data.id === floor_id)
 				//console.log(data,floor_id,dataObj)
 				setAllFloorData(data);
@@ -239,7 +235,7 @@ const DataCenter = (props) => {
 				}}>
 					<a 
 					href="#" 
-					className={`nav-link ${currentTab == 0 && i == 0 ?"active show":""}`}
+					className={`nav-link ${currentTab === 0 && i === 0 ?"active show":""}`}
 					>
 						
 						{data.name}
@@ -334,10 +330,10 @@ const DataCenter = (props) => {
 										{
 										dataCenter && dataCenter.map((data,index) => {
 
-		                  				if(currentDataCenter && currentDataCenter.id == data.id){
+		                  				if(currentDataCenter && currentDataCenter.id === data.id){
 		                  					return(
 			                  					<li 
-			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					className={index === 0?'nav-item':'nav-item'}
 			                  					key={index}>
 			                  						<a 
 			                  						onClick={() => 
@@ -353,7 +349,7 @@ const DataCenter = (props) => {
 
 			                  				return(
 			                  					<li 
-			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					className={index === 0?'nav-item':'nav-item'}
 			                  					key={index}>
 			                  						<a 
 			                  						onClick={() => selectDataCenterFloor(data)}
@@ -372,7 +368,7 @@ const DataCenter = (props) => {
                         </div>
 							<div id="title" style={{marginBottom: "-2.687rem"}}>
 								<div className="row"><h5 className="card-title col-md-6"> Inventory for {currentDataCenter.name} </h5><p className="col-md-6" style={{textAlign:"right"}}>
-								{isReadOnly == false?(
+								{isReadOnly === false?(
 								<a href="#" id="addnewdatacenter" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg2">
 		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Data Center</a>
 								):null}
@@ -388,7 +384,7 @@ const DataCenter = (props) => {
 		<div className="invtab">
 		<p>Floor</p>
 
-		{isReadOnly == false?(
+		{isReadOnly === false?(
 		<p><a href="#" id="addneww" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
 		<img src="\images\plus-circle-blue.svg"  style={{width:'1.25rem'}} /> &nbsp;Add Floor</a> </p>
 		):null}
@@ -414,7 +410,7 @@ const DataCenter = (props) => {
 			></i></th>
 			<th> Cabs </th>
 			<th> kW </th>
-			{isReadOnly == false ? (
+			{isReadOnly === false ? (
 			<th> </th>
 			):null}
 			</tr>
@@ -434,7 +430,7 @@ const DataCenter = (props) => {
 			    </td>
 			    <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_cabs),0))} </td>
 			     <td> {numberFormat(res.data_halls.reduce((previous,current) => previous += Number(current.design_power),0),3)} </td>
-			     {isReadOnly == false?(
+			     {isReadOnly === false?(
 				    <td> 
 				    <a 
 				    onClick={() => getEditFloorPopup(res)} 
@@ -465,7 +461,7 @@ const DataCenter = (props) => {
 
 			<div className="leftnav">
 			<p> Data Halls </p>
-			{isReadOnly == false?(
+			{isReadOnly === false?(
 			<p>
 			<a 
 			href="#" 
@@ -552,7 +548,7 @@ const DataCenter = (props) => {
 			<h5 className="card-title">{selectedDataHall?.name || ""}</h5>
 			<div className="leftnav mt-0">
 			<p> Cabinets </p>
-			{isReadOnly == false?(
+			{isReadOnly === false?(
 			<p style={{display:'none'}}>
 			<a 
 			href="#" 
@@ -638,9 +634,9 @@ const DataCenter = (props) => {
 			    			<td> {numberFormat(res.sold_kw,3)} </td>
 							<td> {res.num_breakers} </td>
 							<td> {res.num_xconnects} </td>
-	                      {/* {isReadOnly == false?(
+	                      {isReadOnly === false?(
 	                        <td> <a onClick={() => getEditCabinetPopup(res)}> <i className="fas fa-edit"></i></a> </td>
-	                      ):null} */}
+	                      ):null}
 	                    </tr>
 	                })
 	            }

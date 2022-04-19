@@ -103,8 +103,8 @@ const Navigation = () => {
 	                  	<li className="nav-item">
 						  <Link to="/data-center" className={`nav-link dt_nav ${location.pathname == "/data-center" ? 'active' : ''}`}>Data Centres</Link>
 	                  	</li>
-	                  	<li className="nav-item hide">
-	                     	<a className="nav-link dt_nav" href="#">Tickets</a>
+	                  	<li className="nav-item">
+	                     	<Link to="/esg" className={`nav-link dt_nav ${location.pathname == "/esg" ? 'active' : ''}`}>ESG</Link>
 	                  	</li>
 	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Svc Desks</a>

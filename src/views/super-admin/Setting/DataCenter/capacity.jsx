@@ -5,7 +5,6 @@ import DataCenterNav from "./Navigation";
 import RoleModel from "services/roleServices";
 import AuthContext from "context";
 import './capacityStyle.css';
-import {Link} from 'react-router-dom';
 import CapacityService from 'services/capacityService';
 import moment from 'moment';
 import {numberFormat} from 'common/helpers';
@@ -23,14 +22,10 @@ const Capacity = props => {
 	const [countryName, setCountryName] = useState("Country");
 	const initialMount = useRef(true);
 	const [capcityData,setCapacityData] = useState([]);
-	const [state,setState] = useState({});
-	const [payloadData,setPayloadData] = useState([]);
 	const [month,setMonth] = useState("");
 	const [year,setYear] = useState("");
 	const modalRef = useRef(null);
 	const [isSubmitEnabled,setSubmitEnabled] = useState(false);
-	const [ascending,setAscending] = useState(true);
-	const [dataHallAscending,setDataHallAscending] = useState(true);
 	const [isReadOnly,setIsReadOnly] = useState(true);
 	const [isDataChanged,setDataChanged] = useState(false);
 	const [performanceState,setPerformanceState] = useState({
@@ -277,7 +272,7 @@ const Capacity = props => {
 		}else{
 			
 			await CapacityService.index(authContext.token(),data).then(async res => {
-				if(Number(authContext.getMonthYear.month)-1 == Number(month) && authContext.getMonthYear.year == year){
+				if(Number(authContext.getMonthYear.month)-1 === Number(month) && authContext.getMonthYear.year === year){
 					setIsReadOnly(false);	
 				}else{
 					setIsReadOnly(true);
@@ -331,6 +326,18 @@ const Capacity = props => {
 		}else{
 			if(data === 0){
 				return "-";
+			}else{
+				return data;
+			}
+		}
+	}
+	const extractValue2 = data => {
+		
+		if(data === undefined){
+			return "-";
+		}else{
+			if(data === 0){
+				return 0;
 			}else{
 				return data;
 			}
@@ -572,17 +579,20 @@ const Capacity = props => {
 										{
 										dataCenter && dataCenter.map((data,index) => {
 
-		                  				if(currentDataCenter && currentDataCenter.id == data.id){
+		                  				if(currentDataCenter && currentDataCenter.id === data.id){
 		                  					return(
 			                  					<li 
-			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					className={index === 0?'nav-item':'nav-item'}
 			                  					key={index}>
 			                  						<a 
 			                  						onClick={() => 
 														selectDataCenterFloor(data)}
 			                  						style={{cursor:'pointer'}} 
 			                  						className="nav-link active show"> 
-			                  							<img className="down setting_down" src="\images\downward-arrow.png" />
+			                  							<img 
+			                  							className="down setting_down" 
+			                  							alt="arrow"
+			                  							src="\images\downward-arrow.png" />
 			                  							{data.name}
 			                  						</a> 
 			                  					</li>
@@ -591,7 +601,7 @@ const Capacity = props => {
 
 			                  				return(
 			                  					<li 
-			                  					className={index == 0?'nav-item':'nav-item'}
+			                  					className={index === 0?'nav-item':'nav-item'}
 			                  					key={index}>
 			                  						<a 
 			                  						onClick={() => selectDataCenterFloor(data)}
@@ -622,14 +632,14 @@ const Capacity = props => {
 		                          	className="nav-link active" 
 		                          	id="tab1" 
 		                          	data-bs-toggle="tab" 
-		                          	href="#">Monthly Utilisation</a>
+		                          	>Monthly Utilisation</a>
                            		</li>
 	                           <li className="nav-item gap_s">
 	                              	<a 
 	                              	className="nav-link" 
 	                              	id="tab2" 
 	                              	data-bs-toggle="tab" 
-	                              	href="#"> Thresholds</a>
+	                              	> Thresholds</a>
 	                           </li>
                         	</ul>
                      	</div>
@@ -683,7 +693,7 @@ const Capacity = props => {
                 
                   	</div>
                   	<div className="excel_icon">
-                      	<img src="\images\excel.png" width="25px" onClick={downloadExcel}/> 
+                      	<img alt="excel" src="\images\excel.png" width="25px" onClick={downloadExcel}/> 
                   	</div>
                </div>
             </div>
@@ -705,11 +715,15 @@ const Capacity = props => {
 
                         	<input 
                         	type="text" 
-                        	value={extractValue(performanceState?.availability)}
+                        	value={extractValue2(performanceState?.availability)}
                         	onChange={event =>{
                         	setSubmitEnabled(true);
                         	 setPerformanceState({...performanceState,availability:event.target.value})}}
-                        	style={{width: "70px"}}/>
+                        	style={{
+                        		width: "70px",
+                        		textAlign:"right",
+                        		color:"#58a1d6"
+                        	}}/>
                         </td>
                         <td className="text-start"></td>
                         
@@ -719,11 +733,11 @@ const Capacity = props => {
                         <td className="text-start">
                         	<input 
                         	type="text" 
-                        	value={extractValue(performanceState?.opertating_pue)}
+                        	value={extractValue2(performanceState?.opertating_pue)}
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,opertating_pue:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "70px",textAlign:"right"}} />
                         </td>
                         <td className="text-start"></td>
                        
@@ -733,11 +747,11 @@ const Capacity = props => {
                         <td className="text-start">
                         	<input 
                         	type="text" 
-                        	value={extractValue(performanceState?.design_pue)}
+                        	value={extractValue2(performanceState?.design_pue)}
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,design_pue:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "70px",textAlign:"right"}} />
                         </td>
                         
                      </tr>
@@ -746,11 +760,11 @@ const Capacity = props => {
                         <td className="text-start">
                         	<input 
                         	type="text" 
-                        	value={extractValue(performanceState?.installed_kw)}
+                        	value={extractValue2(performanceState?.installed_kw)}
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,installed_kw:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "70px",textAlign:"right"}} />
                         </td>
                         
                      </tr>
@@ -759,11 +773,11 @@ const Capacity = props => {
                         <td className="text-start">
                         	<input 
                         	type="text" 
-                        	value={extractValue(performanceState?.operating_kw)}
+                        	value={extractValue2(performanceState?.operating_kw)}
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,operating_kw:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "70px",textAlign:"right"}} />
                         </td>
                         
                      </tr>
@@ -777,7 +791,11 @@ const Capacity = props => {
                      </tr>
                   </thead>
                </table>
-               <table className="table table-borderless tb_dcp mb-4" style={{width:'350px',whiteSpace:'nowrap'}}>
+               <table className="table table-borderless tb_dcp mb-4" style={{
+               	width:'350px',
+               	whiteSpace:'nowrap'
+
+               }}>
                		<thead>
                      	<tr>
                          	<th colSpan="7" className="text-start" style={{
@@ -809,7 +827,7 @@ const Capacity = props => {
 	                        <td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.infra_incident_num)}
+	                        	value={extractValue2(performanceState?.infra_incident_num)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,infra_incident_num:event.target.value})}}
@@ -818,7 +836,7 @@ const Capacity = props => {
 	                         <td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.security_incident_num)}
+	                        	value={extractValue2(performanceState?.security_incident_num)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,security_incident_num:event.target.value})}}
@@ -827,7 +845,7 @@ const Capacity = props => {
 	                        <td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.ehs_incident_num)}
+	                        	value={extractValue2(performanceState?.ehs_incident_num)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,ehs_incident_num:event.target.value})}}
@@ -840,7 +858,7 @@ const Capacity = props => {
                         	<td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.infra_incident_type)}
+	                        	value={extractValue2(performanceState?.infra_incident_type)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,infra_incident_type:event.target.value})}}
@@ -849,7 +867,7 @@ const Capacity = props => {
 	                         <td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.security_incident_type)}
+	                        	value={extractValue2(performanceState?.security_incident_type)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,security_incident_type:event.target.value})}}
@@ -858,7 +876,7 @@ const Capacity = props => {
 	                        <td className="text-start">
 	                        	<input 
 	                        	type="text" 
-	                        	value={extractValue(performanceState?.ehs_incident_type)}
+	                        	value={extractValue2(performanceState?.ehs_incident_type)}
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,ehs_incident_type:event.target.value})}}
@@ -881,9 +899,11 @@ const Capacity = props => {
 			                        		type="text" 
 			                        		name="impact"
 			                        		onChange={(evnt) => handleInfraChange(index, evnt)} 
-			                        		value={extractValue(imp?.impact)}
+			                        		value={extractValue2(imp?.impact)}
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span 
+				                        	onClick={addInfraInputField}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "green", 
@@ -895,7 +915,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-plus" 
 				                        	aria-hidden="true" 
-				                        	onClick={addInfraInputField}
+				                        	
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -911,10 +931,12 @@ const Capacity = props => {
 			                        		<input 
 			                        		type="text"
 			                        		name="impact" 
-			                        		value={extractValue(imp?.impact)}
+			                        		value={extractValue2(imp?.impact)}
 			                        		onChange={(evnt) => handleInfraChange(index, evnt)}
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span 
+				                        	onClick={() =>removeInfraInputFields(index)}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "red", 
@@ -926,7 +948,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={() =>removeInfraInputFields(index)}
+				                        	
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -951,9 +973,11 @@ const Capacity = props => {
 			                        		type="text" 
 			                        		name="impact"
 			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
-			                        		value={extractValue(imp?.impact)}
+			                        		value={extractValue2(imp?.impact)}
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span 
+				                        	onClick={addSecurityInputField}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "green", 
@@ -964,7 +988,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-plus" 
 				                        	aria-hidden="true" 
-				                        	onClick={addSecurityInputField}
+				                        	
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -980,10 +1004,12 @@ const Capacity = props => {
 			                        		<input 
 			                        		type="text" 
 			                        		name="impact"
-			                        		value={extractValue(imp?.impact)}
+			                        		value={extractValue2(imp?.impact)}
 			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span 
+				                        	onClick={() => removeSecurityInputFields(index)}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "red", 
@@ -994,7 +1020,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={() => removeSecurityInputFields(index)}
+				                        	
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -1018,20 +1044,21 @@ const Capacity = props => {
 			                        		type="text" 
 			                        		name="impact"
 			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
-			                        		value={extractValue(imp.impact)}
+			                        		value={extractValue2(imp.impact)}
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span
+				                        	onClick={addEHSInputField}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "green", 
 				                        		color:"#fff", 
 				                        		padding: "2px 5px", 
-				                        		fontSize: "12px"
+				                        		fontSize: "12px",
 				                        	}}>
 				                        	<i 
 				                        	className="fa fa-plus" 
 				                        	aria-hidden="true" 
-				                        	onClick={addEHSInputField}
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -1047,10 +1074,12 @@ const Capacity = props => {
 			                        		<input 
 			                        		type="text" 
 			                        		name="impact"
-			                        		value={extractValue(imp.impact)}
+			                        		value={extractValue2(imp.impact)}
 			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
 			                        		style={{width:"70px"}} />
-				                        	<span style={{
+				                        	<span
+				                        	onClick={() => removeEHSInputFields(index)}
+				                        	style={{
 				                        		marginLeft: "5px", 
 				                        		cursor: "pointer", 
 				                        		background: "red", 
@@ -1061,7 +1090,7 @@ const Capacity = props => {
 				                        	<i 
 				                        	className="fa fa-times" 
 				                        	aria-hidden="true" 
-				                        	onClick={() => removeEHSInputFields(index)}
+				                        	
 				                        	style={{
 				                        		color:"#fff",
 				                        		fontSize: "12px",
@@ -1150,23 +1179,7 @@ const Capacity = props => {
   			let totalCabs = 0;
   			let totalCages = 0;
   			let totalpower = 0;
-  			let allKeys = [
-  				'total_cabs',
-  				'total_cages',
-  				'total_power',
-  				'sold_cabs',
-  				'sold_cages',
-  				'sold_power',
-  				'reserved_cabs',
-  				'reserved_cages',
-  				'reserved_power',
-  				'blocked_cabs',
-  				'blocked_cages',
-  				'blocked_power',
-  				'available_cabs',
-  				'available_cages',
-  				'available_power'
-  			];
+ 
 
   			if (capacity.monthly_utilization != null  ) {
   				
@@ -1190,7 +1203,7 @@ const Capacity = props => {
   					totalpower = Number(c_m.total_power) - Number(utilPower);
   				}else{
 
-  					if(c_m.total_cabs == undefined){
+  					if(c_m.total_cabs === undefined){
   						c_m.total_cabs = capacity.design_cabs;
   					}
   					totalCabs = Number(capacity.design_cabs) - Number(utilCab);
