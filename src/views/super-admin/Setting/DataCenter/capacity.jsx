@@ -141,7 +141,8 @@ const Capacity = props => {
 			
 			DataCenterPerformance.updateOrCreate(authContext.token(),performanceData)
 			.then(() => {
-				
+				selectDataCenterFloor(currentDataCenter);
+				findFloor();
 				Swal.fire({
 				  	icon: 'success',
 					title: 'Success',
@@ -156,8 +157,7 @@ const Capacity = props => {
 				})
 			});
 			
-			selectDataCenterFloor(currentDataCenter);
-			findFloor();
+			
 			
 			
 		}).catch(() => {
