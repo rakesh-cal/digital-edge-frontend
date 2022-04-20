@@ -622,7 +622,7 @@ const Capacity = props => {
 <div className="row">
 	<div>
         <div className="row gy-4 align-items-center">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-9">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-9">
                	<div className="card-header" id="header">
                   	<div className="d-sm-flex d-block justify-content-between align-items-center">
                      	<div className="card-action coin-tabs mt-3 mt-sm-0">
@@ -646,12 +646,12 @@ const Capacity = props => {
                   	</div>
                </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-12 col-lg-3">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-3">
                 <div className="left_box_month">
                 	<div className="choose_date">
                 
                 		<select 
-                		className="form-select" 
+                		className="form-select w-3rem" 
                 		aria-label="Default select example"
                 		onChange={(event) => {
                 			setMonth(event.target.value);
@@ -668,7 +668,7 @@ const Capacity = props => {
                   	<div className="choose_date">
                 
                 		<select 
-                		className="form-select" 
+                		className="form-select w-3rem" 
                 		aria-label="Default select example" 
                 		onChange={(event) => {
                 			setYear(event.target.value)
@@ -692,8 +692,8 @@ const Capacity = props => {
                 		>Go</button>
                 
                   	</div>
-                  	<div className="excel_icon">
-                      	<img alt="excel" src="\images\excel.png" width="25px" onClick={downloadExcel}/> 
+                  	<div className="excel_icon cap_icon">
+                      	<img alt="excel" src="\images\excel.png" width="45px" onClick={downloadExcel}/> 
                   	</div>
                </div>
             </div>

@@ -99,12 +99,7 @@ const ESG = () => {
                          }}>100.00%</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 600	
-                         }}
-                         >Infrastructure Incident</td>
+                         <td className='bg_font'>Infrastructure Incident</td>
                          <td></td>
                          <td></td>
                          <td></td>
@@ -198,11 +193,7 @@ const ESG = () => {
                          }}>0</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 600	
-                         }}>Security Indcident</td>
+                         <td className='bg_font'>Security Indcident</td>
                          <td></td>
                          <td></td>
                          <td></td>
@@ -274,11 +265,7 @@ const ESG = () => {
                          }}>N/A</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 600	
-                         }}>Environment, Health & safety (EHS) incident</td>
+                         <td className='bg_font'>Environment, Health & safety (EHS) incident</td>
                          <td></td>
                          <td></td>
                          <td></td>
@@ -350,11 +337,7 @@ const ESG = () => {
                          }}>N/A</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 600	
-                         }}>Operating PUE</td>
+                         <td className='bg_font'>Operating PUE</td>
                          <td></td>
                          <td></td>
                          <td></td>

@@ -55,6 +55,17 @@
 .main_sec_esg{
    border-bottom: 1px solid #E7E8E9;
 }
+table.table.table-borderless.esg_exprt.mb-5 tr td {
+    border-bottom: 1px solid #eee;
+}
+.bg_font{
+    
+}
+table.table.table-borderless.esg_exprt.mb-5 td.bg_font {
+    font-size: 0.938rem !important ;
+    color: rgb(14, 14, 14);
+    font-weight: blod;
+}
 
 @media (min-width: 1600px){
 .main_sec_esg  .container, .container-sm, .container-md, .container-lg, .container-xl {

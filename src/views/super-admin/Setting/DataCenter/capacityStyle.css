@@ -128,3 +128,14 @@ table.table.table-borderless.tb_dcp_view tr td {
     justify-content: flex-start;
     align-items: baseline;
 }
+table.table.table-borderless.tb_dcp.mb-4 tr td input {
+    padding: 0px 5px;
+}
+.excel_icon.cap_icon{
+    background-color: transparent;
+}
+
+.form-select.w-3rem {
+    width: 4rem;
+    padding: 5px;
+}
