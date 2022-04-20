@@ -74,4 +74,14 @@ table.table.table-borderless.esg_exprt.mb-5 td.bg_font {
 .data_esg_tb .container, .container-sm, .container-md, .container-lg, .container-xl {
     max-width: 1335px;
 }
+.main_esg .choose_date select {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    font-family: 'DM sans';
+    width: 5.5rem;
+    text-align: center;
+    border-radius: 0px;
+}
 }

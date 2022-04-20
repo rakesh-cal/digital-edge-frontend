@@ -693,7 +693,7 @@ const Capacity = props => {
                 
                   	</div>
                   	<div className="excel_icon cap_icon">
-                      	<img alt="excel" src="\images\excel.png" width="45px" onClick={downloadExcel}/> 
+                      	<img alt="excel" src="\images\excel.png" width="40px" onClick={downloadExcel}/> 
                   	</div>
                </div>
             </div>
