@@ -130,7 +130,7 @@ const ESG = () => {
 			                        <th style={{
 			                        	fontSize: "1rem",
 			                        	color: "#92979A",
-			                        	textAlign: "right"
+			                        	textAlign: "left"
 			                        }}>{data.name}</th>
 
                         		)
@@ -152,7 +152,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem",
 			                         	color:"#418DC8", 
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                        }}>{data.data_center_performance.availability}</td>
 
                         		)
@@ -180,7 +180,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.infra_incident_num}</td>
 
                         		)
@@ -201,7 +201,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.infra_incident_type}</td>
 
                         		)
@@ -224,7 +224,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>
 			                         	{
 	data.data_center_performance.infra_incidents.length &&data.data_center_performance.infra_incidents.map(infra => {
@@ -252,7 +252,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>0</td>
 
                         		)
@@ -277,7 +277,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.security_incident_num}</td>
 
                         		)
@@ -299,7 +299,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.security_incident_type}</td>
 
                         		)
@@ -321,7 +321,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>
 			                         	{
 	data.data_center_performance.security_incidents.length && data.data_center_performance.security_incidents.map(security => <p>{security.impact}</p>)}
@@ -351,7 +351,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.ehs_incident_num}</td>
 
                         		)
@@ -372,7 +372,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.ehs_incident_type}</td>
 
                         		)
@@ -394,7 +394,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>
 			                         	{
 	data.data_center_performance.ehs_incidents.length && data.data_center_performance.ehs_incidents.map(ehs => <p>{ehs.impact}</p>)}
@@ -417,7 +417,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.opertating_pue}</td>
 
                         		)
@@ -439,7 +439,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.design_pue}</td>
 
                         		)
@@ -461,7 +461,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.installed_kw}</td>
 
                         		)
@@ -482,7 +482,7 @@ const ESG = () => {
 			                        <td style={{
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
-			                         	textAlign: "right"
+			                         	textAlign: "left"
 			                         }}>{data.data_center_performance.operating_kw}</td>
 
                         		)
