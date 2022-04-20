@@ -69,6 +69,9 @@ table.table.table-borderless.esg_exprt.mb-5 td.bg_font {
 
 @media (min-width: 1600px){
 .main_sec_esg  .container, .container-sm, .container-md, .container-lg, .container-xl {
-    max-width: 1250px;
+    max-width: 1335px;
+}
+.data_esg_tb .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1335px;
 }
 }
