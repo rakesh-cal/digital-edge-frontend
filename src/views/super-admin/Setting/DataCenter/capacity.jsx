@@ -720,7 +720,7 @@ const Capacity = props => {
                         	setSubmitEnabled(true);
                         	 setPerformanceState({...performanceState,availability:event.target.value})}}
                         	style={{
-                        		width: "70px",
+                        		width: "55px",
                         		color:"#58a1d6"
                         	}}/>
                         </td>
@@ -736,7 +736,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,opertating_pue:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         <td className="text-start"></td>
                        
@@ -750,7 +750,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,design_pue:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
@@ -763,7 +763,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,installed_kw:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
@@ -776,7 +776,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,operating_kw:event.target.value})}}
-                        	style={{width: "70px"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
@@ -830,7 +830,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,infra_incident_num:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
 	                         <td className="text-start">
 	                        	<input 
@@ -839,7 +839,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,security_incident_num:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
 	                        <td className="text-start">
 	                        	<input 
@@ -848,7 +848,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,ehs_incident_num:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
                      	</tr>
                      	<tr>
@@ -861,7 +861,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,infra_incident_type:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
 	                         <td className="text-start">
 	                        	<input 
@@ -870,7 +870,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,security_incident_type:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
 	                        <td className="text-start">
 	                        	<input 
@@ -879,7 +879,7 @@ const Capacity = props => {
                         		onChange={event => {
                         			setSubmitEnabled(true);
                         			setPerformanceState({...performanceState,ehs_incident_type:event.target.value})}}
-	                        	style={{width:'70px'}} />
+	                        	style={{width:'55px'}} />
 	                        </td>
                      
                      	</tr>
@@ -899,7 +899,7 @@ const Capacity = props => {
 			                        		name="impact"
 			                        		onChange={(evnt) => handleInfraChange(index, evnt)} 
 			                        		value={extractValue2(imp?.impact)}
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span 
 				                        	onClick={addInfraInputField}
 				                        	style={{
@@ -932,7 +932,7 @@ const Capacity = props => {
 			                        		name="impact" 
 			                        		value={extractValue2(imp?.impact)}
 			                        		onChange={(evnt) => handleInfraChange(index, evnt)}
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span 
 				                        	onClick={() =>removeInfraInputFields(index)}
 				                        	style={{
@@ -973,7 +973,7 @@ const Capacity = props => {
 			                        		name="impact"
 			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
 			                        		value={extractValue2(imp?.impact)}
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span 
 				                        	onClick={addSecurityInputField}
 				                        	style={{
@@ -1005,7 +1005,7 @@ const Capacity = props => {
 			                        		name="impact"
 			                        		value={extractValue2(imp?.impact)}
 			                        		onChange={(evnt)=> handleSecurityChange(index, evnt)} 
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span 
 				                        	onClick={() => removeSecurityInputFields(index)}
 				                        	style={{
@@ -1044,7 +1044,7 @@ const Capacity = props => {
 			                        		name="impact"
 			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
 			                        		value={extractValue2(imp.impact)}
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span
 				                        	onClick={addEHSInputField}
 				                        	style={{
@@ -1075,7 +1075,7 @@ const Capacity = props => {
 			                        		name="impact"
 			                        		value={extractValue2(imp.impact)}
 			                        		onChange={(evnt)=> handleEHSChange(index, evnt)} 
-			                        		style={{width:"70px"}} />
+			                        		style={{width:"55px"}} />
 				                        	<span
 				                        	onClick={() => removeEHSInputFields(index)}
 				                        	style={{

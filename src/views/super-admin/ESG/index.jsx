@@ -114,7 +114,7 @@ const ESG = () => {
       </div>
       <div class="data_esg_tb mt-4 mb-5">
          <div class="container">
-            <div class="tb_st_esg">
+            <div class="tb_st_esg" >
                 <table class="table table-borderless esg_exprt mb-5">
                    <thead>
                      <tr>
@@ -170,7 +170,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of Incidents</td>
                         {
                         	state && state.map(data => {
@@ -189,7 +191,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of Incidents</td>
                         {
                         	state && state.map(data => {
@@ -210,7 +214,9 @@ const ESG = () => {
                          style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Customers Impacted</td>
                         {
                         	state && state.map(data => {
@@ -236,7 +242,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Total Service Downtime(mins)</td>
                         {
                         	state && state.map(data => {
@@ -259,7 +267,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of security incidents</td>
                         {
                         	state && state.map(data => {
@@ -279,7 +289,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of incidents</td>
                          {
                         	state && state.map(data => {
@@ -299,7 +311,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Who is impacted</td>
                          {
                         	state && state.map(data => {
@@ -327,7 +341,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of EHS incidents</td>
                         {
                         	state && state.map(data => {
@@ -346,7 +362,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of incidents</td>
                         {
                         	state && state.map(data => {
@@ -366,7 +384,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Who is impacted</td>
                         {
                         	state && state.map(data => {
@@ -384,14 +404,9 @@ const ESG = () => {
                         	})
                         }
                       </tr>
+                    
                       <tr>
-                         <td className='bg_font'>Operating PUE</td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                      </tr>
-                      <tr>
-                         <td style={{
+                         <td className="bg_font" style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500	
@@ -411,7 +426,9 @@ const ESG = () => {
                          
                       </tr>
                       <tr>
-                         <td style={{
+                         <td 
+						 className="bg_font"
+						 style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500	
@@ -431,7 +448,9 @@ const ESG = () => {
                         
                       </tr>
                       <tr>
-                         <td style={{
+                         <td 
+						 className="bg_font"
+						 style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500	
@@ -450,7 +469,9 @@ const ESG = () => {
                         }
                       </tr>
                       <tr>
-                         <td style={{
+                         <td 
+						 className="bg_font"
+						 style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500	
