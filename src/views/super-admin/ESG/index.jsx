@@ -10,13 +10,13 @@ const ESG = () => {
 			<div className="main_sec_esg">
 				<div className="container my-3 main_esg">
 					<div className="row g-3">
-						<div className="col-12 col-sm-7">
+						<div className="col-12 col-sm-8">
 							<div className="txt_esg_top">
 								<h3>Data center Performance</h3>
 								<p>Mar 2022</p>
               </div>
             </div>
-            <div className="col-12 col-sm-5">
+            <div className="col-12 col-sm-4">
             	<div className="left_box_month">
             			<div className="choose_date">
                  		<select className="form-select" aria-label="Default select example">
