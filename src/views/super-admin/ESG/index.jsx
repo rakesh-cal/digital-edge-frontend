@@ -1,3 +1,4 @@
+import { relativeTimeRounding } from 'moment';
 import React,{useState} from 'react';
 import Layout from "../Layouts";
 import './style.css'
@@ -49,7 +50,7 @@ const ESG = () => {
       </div>
       <div class="data_esg_tb mt-4 mb-5">
          <div class="container">
-            <div class="tb_st_esg">
+            <div class="tb_st_esg" >
                 <table class="table table-borderless esg_exprt mb-5">
                    <thead>
                      <tr>
@@ -108,7 +109,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of Incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -130,7 +133,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of Incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -152,7 +157,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Customers Impacted</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -174,7 +181,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Total Service Downtime(mins)</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -202,7 +211,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of security incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -224,7 +235,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -246,7 +259,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Who is impacted</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -274,7 +289,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Number of EHS incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -296,7 +313,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Type of incidents</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -318,7 +337,9 @@ const ESG = () => {
                          <td style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	fontWeight: 500,
+                           position: "relative",
+                           left: "10px"	
                          }}>Who is impacted</td>
                          <td style={{
                          	fontSize: "0.875rem", 
@@ -343,11 +364,7 @@ const ESG = () => {
                          <td></td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
-                         }}>Operating PUE</td>
+                         <td className='bg_font'>Operating PUE</td>
                          <td style={{
                          	fontSize: "0.875rem", 
                          	color:"#0E0E0E",
@@ -365,11 +382,7 @@ const ESG = () => {
                          }}>1.83</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
-                         }}>Design PUE</td>
+                         <td className='bg_font'>Design PUE</td>
                          <td style={{
                          	fontSize: "0.875rem", 
                          	color:"#0E0E0E",
@@ -387,11 +400,7 @@ const ESG = () => {
                          }}>N/A</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
-                         }}>Insralled IT capacity (KVA)</td>
+                         <td className='bg_font'>Insralled IT capacity (KVA)</td>
                          <td style={{
                          	fontSize: "0.875rem", 
                          	color:"#0E0E0E",
@@ -409,11 +418,7 @@ const ESG = () => {
                          }}>3920</td>
                       </tr>
                       <tr>
-                         <td style={{
-                         	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
-                         }}>Operating IT consumption(KVA)</td>
+                         <td className='bg_font'>Operating IT consumption(KVA)</td>
                          <td style={{
                          	fontSize: "0.875rem", 
                          	color:"#0E0E0E",
