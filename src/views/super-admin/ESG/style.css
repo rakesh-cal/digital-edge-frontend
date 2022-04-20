@@ -26,7 +26,7 @@
     align-items: center;
     gap: 5px;
     background: #35A869;
-    padding: 4px 10px;
+    padding: 4px 5px;
     border-radius: 5px;
 }
 .excel_icon span {
@@ -41,7 +41,9 @@
     font-size: 1.125rem;
     font-weight: 500;
     font-family: 'DM sans';
-    width: 4.5rem;
+    width: 5rem;
+    text-align: center;
+    border-radius: 0px;
 }
 .txt_esg_top h3{
    color: #171C3C;

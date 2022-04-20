@@ -138,4 +138,6 @@ table.table.table-borderless.tb_dcp.mb-4 tr td input {
 .form-select.w-3rem {
     width: 4rem;
     padding: 5px;
+    border-radius: 0px;
+    text-align: center;
 }
