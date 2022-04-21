@@ -109,7 +109,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /*New up table code strat*/
 table.table.table-borderless.tb_dcp tr td {
-    padding: 2px 5px !important;
+    padding: 3.5px 5px !important;
 }
 table.table.table-borderless.tb_dcp tr td input {
     height: 20px;
@@ -127,4 +127,36 @@ table.table.table-borderless.tb_dcp_view tr td {
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
+}
+table.table.table-borderless.tb_dcp.mb-4 tr td input {
+    padding: 0px 5px;
+    height: 21px;
+}
+.excel_icon.cap_icon{
+    background-color: transparent;
+    padding: 0px 0px;
+}
+.excel_icon.cap_icon img {
+    padding: 0px;
+}
+
+.form-select.w-3rem {
+    width: 4rem;
+    padding: 5px;
+    border-radius: 0px;
+    text-align: center;
+}
+
+@media (min-width: 1600px){
+    .choose_date button.btn.btn-secondary {
+        padding: 5px 1rem;
+        width: 5rem;
+        border-radius: 5px;
+    }
+    .form-select.w-3rem {
+        width: 5rem;
+        padding: 5px;
+        border-radius: 0px;
+        text-align: center;
+    }
 }
