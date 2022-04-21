@@ -66,6 +66,16 @@ table.table.table-borderless.esg_exprt.mb-5 td.bg_font {
     color: rgb(14, 14, 14);
     font-weight: blod;
 }
+.btn_go_esg button {
+    border-radius: 5px;
+}
+
+.tb_st_esg {
+    overflow-x: auto;
+}
+td.valign{
+    vertical-align: text-top;
+}
 
 @media (min-width: 1600px){
 .main_sec_esg  .container, .container-sm, .container-md, .container-lg, .container-xl {

@@ -114,7 +114,7 @@ const ESG = () => {
       </div>
       <div class="data_esg_tb mt-4 mb-5">
          <div class="container">
-            <div class="tb_st_esg" >
+            <div class="tb_st_esg">
                 <table class="table table-borderless esg_exprt mb-5">
                    <thead>
                      <tr>
@@ -209,14 +209,15 @@ const ESG = () => {
                         }
                       </tr>
                       <tr>
-                         <td 
+                         <td className='valign' 
                          valign="top"
                          style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500,
                            position: "relative",
-                           left: "10px"	
+                           left: "10px",
+                           verticalAlign:"text-top",	
                          }}>Customers Impacted</td>
                         {
                         	state && state.map(data => {
@@ -308,12 +309,13 @@ const ESG = () => {
                          
                       </tr>
                       <tr>
-                         <td style={{
+                         <td className='valign'  style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E", 
                          	fontWeight: 500,
                            position: "relative",
-                           left: "10px"	
+                           left: "10px",
+                           verticalAlign:"text-top",	
                          }}>Who is impacted</td>
                          {
                         	state && state.map(data => {
