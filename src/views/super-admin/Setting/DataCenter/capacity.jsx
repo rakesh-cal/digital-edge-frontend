@@ -721,7 +721,6 @@ const Capacity = props => {
                         	 setPerformanceState({...performanceState,availability:event.target.value})}}
                         	style={{
                         		width: "55px",
-                        		textAlign:"right",
                         		color:"#58a1d6"
                         	}}/>
                         </td>
@@ -737,7 +736,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,opertating_pue:event.target.value})}}
-                        	style={{width: "55px",textAlign:"right"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         <td className="text-start"></td>
                        
@@ -751,7 +750,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,design_pue:event.target.value})}}
-                        	style={{width: "55px",textAlign:"right"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
@@ -764,7 +763,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,installed_kw:event.target.value})}}
-                        	style={{width: "55px",textAlign:"right"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
@@ -777,7 +776,7 @@ const Capacity = props => {
                         	onChange={event => {
                         		setSubmitEnabled(true);
                         		setPerformanceState({...performanceState,operating_kw:event.target.value})}}
-                        	style={{width: "55px",textAlign:"right"}} />
+                        	style={{width: "55px"}} />
                         </td>
                         
                      </tr>
