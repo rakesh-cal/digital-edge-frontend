@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Common from "services/commonService";
 import './cabinet-popup.css';
 import './Layoutcss/65hall.css';
 import './Layoutcss/66hall.css';
@@ -7,11 +8,19 @@ import './Layoutcss/67hall.css';
 
 
 const CabinetPopup = (props) => {
-    const [status, setStatus] = React.useState(['In Service', 'Complete', 'Construction', 'Planning'])
+    const [status, setStatus] = React.useState([])
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const modalRef = useRef(null);
-    useEffect(() => {
+    useEffect(async () => {
         setIsOpen(props.show);
+        let statusData = []
+        await Common.status().then((res) => {
+            res.data.data.forEach(data => {
+                statusData.push(data.name)
+            })
+        });
+
+        setStatus(statusData)
         
     }, [props.show]);
 
