@@ -119,9 +119,11 @@ const Capacity = props => {
 	}
 	const onSubmit = async () => {
 
-		delete performanceState.infra_incidents;
-		delete performanceState.security_incidents;
-		delete performanceState.ehs_incidents;
+		if(performanceState != undefined || performanceState != null ){
+			delete performanceState.infra_incidents;
+			delete performanceState.security_incidents;
+			delete performanceState.ehs_incidents;
+		}
 
 		const performanceData = {
 			...performanceState,
