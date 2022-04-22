@@ -50,6 +50,14 @@ const ESG = () => {
 		}
 		return years.map((y,key) => <option value={y} key={y}>{y}</option>)	
 	}
+	const extractValue = data => {
+		
+		if(data === undefined || data === null){
+			return "-";
+		}else{
+			return data
+		}
+	}
 
 	return (
 		<Layout>
@@ -152,7 +160,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem",
 			                         	color:"#418DC8", 
 			                         	textAlign: "left"
-			                        }}>{data?.data_center_performance?.availability || 'N/A'}</td>
+			                        }}>{extractValue(data?.data_center_performance?.availability)}</td>
 
                         		)
                         	})
@@ -180,7 +188,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.infra_incident_num || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.infra_incident_num)}</td>
 
                         		)
                         	})
@@ -201,7 +209,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.infra_incident_type || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.infra_incident_type)}</td>
 
                         		)
                         	})
@@ -227,7 +235,7 @@ const ESG = () => {
 			                         	textAlign: "left"
 			                         }}>
 			                         	{
-	data?.data_center_performance?.infra_incidents.length ? data?.data_center_performance.infra_incidents.map(infra =>  <p>{infra.impact}</p>):'N/A'}
+	data?.data_center_performance?.infra_incidents.length && data?.data_center_performance.infra_incidents.map(infra =>  <p>{extractValue(infra.impact)}</p>)}
 			                         </td>
 
                         		)
@@ -250,7 +258,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>0</td>
+			                         }}>N/A</td>
 
                         		)
                         	})
@@ -275,7 +283,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.security_incident_num || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.security_incident_num)}</td>
 
                         		)
                         	})
@@ -297,7 +305,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.security_incident_type || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.security_incident_type)}</td>
 
                         		)
                         	})
@@ -322,7 +330,7 @@ const ESG = () => {
 			                         	textAlign: "left"
 			                         }}>
 			                         	{
-	data?.data_center_performance?.security_incidents.length ? data?.data_center_performance?.security_incidents.map(security => <p>{security.impact}</p>):'N/A'}
+	data?.data_center_performance?.security_incidents.length && data?.data_center_performance?.security_incidents.map(security => <p>{extractValue(security.impact)}</p>)}
 			                         </td>
 
                         		)
@@ -350,7 +358,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.ehs_incident_num || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.ehs_incident_num)}</td>
 
                         		)
                         	})
@@ -371,7 +379,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.ehs_incident_type || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.ehs_incident_type)}</td>
 
                         		)
                         	})
@@ -397,7 +405,7 @@ const ESG = () => {
 			                         	textAlign: "left"
 			                         }}>
 			                         	{
-	data?.data_center_performance?.ehs_incidents.length ? data?.data_center_performance?.ehs_incidents.map(ehs => <p>{ehs.impact || 'N/A'}</p>):'N/A'}
+	data?.data_center_performance?.ehs_incidents.length &&  data?.data_center_performance?.ehs_incidents.map(ehs => <p>{extractValue(ehs.impact)}</p>)}
 			                         </td>
 
                         		)
@@ -418,7 +426,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.opertating_pue || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.opertating_pue)}</td>
 
                         		)
                         	})
@@ -440,7 +448,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.design_pue || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.design_pue)}</td>
 
                         		)
                         	})
@@ -462,7 +470,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.installed_kw || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.installed_kw)}</td>
 
                         		)
                         	})
@@ -483,7 +491,7 @@ const ESG = () => {
 			                         	fontSize: "0.875rem", 
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
-			                         }}>{data?.data_center_performance?.operating_kw || 'N/A'}</td>
+			                         }}>{extractValue(data?.data_center_performance?.operating_kw)}</td>
 
                         		)
                         	})
