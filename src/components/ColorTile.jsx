@@ -145,8 +145,8 @@ const Today = () => {
 		    width: "10px",
 		    borderRadius: "3px",
 			marginLeft:".2rem",
-		    backgroundColor: "#f89903"}} ></div>
-		    In Services
+		    backgroundColor: "#e03138"}} ></div>
+		    Today
 		</React.Fragment>
 	);
 }
@@ -160,7 +160,7 @@ const Tomorrow = () => {
 		    borderRadius: "3px",
 			marginLeft:".2rem",
 		    backgroundColor: "#f89903"}} ></div>
-		    In Services
+		    Tomorrow
 		</React.Fragment>
 	);
 }
