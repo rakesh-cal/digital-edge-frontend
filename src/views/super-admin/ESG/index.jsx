@@ -4,6 +4,9 @@ import './style.css';
 import ESGService from 'services/esgServices';
 import AuthContext from "context";
 import moment from 'moment';
+import saveAs from "file-saver";
+import { myBase64Image } from 'components/common/getImage';
+const ExcelJS = require('exceljs');
 
 const ESG = () => {
 
@@ -59,6 +62,114 @@ const ESG = () => {
 		}
 	}
 
+	const downloadExcel = () => {
+		const workbook = new ExcelJS.Workbook();
+		const worksheet = workbook.addWorksheet('My Sheet');
+		console.log(worksheet.id)
+		let row = 5
+		for(let i=0;i<row;i++){
+			worksheet.addRow([]);
+		}
+                        
+		worksheet.getColumn("A").width = 50
+		let header = ['Data center/Site']
+		let serviceAvailable = ['Service Availability']
+		let noOfIncident = ['Number of Incidents']
+		let typeOfIncident = ['Type of Incidents']
+		let customerImapcted = ['Customers Impacted']
+		let totalServiceDowntime = ['Total Service Downtime(mins)']
+		let numSecurityIncident = ['Number of security incidents']
+		let securityTypeIncident = ['Type of Incidents']
+		let securityImpacted = ['Who is impacted']
+		let numEhsincident = ['Number of EHS incidents']
+		let ehsTypeincident = ['Type of incidents']
+		let ehsImpacted = ['Who is impacted']
+		let operationPue = ['Operating PUE']
+		let designedPue = ['Design PUE']
+		let installedIt = ['Installed IT capacity (KVA)']
+		let operatingIt = ['Operating IT consumption(KVA)']
+                        
+		state && state.forEach(data => {
+			header.push(data.name)
+			serviceAvailable.push(extractValue(data?.data_center_performance?.availability))
+			noOfIncident.push(extractValue(data?.data_center_performance?.infra_incident_num))
+			typeOfIncident.push(extractValue(data?.data_center_performance?.infra_incident_type))
+			console.log(data?.data_center_performance?.infra_incidents)
+			// customerImapcted.push(['Customers Impacted', extractValue(infra.impact)])
+			let infra_incident = []
+			data?.data_center_performance?.infra_incidents.length && data?.data_center_performance.infra_incidents.forEach(infra =>{
+				infra_incident.push(infra.impact)
+			})
+			customerImapcted.push(infra_incident.join(","))
+			totalServiceDowntime.push('N/A')
+
+			numSecurityIncident.push(extractValue(data?.data_center_performance?.security_incident_num))
+			securityTypeIncident.push(extractValue(data?.data_center_performance?.security_incident_type))
+			let security_incident = []
+			data?.data_center_performance?.security_incidents.length && data?.data_center_performance?.security_incidents.forEach(security => {security_incident.push(security.impact)})
+			securityImpacted.push(security_incident.join(","))
+
+			numEhsincident.push(extractValue(data?.data_center_performance?.ehs_incident_num))
+			ehsTypeincident.push(extractValue(data?.data_center_performance?.infra_incident_type))
+			let ehs_impacted = []
+			data?.data_center_performance?.ehs_incidents.length &&  data?.data_center_performance?.ehs_incidents.forEach(ehs => {ehs_impacted.push(ehs.impact)})
+			ehsImpacted.push(ehs_impacted.join(","))
+
+			operationPue.push(extractValue(data?.data_center_performance?.opertating_pue))
+			designedPue.push(extractValue(data?.data_center_performance?.design_pue))
+			installedIt.push(extractValue(data?.data_center_performance?.installed_kw))
+			operatingIt.push(extractValue(data?.data_center_performance?.operating_kw))
+
+		})
+		worksheet.addRow(header);
+		worksheet.getRow(row+1).font = { bold: true };
+		worksheet.addRow(serviceAvailable);
+		worksheet.addRow(['Infrastructure Incident'])
+		worksheet.getRow(row+3).font = { bold: true };
+		worksheet.addRow(noOfIncident)
+		worksheet.addRow(typeOfIncident)
+		worksheet.addRow(customerImapcted)
+		worksheet.addRow(totalServiceDowntime)
+		worksheet.addRow(['Security Indcident'])
+		worksheet.getRow(row+8).font = { bold: true };
+		worksheet.addRow(numSecurityIncident)
+		worksheet.addRow(securityTypeIncident)
+		worksheet.addRow(securityImpacted)
+		worksheet.addRow(['Environment, Health & safety (EHS) incident'])
+		worksheet.getRow(row+12).font = { bold: true };
+		worksheet.addRow(numEhsincident)
+		worksheet.addRow(ehsTypeincident)
+		worksheet.addRow(ehsImpacted)
+		worksheet.addRow(operationPue)
+		worksheet.addRow(designedPue)
+		worksheet.addRow(installedIt)
+		worksheet.addRow(operatingIt)
+
+		worksheet.eachRow(function(row, rowNumber) {
+			row.eachCell(function(cell, colNumber) {
+				console.log('Cell ' + colNumber + ' = ' + cell.value);
+				cell.alignment = { vertical: 'middle', horizontal: 'left' };
+			  });
+			  
+		  });
+
+			
+			const imageId2 = workbook.addImage({
+			base64: myBase64Image,
+			extension: 'png',
+			});
+
+			worksheet.addImage(imageId2, {
+				tl: { col: 2, row: 0 },
+				ext: { width: 300, height: 100 }
+			  });
+			workbook.xlsx.writeBuffer().then(function(buffer) {
+				saveAs(
+				  new Blob([buffer], { type: "application/octet-stream" }),
+				  `ESG-${year}_${month}.xlsx`
+				);
+			  });
+	}
 	return (
 		<Layout>
 			<div className="main_sec_esg">
@@ -111,7 +222,7 @@ const ESG = () => {
                 		>Go</button>
                   </div>
                   <div className="excel_icon">
-                    <a href="#"><img src="images/excel.png" width="25%" />
+                    <a href="#" onClick={downloadExcel}><img src="images/excel.png" width="25%" />
                     	<span>Export to excel</span>
                     </a>
                   </div>
