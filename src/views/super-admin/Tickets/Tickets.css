@@ -1,0 +1,121 @@
+ /*  */
+ .table_scrll {
+    height: 20.8rem;
+    overflow-y: auto;
+  }
+  #cardnew {
+    border-right: 1px solid #E7E8E9;
+    border-left: 1px solid #E7E8E9;
+    border-bottom: 1px solid #E7E8E9;
+    border-top: 1px solid #E7E8E9;
+  }
+  table {
+    text-align: left;
+  }
+
+  th {
+    padding: 0.5rem 10px !important;
+    text-align: left;
+    border-bottom: 1px solid #E7E8E9;
+    color: #92979A;
+    font-size: 1rem !important;
+    font-weight: 400;
+    border-bottom: 1px solid #E7E8E9;
+  }
+
+  td {
+    padding: 0.5rem 10px !important;
+    text-align: left;
+    border-bottom: 1px solid #E7E8E9;
+    color: #171C3C;
+    font-size: 0.9375rem !important;
+    font-weight: 400;
+  }
+
+  th.pd-l.bold-txt {
+    font-size: 0.9375rem;
+    color: #171C3C;
+    font-family: 'DM SANS';
+    font-weight: 600;
+  }
+
+  .table tbody tr td {
+    vertical-align: middle;
+    border-color: #f5f5f5;
+    box-shadow: 0px 1px 0px #e7e8e9;
+    opacity: 1;
+    font-weight: 600;
+    font-size: 0.813rem !important;
+    font-family: 'DM SANS';
+    color: #171C3C;
+    padding: 1.25rem 0px;
+  }
+
+  th {
+    padding: 0.5rem 10px;
+    text-align: left;
+    border-bottom: 1px solid #E7E8E9;
+    color: #92979A;
+    font-size: 0.875rem !important;
+    font-weight: 400;
+  }
+
+  /*  */
+  th.pd-l.bold-txt {
+    font-size: 0.9375rem;
+    color: #171C3C;
+    font-family: 'DM SANS';
+    font-weight: 600;
+  }
+  li {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  float: left;
+  padding: 10px;
+
+}
+.txt_card h3 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #11263C;
+  margin-bottom: 0px;
+}
+.card_head h3 {
+  font-size: 0.813rem;
+}
+.grid_card.grid_mr.h-100.tckt ul.tabs_card {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5rem;
+}
+
+.grid_card.grid_mr.h-100.tckt li.tc-1.active {
+  color: #11263C;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.grid_card.grid_mr.h-100.tckt li.tc-1 {
+  color: #11263C;
+  font-weight: 400;
+  font-size: 14px;
+}
+.grid_card.grid_mr.h-100.tckt ul.tabs_card li.tc-1.active {
+  color: #11263C;
+}
+
+.grid_card.grid_mr.h-100.tckt ul.tabs_card li.tc-1 {
+  margin: 0px 2rem 0px 0rem;
+  color: #92979A;
+  font-size: 0.938rem;
+}
+.tabs_card {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: -10px;
+  gap: 5rem;
+}
+  /*  */
