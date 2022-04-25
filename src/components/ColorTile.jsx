@@ -91,6 +91,79 @@ const Unavailable = () => {
 		</React.Fragment>
 	);
 }
+const S1 = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#e03138"}} ></div>
+		    S1
+		</React.Fragment>
+	);
+}
+
+const S2 = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#f78600"}} ></div>
+		    S2
+		</React.Fragment>
+	);
+}
+
+const S3 = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#f2dc34"}} ></div>
+		   	S3
+		</React.Fragment>
+	);
+}
+
+const Today = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#f89903"}} ></div>
+		    In Services
+		</React.Fragment>
+	);
+}
+const Tomorrow = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#f89903"}} ></div>
+		    In Services
+		</React.Fragment>
+	);
+}
 
 export {
 	InService,
@@ -98,5 +171,10 @@ export {
 	ROFR,
 	Blocked,
 	Available,
-	Unavailable
+	Unavailable,
+	S1,
+	S2,
+	S3,
+	Today,
+	Tomorrow
 };

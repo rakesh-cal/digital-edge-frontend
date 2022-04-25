@@ -107,7 +107,7 @@ const Navigation = () => {
 	                     	<Link to="/esg" className={`nav-link dt_nav ${location.pathname == "/esg" ? 'active' : ''}`}>ESG</Link>
 	                  	</li>
 						  <li className="nav-item">
-	                     	<Link to="/tickets" className={`nav-link dt_nav ${location.pathname == "//tickets" ? 'active' : ''}`}>Ticket</Link>
+	                     	<Link to="/ticket" className={`nav-link dt_nav ${location.pathname == "/ticket" ? 'active' : ''}`}>Ticket</Link>
 	                  	</li>
 	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Svc Desks</a>
