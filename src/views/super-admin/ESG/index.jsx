@@ -153,6 +153,8 @@ const ESG = () => {
 			  
 		  });
 
+		  worksheet.getColumn(1).font = {bold: true}
+
 			
 			const imageId2 = workbook.addImage({
 			base64: myBase64Image,
