@@ -34,11 +34,11 @@ const ESG = () => {
 
 
 	const renderMonth = () => {
-		
+
 		let months = [];
 
 		for(let i = 1; i<=12; i++){
-			
+
 			months.push(moment(i,'M').format('MMM'));
 		}
 		return months.map((m,key) => <option value={key+1} key={key}>{m}</option>)
@@ -48,13 +48,13 @@ const ESG = () => {
 		let years = [];
 
 		for(let i = 2022; i<=moment().format('YYYY'); i++){
-			
+
 			years.push(moment(i,'YYYY').format('YYYY'));
 		}
-		return years.map((y,key) => <option value={y} key={y}>{y}</option>)	
+		return years.map((y,key) => <option value={y} key={y}>{y}</option>)
 	}
 	const extractValue = data => {
-		
+
 		if(data === undefined || data === null){
 			return "-";
 		}else{
@@ -70,7 +70,7 @@ const ESG = () => {
 		for(let i=0;i<row;i++){
 			worksheet.addRow([]);
 		}
-                        
+
 		worksheet.getColumn("A").width = 50
 		let header = ['Data center/Site']
 		let serviceAvailable = ['Service Availability']
@@ -88,7 +88,7 @@ const ESG = () => {
 		let designedPue = ['Design PUE']
 		let installedIt = ['Installed IT capacity (KVA)']
 		let operatingIt = ['Operating IT consumption(KVA)']
-                        
+
 		state && state.forEach(data => {
 			header.push(data.name)
 			serviceAvailable.push(extractValue(data?.data_center_performance?.availability))
@@ -147,15 +147,15 @@ const ESG = () => {
 
 		worksheet.eachRow(function(row, rowNumber) {
 			row.eachCell(function(cell, colNumber) {
-				console.log('Cell ' + colNumber + ' = ' + cell.value);
 				cell.alignment = { vertical: 'middle', horizontal: 'left' };
 			  });
-			  
+
 		  });
 
 		  worksheet.getColumn(1).font = {bold: true}
 
 			
+
 			const imageId2 = workbook.addImage({
 			base64: myBase64Image,
 			extension: 'png',
@@ -186,8 +186,8 @@ const ESG = () => {
             <div className="col-12 col-sm-4">
             	<div className="left_box_month">
             			<div className="choose_date">
-                 		<select 
-                		className="form-select w-3rem" 
+                 		<select
+                		className="form-select w-3rem"
                 		aria-label="Default select example"
                 		onChange={(event) => {
                 			setMonth(event.target.value);
@@ -201,9 +201,9 @@ const ESG = () => {
                         </select>
               	  </div>
                   <div className="choose_date">
-                    <select 
-                		className="form-select w-3rem" 
-                		aria-label="Default select example" 
+                    <select
+                		className="form-select w-3rem"
+                		aria-label="Default select example"
                 		onChange={(event) => {
                 			setYear(event.target.value)
                 		}}
@@ -218,7 +218,7 @@ const ESG = () => {
                     </select>
                   </div>
                   <div className="btn_go_esg">
-                    <button 
+                    <button
                 		className="btn btn-secondary"
                 		onClick={getPower}
                 		>Go</button>
@@ -271,14 +271,14 @@ const ESG = () => {
                         		return(
 			                        <td style={{
 			                         	fontSize: "0.875rem",
-			                         	color:"#418DC8", 
+			                         	color:"#418DC8",
 			                         	textAlign: "left"
 			                        }}>{extractValue(data?.data_center_performance?.availability)}</td>
 
                         		)
                         	})
                         }
-                       
+
                       </tr>
                       <tr>
                          <td className='bg_font'>Infrastructure Incident</td>
@@ -289,16 +289,16 @@ const ESG = () => {
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            position: "relative",
-                           left: "10px"	
+                           left: "10px"
                          }}>Number of Incidents</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.infra_incident_num)}</td>
@@ -310,16 +310,16 @@ const ESG = () => {
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            position: "relative",
-                           left: "10px"	
+                           left: "10px"
                          }}>Type of Incidents</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.infra_incident_type)}</td>
@@ -329,21 +329,21 @@ const ESG = () => {
                         }
                       </tr>
                       <tr>
-                         <td className='valign' 
+                         <td className='valign'
                          valign="top"
                          style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            position: "relative",
                            left: "10px",
-                           verticalAlign:"text-top",	
+                           verticalAlign:"text-top",
                          }}>Customers Impacted</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>
@@ -355,20 +355,20 @@ const ESG = () => {
                         	})
                         }
                         </tr>
-                   
+
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            position: "relative",
-                           left: "10px"	
+                           left: "10px"
                          }}>Total Service Downtime(mins)</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>N/A</td>
@@ -384,16 +384,16 @@ const ESG = () => {
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
-                           	left: "10px"	
+                           	left: "10px"
                          }}>Number of security incidents</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.security_incident_num)}</td>
@@ -401,21 +401,21 @@ const ESG = () => {
                         		)
                         	})
                         }
-                         
+
                       </tr>
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
-                           	left: "10px"	
+                           	left: "10px"
                          }}>Type of incidents</td>
                          {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.security_incident_type)}</td>
@@ -423,22 +423,22 @@ const ESG = () => {
                         		)
                         	})
                         }
-                         
+
                       </tr>
                       <tr>
                          <td className='valign'  style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
                            	left: "10px",
-                           	verticalAlign:"text-top",	
+                           	verticalAlign:"text-top",
                          }}>Who is impacted</td>
                          {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>
@@ -459,16 +459,16 @@ const ESG = () => {
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
-                           	left: "10px"	
+                           	left: "10px"
                          }}>Number of EHS incidents</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.ehs_incident_num)}</td>
@@ -480,16 +480,16 @@ const ESG = () => {
                       <tr>
                          <td style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
-                           	left: "10px"	
+                           	left: "10px"
                          }}>Type of incidents</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.ehs_incident_type)}</td>
@@ -502,18 +502,18 @@ const ESG = () => {
                       <tr>
                          <td className='valign'  style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
+                         	color: "#0E0E0E",
                          	fontWeight: 500,
                            	position: "relative",
                            	left: "10px",
-                           	verticalAlign:"text-top",	
+                           	verticalAlign:"text-top",
                          }}>Who is impacted</td>
                         {
                         	state && state.map(data => {
 
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>
@@ -525,18 +525,18 @@ const ESG = () => {
                         	})
                         }
                       </tr>
-                    
+
                       <tr>
                          <td className="bg_font" style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	color: "#0E0E0E",
+                         	fontWeight: 500
                          }}>Operating PUE</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.opertating_pue)}</td>
@@ -544,21 +544,21 @@ const ESG = () => {
                         		)
                         	})
                         }
-                         
+
                       </tr>
                       <tr>
-                         <td 
+                         <td
 						 className="bg_font"
 						 style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	color: "#0E0E0E",
+                         	fontWeight: 500
                          }}>Design PUE</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.design_pue)}</td>
@@ -566,21 +566,21 @@ const ESG = () => {
                         		)
                         	})
                         }
-                        
+
                       </tr>
                       <tr>
-                         <td 
+                         <td
 						 className="bg_font"
 						 style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	color: "#0E0E0E",
+                         	fontWeight: 500
                          }}>Installed IT capacity (KVA)</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.installed_kw)}</td>
@@ -590,18 +590,18 @@ const ESG = () => {
                         }
                       </tr>
                       <tr>
-                         <td 
+                         <td
 						 className="bg_font"
 						 style={{
                          	fontSize: "0.875rem",
-                         	color: "#0E0E0E", 
-                         	fontWeight: 500	
+                         	color: "#0E0E0E",
+                         	fontWeight: 500
                          }}>Operating IT consumption(KVA)</td>
                         {
                         	state && state.map(data => {
                         		return(
 			                        <td style={{
-			                         	fontSize: "0.875rem", 
+			                         	fontSize: "0.875rem",
 			                         	color:"#0E0E0E",
 			                         	textAlign: "left"
 			                         }}>{extractValue(data?.data_center_performance?.operating_kw)}</td>
