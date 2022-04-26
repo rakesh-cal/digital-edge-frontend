@@ -19,7 +19,7 @@ const Navigation = () => {
 	React.useEffect(() => {
 		//user();
 		if (isInitialMount.current) {
-			
+
 		    isInitialMount.current = false;
 		    user();
 		}
@@ -79,17 +79,17 @@ const Navigation = () => {
          	<div className="container-fluid p-0">
 	            {/*<XLogo/>*/}
 
-	            
+
 	            <Link to="/data-center" className="navbar-brand">
 	            	<img src="\images\logo.png" />
 	            </Link>
-	            
-            	<button 
-	            className="navbar-toggler" 
-	            type="button" 
-	            data-bs-toggle="collapse" 
-	            data-bs-target="#navbarSupportedContent" 
-	            aria-controls="navbarSupportedContent" 
+
+            	<button
+	            className="navbar-toggler"
+	            type="button"
+	            data-bs-toggle="collapse"
+	            data-bs-target="#navbarSupportedContent"
+	            aria-controls="navbarSupportedContent"
 	            aria-expanded="false" aria-label="Toggle navigation">
 
             		<span className="navbar-toggler-icon"></span>
@@ -106,6 +106,9 @@ const Navigation = () => {
 	                  	<li className="nav-item">
 	                     	<Link to="/esg" className={`nav-link dt_nav ${location.pathname == "/esg" ? 'active' : ''}`}>ESG</Link>
 	                  	</li>
+						  <li className="nav-item">
+	                     	<Link to="/ticket" className={`nav-link dt_nav ${location.pathname == "/ticket" ? 'active' : ''}`}>Ticket</Link>
+	                  	</li>
 	                  	<li className="nav-item hide">
 	                     	<a className="nav-link dt_nav" href="#">Svc Desks</a>
 	                  	</li>
@@ -118,34 +121,34 @@ const Navigation = () => {
 	               	</ul>
 	               	<ul className="navbar-nav header-right">
 
-	                  	
+
 	               		{ contextData?.getAuth?.role?.user_management ?(
 	               			<li className="nav-item dropdown notification_dropdown">
-	                     	
-	                     	<Link 
+
+	                     	<Link
 				            className="nav-link setting"
 				            to="/setting/user" >
 				            	<img src="\images\settings-10@1x.png" alt="" />
 				            </Link>
-	                  	</li>):(contextData?.getAuth?.role?.space === 3 || 
+	                  	</li>):(contextData?.getAuth?.role?.space === 3 ||
 	               			contextData?.getAuth?.role?.m_e === 3 ||
 	               			contextData?.getAuth?.role?.network === 3 ?(
 	               			<li className="nav-item dropdown notification_dropdown">
-	                     	
-	                     	<Link 
+
+	                     	<Link
 				            className="nav-link setting"
 				            to="/setting/data-center" >
 				            	<img src="\images\settings-10@1x.png" alt="" />
 				            </Link>
 	                  	</li>):null)}
 
-	               		
+
 
 	                  	<li className="nav-item dropdown header-profile">
-	                     	<a 
-	                     	className="nav-link" 
-	                     	href="#" 
-	                     	role="button" 
+	                     	<a
+	                     	className="nav-link"
+	                     	href="#"
+	                     	role="button"
 	                     	data-bs-toggle="dropdown"
 	                     	>
 	                        	<h4 className="pro">  {state.initialName}   </h4>
@@ -158,17 +161,17 @@ const Navigation = () => {
 
 	                     	<div className="dropdown-menu dropdown-menu-end">
 							 <Link to="/profile" className="dropdown-item ai-icon">
-	                        	
-	                           		<svg 
-	                           		xmlns="http://www.w3.org/2000/svg" 
-	                           		className="text-primary" 
-	                           		width="18" 
-	                           		height="18" 
-	                           		viewBox="0 0 24 24" 
-	                           		fill="none" 
-	                           		stroke="currentColor" 
-	                           		strokeWidth="2" 
-	                           		strokeLinecap="round" 
+
+	                           		<svg
+	                           		xmlns="http://www.w3.org/2000/svg"
+	                           		className="text-primary"
+	                           		width="18"
+	                           		height="18"
+	                           		viewBox="0 0 24 24"
+	                           		fill="none"
+	                           		stroke="currentColor"
+	                           		strokeWidth="2"
+	                           		strokeLinecap="round"
 	                           		strokeLinejoin="round"
 	                           		>
 	                              		<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -177,36 +180,36 @@ const Navigation = () => {
 	                           		<span className="ms-2">Profile </span>
 	                        	</Link>
 	                        	<a href="email-inbox.html" className="dropdown-item ai-icon">
-	                           		<svg 
-	                           		xmlns="http://www.w3.org/2000/svg" 
-	                           		className="text-success" 
-	                           		width="18" 
-	                           		height="18" 
-	                           		viewBox="0 0 24 24" 
-	                           		fill="none" 
-	                           		stroke="currentColor" 
-	                           		strokeWidth="2" 
-	                           		strokeLinecap="round" 
+	                           		<svg
+	                           		xmlns="http://www.w3.org/2000/svg"
+	                           		className="text-success"
+	                           		width="18"
+	                           		height="18"
+	                           		viewBox="0 0 24 24"
+	                           		fill="none"
+	                           		stroke="currentColor"
+	                           		strokeWidth="2"
+	                           		strokeLinecap="round"
 	                           		strokeLinejoin="round">
-		                              	<path 
+		                              	<path
 		                              	d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-		                              		
+
 		                              	</path>
 		                              	<polyline points="22,6 12,13 2,6"></polyline>
 	                          		</svg>
 	                           		<span className="ms-2">Inbox </span>
 	                        	</a>
 	                        	<a onClick={onLogout} style={{cursor:"pointer"}} className="dropdown-item ai-icon">
-	                           		<svg 
-	                           		xmlns="http://www.w3.org/2000/svg" 
-	                           		className="text-danger" 
-	                           		width="18" 
-	                           		height="18" 
-	                           		viewBox="0 0 24 24" 
-	                           		fill="none" 
-	                           		stroke="currentColor" 
-	                           		strokeWidth="2" 
-	                           		strokeLinecap="round" 
+	                           		<svg
+	                           		xmlns="http://www.w3.org/2000/svg"
+	                           		className="text-danger"
+	                           		width="18"
+	                           		height="18"
+	                           		viewBox="0 0 24 24"
+	                           		fill="none"
+	                           		stroke="currentColor"
+	                           		strokeWidth="2"
+	                           		strokeLinecap="round"
 	                           		strokeLinejoin="round">
 	                              		<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
 	                              		<polyline points="16 17 21 12 16 7"></polyline>

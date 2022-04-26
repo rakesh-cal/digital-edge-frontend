@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Common from "services/commonService";
 import './cabinet-popup.css';
 import './Layoutcss/65hall.css';
 import './Layoutcss/66hall.css';
@@ -7,11 +8,22 @@ import './Layoutcss/67hall.css';
 
 
 const CabinetPopup = (props) => {
-    const [status, setStatus] = React.useState(['In Service', 'Complete', 'Construction', 'Planning'])
+    const [status, setStatus] = React.useState([])
+    const [color, setColor] = React.useState([])
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const modalRef = useRef(null);
-    useEffect(() => {
+    useEffect(async () => {
         setIsOpen(props.show);
+        let statusData = []
+        let colorData = []
+        await Common.status().then((res) => {
+            res.data.data.forEach(data => {
+                statusData.push(data.name)
+                colorData.push(data.color_code)
+            })
+        });
+        setColor(colorData)
+        setStatus(statusData)
         
     }, [props.show]);
 
@@ -49,6 +61,7 @@ const CabinetPopup = (props) => {
              // hoverelements[index].id = 'popup-' + val.id;
                 if(document.getElementById("title-"+val.id) != null){
                     document.getElementById("title-"+val.id).innerHTML = val.name.slice(-8)
+                    document.getElementById("title-"+val.id).style.background = color[val.status-1]
                 }
                // let allChildren = document.querySelectorAll("#popup-" + val.id + " .content > p"); 
                // console.log(allChildren.length)
