@@ -13,6 +13,8 @@ import Forbidden from "./Forbidden";
 import Capacity from "views/super-admin/Setting/DataCenter/capacity";
 import ESG from "views/super-admin/ESG";
 import Ticket from "views/super-admin/Ticket";
+import Widgets from 'views/super-admin/Tickets/Widgets';
+import Op from 'views/super-admin/Setting/Network/Op';
 
 const AuthenticatedRoutes = () => {
 
@@ -52,7 +54,8 @@ const AuthenticatedRoutes = () => {
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/esg" element={<ESG />} />
 				<Route path="/ticket" element={<Ticket/>}/>
-
+				<Route path="/tickets" element={<Widgets/>}/>
+				<Route path="/op" element={<Op/>}/>
 			{/*	<Route path="/forbidden" element={<Forbidden />} />*/}
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
