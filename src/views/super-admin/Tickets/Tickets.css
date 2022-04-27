@@ -14,7 +14,7 @@ table {
 }
 
 th {
-  padding: 0.5rem 10px !important;
+  padding: 0.5rem 10px;
   text-align: left;
   border-bottom: 1px solid #E7E8E9;
   color: #92979A;
@@ -24,7 +24,7 @@ th {
 }
 
 td {
-  padding: 0.5rem 10px !important;
+  padding: 0.5rem 10px;
   text-align: left;
   border-bottom: 1px solid #E7E8E9;
   color: #171C3C;
@@ -114,7 +114,7 @@ font-size: 0.938rem;
 display: flex;
 justify-content: flex-start;
 align-items: center;
-margin: -10px;
+margin: 0px;
 gap: 5rem;
 }
 .refreshOff {

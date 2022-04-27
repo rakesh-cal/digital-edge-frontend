@@ -31,7 +31,7 @@ padding: 0.5rem 10px;
 
 .profile-tab .nav-item .nav-link {
     font-size: 0.938rem;
-    padding: 6px 12px !important;
+    padding: 8px 12px !important;
     height: 2.4rem !important;
 }
 @media (min-width: 1500px){

@@ -17,7 +17,7 @@
          border-bottom: 1px solid #E7E8E9;
          }
          td{
-         padding: 0.5rem 10px !important;
+         padding: 0.5rem 10px;
          text-align: left;
          border-bottom: 1px solid #E7E8E9;
          color: #171C3C;
@@ -81,7 +81,7 @@ th {
     font-weight: 400;
 }
 .grid_card.grid_mr.h-100.tckt .card_head {
-    padding: 0.6rem 0.5rem 0.6rem 0.6rem;
+    padding: .2rem .5rem .1rem .7rem !important;
 }
 .grid_card.grid_mr.h-100.tckt ul.tabs_card li.tc-1.active{
    color: #11263C;

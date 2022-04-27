@@ -51,6 +51,7 @@ const Ticket = () => {
 
 	return(
 		<Layout>
+			<div className='bg_color_dash'>
 <div className="container-fluid pb-5">
 	<div className="row pt-2">
 		<div className="col-lg-12 col-md-12 col-sm-12 col-12 gx-4">
@@ -59,7 +60,7 @@ const Ticket = () => {
                </div>
                <div className="row">
                  <div className="invglob">
-                   <div className="profile-tab">
+                   <div className="profile-tab menu_tab_btn">
                            <div className="custom-tab-1">
                               <ul className="nav nav-tabs" style={{
                               	flexWrap:"nowrap",
@@ -76,7 +77,7 @@ const Ticket = () => {
                         </div>
                  </div>
                </div>
-               <div className="row mt-3">
+               <div className="row mt-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                      <div className="grid_card grid_mr h-100 tckt">
                         <div className="card_head">
@@ -132,6 +133,7 @@ const Ticket = () => {
             </div>
          </div>
       </div>
+	  </div>
 			
 		</Layout>
 	);
