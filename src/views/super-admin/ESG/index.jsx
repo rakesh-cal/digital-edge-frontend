@@ -532,11 +532,11 @@ const ESG = () => {
                       </tr>
 
                       <tr>
-                         <td className="bg_font" style={{
+                         <td className="bg_font" /*style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E",
                          	fontWeight: 500
-                         }}>Operating PUE</td>
+                         }}*/>Operating PUE</td>
                         {
                         	state && state.map(data => {
                         		return(
@@ -554,11 +554,11 @@ const ESG = () => {
                       <tr>
                          <td
 						 className="bg_font"
-						 style={{
+						 /*style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E",
                          	fontWeight: 500
-                         }}>Design PUE</td>
+                         }}*/>Design PUE</td>
                         {
                         	state && state.map(data => {
                         		return(
@@ -576,11 +576,11 @@ const ESG = () => {
                       <tr>
                          <td
 						 className="bg_font"
-						 style={{
+						 /*style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E",
                          	fontWeight: 500
-                         }}>Installed IT capacity (KVA)</td>
+                         }}*/>Installed IT capacity (KVA)</td>
                         {
                         	state && state.map(data => {
                         		return(
@@ -597,11 +597,11 @@ const ESG = () => {
                       <tr>
                          <td
 						 className="bg_font"
-						 style={{
+						 /*style={{
                          	fontSize: "0.875rem",
                          	color: "#0E0E0E",
                          	fontWeight: 500
-                         }}>Operating IT consumption(KVA)</td>
+                         }}*/>Operating IT consumption(KVA)</td>
                         {
                         	state && state.map(data => {
                         		return(

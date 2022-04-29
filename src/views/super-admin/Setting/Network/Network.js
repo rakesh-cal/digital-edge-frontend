@@ -233,12 +233,12 @@ export default function Network(props) {
 
 											return (
 												<tr key={id} className={activeTab === data.id?"tr_active":""}>
-													<td>{data.network_function!=null?data.network_function.name:"N/A"} </td>
+													<td>{data.network_function !== null ? data.network_function.name : "N/A"} </td>
 													<td> {data.name} </td>
 													<td> {data.makes.name}</td>
 													<td>{data.models.name} </td>
 													<td> {data.sn}</td>
-													<td> </td>
+													<td> {data.deviceStatus !== null ? data.deviceStatus.name : "N/A"}</td>
 													<td>{data.cabinet_id} </td>
 													<td>{data.support_expiry} </td>
 													<td>
