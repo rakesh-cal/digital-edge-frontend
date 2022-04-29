@@ -23,7 +23,7 @@ const DataHallTable = ({
 	},[selectedFloor,contextStore.selectedCountry]);
 	const getCabsStatus = data => {
 
-
+			console.log(data)
 			let reservedPer = 0;
 			let rofrPer = 0;
 			let blockedPer = 0;
@@ -31,13 +31,22 @@ const DataHallTable = ({
 			let rofr = 0;
 			let blocked = 0;
 
-			let available = Number(data.design_cabs)- (Number(data.sold_cabs) + Number(data.reserved_cabs) + Number(data.rofr_cabs) + Number(data.blocked_cabs));
+			let totalComplete = 0
+			if(data.cabinets.length > 0){
+				data.cabinets.forEach((data) => {
+					if(data.status == 2){
+						totalComplete += 1
+					}
+				})
+			}
 
+			let available = Number(data.design_cabs)- (Number(data.sold_cabs) + Number(data.reserved_cabs) + Number(data.rofr_cabs) + Number(data.blocked_cabs) + Number(totalComplete)) ;
 			let soldPer = data.sold_cabs*100/data.design_cabs;
 			let availPer = available*100/data.design_cabs;
 			reservedPer = data.reserved_cabs*100/data.design_cabs;
 			rofrPer = data.rofr_cabs*100/data.design_cabs;
 			blockedPer = data.blocked_cabs*100/data.design_cabs;
+			let completePer = totalComplete*100/data.design_cabs
 
 
 			return <Line2
@@ -50,9 +59,11 @@ const DataHallTable = ({
 			reserved={data.reserved_cabs}
 			rofr={data.rofr_cabs}
 			blocked={data.blocked_cabs}
+			complete={totalComplete}
 			reservedPer={reservedPer}
 			rofrPer={rofrPer}
 			blockedPer={blockedPer}
+			completePer={completePer}
 			/>
 
 	}
@@ -103,14 +114,23 @@ const DataHallTable = ({
 			let rofrPer = 0;
 			let blockedPer = 0;
 
-			let available = Number(data.design_power)- (Number(data.sold_power)+ Number(data.reserved_power) + Number(data.rofr_power) + Number(data.blocked_power));
+			let totalComplete = 0
+			if(data.cabinets.length > 0){
+				data.cabinets.forEach((data) => {
+					if(data.status == 2){
+						totalComplete += data.actual_kw != null ? data.actual_kw : 0
+					}
+				})
+			}
+
+			let available = Number(data.design_power)- (Number(data.sold_power)+ Number(data.reserved_power) + Number(data.rofr_power) + Number(data.blocked_power)+ Number(totalComplete));
 
 			let soldPer = data.sold_power*100/data.design_power;
 			let availPer = available*100/data.design_power;
 			reservedPer = data.reserved_power*100/data.design_power;
 			rofrPer = data.rofr_power*100/data.design_power;
 			blockedPer = data.blocked_power*100/data.design_power;
-
+			let completePer = totalComplete*100/data.design_power
 
 			return <Line2
 			totalText={data.design_power}
@@ -122,9 +142,11 @@ const DataHallTable = ({
 			reserved={data.reserved_power}
 			rofr={data.rofr_power}
 			blocked={data.blocked_power}
+			complete={totalComplete}
 			reservedPer={reservedPer}
 			rofrPer={rofrPer}
 			blockedPer={blockedPer}
+			completePer={completePer}
 			/>
 
 		

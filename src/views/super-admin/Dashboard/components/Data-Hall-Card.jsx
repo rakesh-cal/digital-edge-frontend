@@ -10,7 +10,8 @@ import {
 	ROFR,
 	Blocked,
 	Available,
-	Unavailable
+	Unavailable,
+	Complete
 } from 'components/ColorTile';
 
 
@@ -48,6 +49,7 @@ const DataHallCard = ({
 						<Reserved />
 						<ROFR />
 						<Blocked />
+						<Complete/>
 					</div>
 				</div>
 				<div className="card-body">

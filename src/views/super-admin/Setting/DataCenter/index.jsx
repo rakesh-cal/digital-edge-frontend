@@ -583,6 +583,7 @@ const DataCenter = (props) => {
 	                    Name {" "}
 	                    <i className={`fa fa-solid fa-sort-${cabinetAscending?'down':'up'}`}></i>
 	                    </th>
+						<th scope="col" > Ref Name </th>
 	                    <th scope="col" className="pd-l" onClick={() => {
 	                    		setCabinetAscending(!cabinetAscending);
 								if(cabinetAscending === true){
@@ -624,6 +625,7 @@ const DataCenter = (props) => {
 
 
 	                        </th>
+							<td> {res.ref_name != null ? res.ref_name : ""} </td>
 							<th className="pd-l bold-txt" style={{cursor:"pointer"}}> 
 	                        {res.customer}
 	                        </th>

@@ -11,9 +11,11 @@ const Line2 = props => {
 		reserved,
 		rofr,
 		blocked,
+		complete,
 		reservedPer,
 		rofrPer,
 		blockedPer,
+		completePer
 	} = props;
 
 	return(
@@ -55,6 +57,13 @@ const Line2 = props => {
 						paddingRight:'0px'
 					}}>{numberFormat(blocked)} </div>
 				):null}
+				{complete?(
+					<div style={{
+						textAlign:'center', 
+						width:`${completePer}%`, 
+						paddingRight:'0px'
+					}}>{numberFormat(complete)} </div>
+				):null}
 			</div>
 
 			<div className="graph-line">
@@ -87,6 +96,12 @@ const Line2 = props => {
 				<div style={{ 
 					width:`${blockedPer}%`,
 					backgroundColor:'#000000',
+					height:'0.3rem',
+					float:'center'
+				}} ></div>
+				<div style={{ 
+					width:`${completePer}%`,
+					backgroundColor:'#c2adc2',
 					height:'0.3rem',
 					float:'center'
 				}} ></div>

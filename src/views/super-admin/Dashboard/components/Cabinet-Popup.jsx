@@ -36,6 +36,10 @@ const CabinetPopup = (props) => {
         <p>${val.customer ===null ? "NA":val.customer}</p>
      </div>
      <div class="content">
+        <p>Ref Name:</p>
+        <p>${val.ref_name != null ? val.ref_name : 'NA'}</p>
+     </div>
+     <div class="content">
         <p>Max kW:</p>
         <p>${val.max_kw != null ? parseFloat(val.max_kw).toFixed(3) : 0}</p>
      </div>

@@ -165,6 +165,21 @@ const Tomorrow = () => {
 	);
 }
 
+const Complete = () => {
+
+	return (
+		<React.Fragment>
+			<div style={{
+			height: "10px",
+		    width: "10px",
+		    borderRadius: "3px",
+			marginLeft:".2rem",
+		    backgroundColor: "#c2adc2"}} ></div>
+		    Complete
+		</React.Fragment>
+	);
+}
+
 export {
 	InService,
 	Reserved,
@@ -176,5 +191,6 @@ export {
 	S2,
 	S3,
 	Today,
-	Tomorrow
+	Tomorrow,
+	Complete
 };

@@ -74,16 +74,16 @@ const ESG = () => {
 		worksheet.getColumn("A").width = 50
 		let header = ['Data center/Site']
 		let serviceAvailable = ['Service Availability']
-		let noOfIncident = ['Number of Incidents']
-		let typeOfIncident = ['Type of Incidents']
-		let customerImapcted = ['Customers Impacted']
-		let totalServiceDowntime = ['Total Service Downtime(mins)']
-		let numSecurityIncident = ['Number of security incidents']
-		let securityTypeIncident = ['Type of Incidents']
-		let securityImpacted = ['Who is impacted']
-		let numEhsincident = ['Number of EHS incidents']
-		let ehsTypeincident = ['Type of incidents']
-		let ehsImpacted = ['Who is impacted']
+		let noOfIncident = ['   Number of Incidents']
+		let typeOfIncident = ['   Type of Incidents']
+		let customerImapcted = ['   Customers Impacted']
+		let totalServiceDowntime = ['   Total Service Downtime(mins)']
+		let numSecurityIncident = ['   Number of security incidents']
+		let securityTypeIncident = ['   Type of Incidents']
+		let securityImpacted = ['   Who is impacted']
+		let numEhsincident = ['   Number of EHS incidents']
+		let ehsTypeincident = ['   Type of incidents']
+		let ehsImpacted = ['   Who is impacted']
 		let operationPue = ['Operating PUE']
 		let designedPue = ['Design PUE']
 		let installedIt = ['Installed IT capacity (KVA)']
@@ -124,6 +124,7 @@ const ESG = () => {
 		worksheet.addRow(header);
 		worksheet.getRow(row+1).font = { bold: true };
 		worksheet.addRow(serviceAvailable);
+		worksheet.getRow(row+2).font = { bold: true };
 		worksheet.addRow(['Infrastructure Incident'])
 		worksheet.getRow(row+3).font = { bold: true };
 		worksheet.addRow(noOfIncident)
@@ -144,6 +145,10 @@ const ESG = () => {
 		worksheet.addRow(designedPue)
 		worksheet.addRow(installedIt)
 		worksheet.addRow(operatingIt)
+		worksheet.getRow(row+16).font = { bold: true };
+		worksheet.getRow(row+17).font = { bold: true };
+		worksheet.getRow(row+18).font = { bold: true };
+		worksheet.getRow(row+19).font = { bold: true };
 
 		worksheet.eachRow(function(row, rowNumber) {
 			row.eachCell(function(cell, colNumber) {
@@ -152,7 +157,7 @@ const ESG = () => {
 
 		  });
 
-		  worksheet.getColumn(1).font = {bold: true}
+		 // worksheet.getColumn(1).font = {bold: true}
 
 			
 

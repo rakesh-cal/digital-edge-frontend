@@ -28,6 +28,7 @@ const EditCabinet = (props) => {
 
     const [state,setState] = useState({
         cabinet_id:"",
+		ref_name: "",
 		customer:"",
         max_kws:"",
         sold_kws:"",
@@ -46,6 +47,7 @@ const EditCabinet = (props) => {
         setIsOpen(props.show);
         setState({
             cabinet_id:props.editCabinets.id,
+			ref_name: props.editCabinets.ref_name,
             customer:props.editCabinets.customer,
             max_kws:props.editCabinets.max_kw,
             sold_kws:props.editCabinets.sold_kw,
@@ -259,6 +261,31 @@ const EditCabinet = (props) => {
 <div className="card-body">
     <div className="basic-form">
         <form>
+		<div className="row">
+		<div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Cabinet ID <small className="text-danger hide">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                placeholder="Cabinet ID"
+				disabled
+                value={state.cabinet_id} 
+                />
+            </div>
+			<div className="mb-3 col-md-6 mt-2313">
+			<label className="form-label"> Reference Name <small className="text-danger hide">*</small></label>
+				<input 
+				className="form-control" 
+				type="text"
+				placeholder="Reference Name"
+				value={state.ref_name} onChange={event => setState({
+                	...state,
+                	ref_name:event.target.value
+                })}
+				/>
+				<XError message={error.ref_name} />
+            </div>									
+        </div>
         <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Customer <small className="text-danger">*</small></label>
