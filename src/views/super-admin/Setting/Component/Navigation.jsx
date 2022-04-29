@@ -9,7 +9,7 @@ const Navigation = () => {
 	const contextData = React.useContext(StorageContext);
 
 	const activeClass = (route) => {
-		
+
 		if(typeof route === 'string'){
 
 			if (location.pathname === route) {
@@ -45,38 +45,44 @@ const Navigation = () => {
                         	{contextData.getAuth.role.user_management?(
 
                             <li className="nav-item gap_s">
-                            	<Link 
+                            	<Link
                             	className={activeClass('/setting/user')}
-                            	id="tab1" 
+                            	id="tab1"
                             	to="/setting/user" >User Management </Link>
                             </li>
                         	):null}
-                          
+
                           	{contextData.getAuth.role.user_management?(
 	                            <li className="nav-item gap_s">
-	                            	<Link 
+	                            	<Link
 	                            	className={activeClass('/setting/role-and-permissions')}
-	                            	id="tab2" 
+	                            	id="tab2"
 	                            	to="/setting/role-and-permissions" >Roles & Permissions </Link>
 	                            </li>
                           	):null}
-                          	{contextData?.getAuth?.role?.space === 3 || 
+                          	{contextData?.getAuth?.role?.space === 3 ||
 	               			contextData?.getAuth?.role?.m_e === 3 ||
 	               			contextData?.getAuth?.role?.network === 3 ?(
                             <li className="nav-item gap_s">
-                            	<Link 
-                            	className={activeClass(['/setting/data-center','/setting/capacity'])} 
-                            	id="tab3" 
+                            	<Link
+                            	className={activeClass(['/setting/data-center','/setting/capacity'])}
+                            	id="tab3"
                             	to="/setting/data-center" >Data Centres </Link>
                             </li>
 	               			):null}
+							   <li className="nav-item gap_s">
+                            	<Link
+                            	className={activeClass('/setting/network')}
+                            	id="tab4"
+                            	to="/setting/network" >Network </Link>
+                            </li>
 							<li className="nav-item gap_s">
-                            	<Link 
-                            	className={activeClass('/setting/reports')} 
-                            	id="tab4" 
+                            	<Link
+                            	className={activeClass('/setting/reports')}
+                            	id="tab4"
                             	to="/setting/reports" >Reports </Link>
                             </li>
-                           
+
                         </ul>
                     </div>
                 </div>

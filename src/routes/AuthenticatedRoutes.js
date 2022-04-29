@@ -16,6 +16,7 @@ import Ticket from "views/super-admin/Ticket";
 import Widgets from 'views/super-admin/Tickets/Widgets';
 import Op from 'views/super-admin/Setting/Network/Op';
 
+
 const AuthenticatedRoutes = () => {
 
 	return (
@@ -38,6 +39,11 @@ const AuthenticatedRoutes = () => {
 						<DataCenter name="datacenter"/>
 
 				} />
+				<Route path="/setting/network" element={
+
+				<Op/>
+
+				} />
 				<Route path="/setting/capacity" element={
 
 						<Capacity name="capacity"/>
@@ -55,7 +61,6 @@ const AuthenticatedRoutes = () => {
 				<Route path="/esg" element={<ESG />} />
 				<Route path="/ticket" element={<Ticket/>}/>
 				<Route path="/tickets" element={<Widgets/>}/>
-				<Route path="/op" element={<Op/>}/>
 			{/*	<Route path="/forbidden" element={<Forbidden />} />*/}
 	        	<Route path="*" element={<Navigate to ="/data-center" />}/>
 	      	</Routes>
