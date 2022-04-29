@@ -3,6 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import AuthContext from "context";
 import {numberFormat} from "common/helpers";
+import moment from 'moment';
 import {
 	S1,
 	S2,
@@ -37,6 +38,8 @@ const Card = ({cardData,state}) => {
 	useEffect(() => {
 		getIncident();
 		getFaults();
+		getShipment();
+		getSiteVisit();
 
 	},[state]);
 
@@ -48,15 +51,15 @@ const Card = ({cardData,state}) => {
 		
 		state && state.map(data => {
 
-			if(data.type == 'Incidents' && data.severity == 'S1'){
+			if(data.ticket_type_id === 1 && data.severity === 'S1'){
 				return s1 += 1;
 			}
 
-			if(data.type == 'Incidents' && data.severity == 'S2'){
+			if(data.ticket_type_id === 1 && data.severity === 'S2'){
 				return s2 += 1;
 			}
 
-			if(data.type == 'Incidents' && data.severity == 'S3'){
+			if(data.ticket_type_id === 1 && data.severity === 'S3'){
 				return s3 += 1;
 			}
 
@@ -78,15 +81,15 @@ const Card = ({cardData,state}) => {
 
 		state && state.map(data => {
 
-			if(data.type == 'Faults' && data.severity == 'S1'){
+			if(data.ticket_type_id === 2 && data.severity === 'S1'){
 				return s1 += 1;
 			}
 
-			if(data.type == 'Faults' && data.severity == 'S2'){
+			if(data.ticket_type_id === 2 && data.severity === 'S2'){
 				return s2 += 1;
 			}
 
-			if(data.type == 'Faults' && data.severity == 'S3'){
+			if(data.ticket_type_id === 2 && data.severity === 'S3'){
 				return s3 += 1;
 			}
 
@@ -100,11 +103,65 @@ const Card = ({cardData,state}) => {
 
 		setGraphData(res);
 	}
+	const getShipment = () => {
+		let today = 0;
+		let tomorrow = 0;
 
+		state && state.map(data => {
 
+			if(
+				data.ticket_type_id === 3 && 
+				moment(data.due_date).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')){
+				return today += 1;
+			}
+
+			if(
+				data.ticket_type_id === 3 && 
+				moment(data.due_date).format('YYYY-MM-DD') == moment().add(1, 'days').format('YYYY-MM-DD')){
+				return tomorrow += 1;
+			}
+
+		});
+
+		let faults = graphData.filter(data => data.title === 'Site Visits');
+		faults[0].totalNumber = today+tomorrow;
+		faults[0].graph = [today,tomorrow];
+
+		const res = graphData.map(obj => faults.find(o => o.title === obj.title) || obj);
+
+		setGraphData(res);
+	}
+	const getSiteVisit = () => {
+		let today = 0;
+		let tomorrow = 0;
+
+		state && state.map(data => {
+			
+			if(
+				data.ticket_type_id === 4 && 
+				moment(data.due_date).format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')){
+				return today += 1;
+			}
+
+			if(
+				data.ticket_type_id === 4 && 
+				moment(data.due_date).format('YYYY-MM-DD') == moment().add(1, 'days').format('YYYY-MM-DD')){
+				return tomorrow += 1;
+			}
+
+		});
+
+		let faults = graphData.filter(data => data.title === 'Shipment');
+		faults[0].totalNumber = today+tomorrow;
+		faults[0].graph = [today,tomorrow];
+
+		const res = graphData.map(obj => faults.find(o => o.title === obj.title) || obj);
+
+		setGraphData(res);
+
+	}
 	const getGraphData = args => {
 
-		console.log(args);
 		if(args.title === 'Incidents' || args.title === 'Faults' ){
 			return {
 				datasets: [
@@ -133,7 +190,7 @@ const Card = ({cardData,state}) => {
 			return {
 				datasets: [
 					{
-					    data: [2,2],
+					    data: args.graph,
 					    backgroundColor: [
 					    	"#e03138",
 					    	"#f78600"
@@ -199,7 +256,7 @@ const Card = ({cardData,state}) => {
 				  		data={getGraphData(data)}
 				  		options={graphSetting}
 				  		/>
-  						<p className="percent">{data.totalNumber || 2}  <br/><span>{data.title}</span> </p>	
+  						<p className="percent">{data.totalNumber}  <br/><span>{data.title}</span> </p>	
 					</div>
 				</div>
 			</div>

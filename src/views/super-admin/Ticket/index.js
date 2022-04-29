@@ -10,7 +10,7 @@ const Ticket = () => {
 
 	const contextStore = useContext(AuthContext);
 	const [state,setState] =  useState([]);
-	const [menu,setMenu] =  useState('Incidents');
+	const [menu,setMenu] =  useState(1);
 
 	useEffect(() => {
 
@@ -67,11 +67,36 @@ const Ticket = () => {
                               	overflowX:"auto",
                               	paddingBottom: ".5rem"
                               	}}>
-                                 <li className="nav-item"> <button className={menu === 'Incidents'?'btn btn-secondary':'btn btn-light'} onClick={() => setMenu("Incidents")} > Incidents</button></li>
-                                 <li className="nav-item"> <button className={menu === 'Faults'?'btn btn-secondary':'btn btn-light'} onClick={() => setMenu("Faults")}>Faults</button></li>
-                                 <li className="nav-item"> <button className={menu === 'Shipment'?'btn btn-secondary':'btn btn-light'} onClick={() => setMenu("Shipment")}> Shipment</button></li>
-                                 <li className="nav-item"> <button className={menu === 'Remote_Hands'?'btn btn-secondary':'btn btn-light'} onClick={() => setMenu("Remote_Hands")}> Remote Hands</button></li>
-                                 <li className="nav-item"> <button className={menu === 'Provisioning'?'btn btn-secondary':'btn btn-light'} onClick={() => setMenu("Provisioning")}> Provisioning</button></li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 1?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(1)} > Incidents</button>
+                                 </li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 2?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(2)}>Faults</button>
+                                 </li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 3 ?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(3)}> Shipment</button>
+                                 </li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 5?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(5)}> Remote Hands</button>
+                                 </li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 6?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(6)}> Provisioning</button>
+                                 </li>
+                                 <li className="nav-item"> 
+                                 <button 
+                                 className={menu === 4?'btn btn-secondary':'btn btn-light'} 
+                                 onClick={() => setMenu(4)}> Site Visits</button>
+                                 </li>
                               </ul>
                            </div>
                         </div>
@@ -106,7 +131,7 @@ const Ticket = () => {
                                        <tbody id="cardnew">
                                        	{
                                        		state && state.map(data => {
-	                                       		if (data.type === menu) {
+	                                       		if (data.ticket_type_id === menu) {
 
 	                                       			return(
 			                                          	<tr>
