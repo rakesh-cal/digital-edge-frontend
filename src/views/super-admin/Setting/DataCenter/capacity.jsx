@@ -513,7 +513,7 @@ const Capacity = (props) => {
 			      	):(
 			      		<input type="number"
 			      		
-			      			defaultValue={capacity.design_cabs}
+			      			value={capacity.design_cabs}
 			      			onChange={(event) => {
 			      				capacity.design_cabs = event.target.value;
 			      				onChangeData(event,capacity,'total_cabs')
@@ -527,7 +527,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		
-			      			defaultValue={capacity.design_cages}
+			      			value={capacity.design_cages}
 			      			onChange={(event) => {
 			      				capacity.design_cages = event.target.value;
 			      				onChangeData(event,capacity,'total_cages')
@@ -541,7 +541,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		
-			      			defaultValue={numberFormat2(capacity.design_power,3)}
+			      			value={numberFormat2(capacity.design_power,3)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
@@ -569,7 +569,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.sold_cages)}
+			      			value={numberFormat2(capacity.monthly_utilization?.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
 			      		)}
@@ -593,7 +593,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_cabs)}
+			      			value={numberFormat2(capacity.monthly_utilization?.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
 			      		)}
@@ -605,7 +605,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_cages)}
+			      			value={numberFormat2(capacity.monthly_utilization?.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
 			      		)}
@@ -617,7 +617,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_power,3)}
+			      			value={numberFormat2(capacity.monthly_utilization?.reserved_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
 			      		)}
@@ -629,7 +629,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_cabs)}
+			      			value={numberFormat2(capacity.monthly_utilization?.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
 			      		)}
@@ -641,7 +641,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_cages)}
+			      			value={numberFormat2(capacity.monthly_utilization?.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
 			      		)}
@@ -653,7 +653,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_power,3)}
+			      			value={numberFormat2(capacity.monthly_utilization?.blocked_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
 			      		)}
@@ -665,7 +665,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_cabs)}
+			      			value={numberFormat2(capacity.monthly_utilization?.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
 			      		)}
@@ -677,7 +677,7 @@ const Capacity = (props) => {
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_cages)}
+			      			value={numberFormat2(capacity.monthly_utilization?.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
 			      		)}
@@ -688,7 +688,7 @@ const Capacity = (props) => {
 			      		):(
 			      	<input type="number"
 			      	 
-			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_power,3)}
+			      			value={numberFormat2(capacity.monthly_utilization?.available_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
 			      		)}
