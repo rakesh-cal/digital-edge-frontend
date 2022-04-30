@@ -8,7 +8,7 @@ import './capacityStyle.css';
 import {Link} from 'react-router-dom';
 import CapacityService from 'services/capacityService';
 import moment from 'moment';
-import {numberFormat} from 'common/helpers';
+import {numberFormat2} from 'common/helpers';
 import Swal from 'sweetalert2';
 
 
@@ -501,7 +501,6 @@ const Capacity = (props) => {
   					totalpower = Number(capacity.design_power);
   				}
 
-  				console.log(subCab,"subCab");
   			}
 
   			return(
@@ -538,11 +537,11 @@ const Capacity = (props) => {
 			      	</td>
 			      	<td className="bg_gray">
 			      		{isReadOnly == true?(
-			      			<label >{numberFormat(capacity.design_power,3)}</label>
+			      			<label >{numberFormat2(capacity.design_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		
-			      			defaultValue={numberFormat(capacity.design_power,3)}
+			      			defaultValue={numberFormat2(capacity.design_power,3)}
 			      			onChange={(event) => {
 			      				capacity.design_power = event.target.value;
 			      				onChangeData(event,capacity,'total_power')
@@ -553,22 +552,24 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cabs)}</label>
+			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_cabs)}</label>
 			      		):(
 			      		<input type="number"
-			      		
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cabs)}
+			      			
+			      			value={numberFormat2(capacity.monthly_utilization?.sold_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cabs')}
 			      		/>
+
 			      		)}
+			      		
 			      	</td>
 			      	<td className="tbr">
 			      		{isReadOnly == true?(
-			      			<label >{numberFormat(capacity.monthly_utilization?.sold_cages)}</label>
+			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_cages)}</label>
 			      		):(
 			      		<input type="number"
 			      		
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_cages)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.sold_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_cages')}
 			      		/>
 			      		)}
@@ -576,11 +577,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 
 			      		{isReadOnly == true?(
-			      			<label >{numberFormat(capacity.monthly_utilization?.sold_power,3)}</label>
+			      			<label >{numberFormat2(capacity.monthly_utilization?.sold_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.sold_power,3)}
+			      			value={numberFormat2(capacity.monthly_utilization?.sold_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'sold_power')}
 			      		/>
 			      		)}
@@ -588,11 +589,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cabs)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_cabs)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cabs)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cabs')}
 			      		/>
 			      		)}
@@ -600,11 +601,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_cages)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_cages)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_cages)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_cages')}
 			      		/>
 			      		)}
@@ -612,11 +613,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.reserved_power,3)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.reserved_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.reserved_power,3)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.reserved_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'reserved_power')}
 			      		/>
 			      		)}
@@ -624,11 +625,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cabs)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_cabs)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cabs)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cabs')}
 			      		/>
 			      		)}
@@ -636,11 +637,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_cages)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_cages)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_cages)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_cages')}
 			      		/>
 			      		)}
@@ -648,11 +649,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.blocked_power,3)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.blocked_power,3)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.blocked_power,3)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.blocked_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'blocked_power')}
 			      		/>
 			      		)}
@@ -660,11 +661,11 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.available_cabs)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.available_cabs)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cabs)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_cabs)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cabs')}
 			      		/>
 			      		)}
@@ -672,29 +673,29 @@ const Capacity = (props) => {
 			      	<td className="tbr">
 			      		
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.available_cages)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.available_cages)}</label>
 			      		):(
 			      		<input type="number"
 			      		 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_cages)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_cages)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_cages')}
 			      		/>
 			      		)}
 			      	</td>
 			      	<td className="tbr">
 			      	{isReadOnly == true?(
-			      		<label >{numberFormat(capacity.monthly_utilization?.available_power,3)}</label>
+			      		<label >{numberFormat2(capacity.monthly_utilization?.available_power,3)}</label>
 			      		):(
 			      	<input type="number"
 			      	 
-			      			defaultValue={numberFormat(capacity.monthly_utilization?.available_power,3)}
+			      			defaultValue={numberFormat2(capacity.monthly_utilization?.available_power,3)}
 			      			onChange={(event) => onChangeData(event,capacity,'available_power')}
 			      		/>
 			      		)}
 			      	</td>
-			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalCabs))< 0?'red':'white'}}>{numberFormat(totalCabs)}</td>
-			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalCages))< 0?'red':'white'}}>{numberFormat(totalCages)}</td>
-			      	<td className="tbr" style={{backgroundColor: Number(numberFormat(totalpower))< 0?'red':'white'}}>{numberFormat(totalpower,3)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat2(totalCabs))< 0?'red':'white'}}>{numberFormat2(totalCabs)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat2(totalCages))< 0?'red':'white'}}>{numberFormat2(totalCages)}</td>
+			      	<td className="tbr" style={{backgroundColor: Number(numberFormat2(totalpower))< 0?'red':'white'}}>{numberFormat2(totalpower,3)}</td>
 		    	</tr>
   			)
   		})}
