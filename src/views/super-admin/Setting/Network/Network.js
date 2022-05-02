@@ -208,7 +208,7 @@ export default function Network(props) {
 					<div className="tblop-117">
 						<div className="ttl_op-117">
 							<h6>Latest Updates : 2022-04-22 12:22 HKT</h6>
-							<a href="#" style={{ color: "#147AD6", fontWeight: "600", fontSize: "0.813rem" }} data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"><img src="\images\plus-circle-blue.svg" style={{ width: "1rem" }} /> &nbsp;Add Device</a>
+							{/* <a href="#" style={{ color: "#147AD6", fontWeight: "600", fontSize: "0.813rem" }} data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg"><img src="\images\plus-circle-blue.svg" style={{ width: "1rem" }} /> &nbsp;Add Device</a> */}
 						</div>
 					</div>
 					<div className="op-117_table mt-1">
@@ -232,7 +232,7 @@ export default function Network(props) {
 										allNetworkData && allNetworkData.map((data, id) => {
 
 											return (
-												<tr key={id} className={activeTab === data.id?"tr_active":""}>
+												<tr key={id} >
 													<td>{data.network_function !== null ? data.network_function.name : "N/A"} </td>
 													<td> {data.name} </td>
 													<td> {data.makes.name}</td>
@@ -244,11 +244,11 @@ export default function Network(props) {
 													<td>
 													{isReadOnly === false?(
 														<td>
-														<a
+														{/* <a
 														onClick={() => getEditNetworkPopup(data)}
 														style={{cursor:"pointer"}}>
 														<i className="fas fa-edit"></i>
-														</a>
+														</a> */}
 														</td>
 														):null}
 													</td>

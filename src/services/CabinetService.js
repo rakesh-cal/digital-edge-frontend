@@ -8,9 +8,9 @@ class CabinetServices {
 	| 	Get all Cabinets
 	|-------------------------------------------------------------------------------
 	*/
-	async getAllCabinets (token,data){
+	async getAllCabinets (token){
 
-		return await axios(token).post(`getCabinet`, data);
+		return await axios(token).get(`getCabinet`);
 	}
 
 	/*
