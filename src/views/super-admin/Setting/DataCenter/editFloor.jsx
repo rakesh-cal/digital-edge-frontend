@@ -4,6 +4,8 @@ import { XError } from 'components/common';
 import Swal from 'sweetalert2'
 import Floors from "services/floorServices" 
 import Modal from 'react-modal';
+import Common from "services/commonService";
+import {numberFormat} from "common/helpers";
 
 const customStyles = {
     content: {
@@ -21,30 +23,47 @@ const EditFloor = (props) => {
     const modalRef = useRef(null);
 	const authContext = useContext(AuthContext);
     const [isLoading,setIsLoading] = useState(false);
+    const [statusData,setStatusData] = useState([]);
+    const [dataState,setDataState] = useState({
+    	design_power:0,
+    	design_cabs:0,
+    	design_cages:0,
+    	sold_power:0,
+    	sold_cabs:0,
+    	sold_cages:0,
+    	reserved_power:0,
+    	reserved_cabs:0,
+    	reserved_cages:0,
+    	rofr_power:0,
+    	rofr_cabs:0,
+    	rofr_cages:0,
+    	blocked_power:0,
+    	blocked_cabs:0,
+    	blocked_cages:0
+    });
 
     const [state,setState] = useState({
         floor_id:"",
 		name:"",
-		soldCabinet:"",
-		cabinet:"",
-		kva:""
+		status:""
 	});
     const [error,setError] = useState({
 		name:"",
-		soldCabinet:"",
-		cabinet:"",
-		kva:""
+		status:""
 	});
 
 	useEffect(() => {
+
+		Common.status().then(res => setStatusData(res.data.data));
         setIsOpen(props.show);
         setState({
             floor_id: props.floor_data.id,
             name: props.floor_data.name,
-			cabinet: props.floor_data.design_cabs,
-			kva: props.floor_data.design_power,
-			soldCabinet: props.floor_data.sold_cabs
+			status:props.floor_data.status,
         });
+        calculateDataHall();
+        
+        //props.selectDataCenterFloor(props.data_center_id);
 
         return () => {
 			//setCountries([]);
@@ -71,9 +90,14 @@ const EditFloor = (props) => {
 
 		    setState({...state,floor_id:props.floor_data.id})
             
-			await Floors.deleteFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(res => {
+			await Floors.deleteFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(async res => {
 				
-				props.selectDataCenterFloor(props.data_center_id);
+				let data = authContext.getFloor
+				let newData = data.filter(floor => floor.id !== props.floor_data.id);
+				
+				await authContext.setFloor(newData);
+
+			//	props.selectDataCenterFloor(props.data_center_id);
 				closeModal();
 				//Swal.fire('Floor Deleted');
                 //props.selectDataCenterFloor(props.dataCenterId)
@@ -103,11 +127,22 @@ const EditFloor = (props) => {
 		if(checkValidation()){
            setState({...state,floor_id:props.floor_data.id})
             
-			await Floors.updateFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(res => {
+			await Floors.updateFloor(authContext.getToken,{...state,floor_id: props.floor_data.id}).then(async res => {
 				
 				setIsLoading(false);
-                
-				props.selectDataCenterFloor(props.data_center_id);
+
+				let data = authContext.getFloor
+				let newData = data.map(floor => {
+
+					if(floor.id === props.floor_data.id){
+						return res.data.data;
+					}
+					return floor;
+				});
+				
+				authContext.setFloor(newData);
+
+				//props.selectDataCenterFloor(props.data_center_id);
 				closeModal();
 				Swal.fire('Floor Updated');
                 //props.selectDataCenterFloor(props.dataCenterId)
@@ -136,16 +171,24 @@ const EditFloor = (props) => {
 
 		let error = {
 			"name":"",
-			soldCabinet:"",
+			/*soldCabinet:"",
 			cabinet:"",
-			kva:""
+			kva:"",
+			cages:"",
+			soldCages:"",
+			soldkva:"",*/
+			status:""
 		};
 		
 		const { 
 			name,
-			soldCabinet,
+			/*soldCabinet,
 			cabinet,
-			kva
+			kva,
+			cages,
+			soldCages,
+			soldkva,*/
+			status
 		} = state;
 
 		let flag = true;
@@ -161,9 +204,14 @@ const EditFloor = (props) => {
 		// 	error.soldCabinet = "The data hall field is required.";
 		// 	flag = false;
         // }
-        if (cabinet === "" || cabinet === null || cabinet === undefined) {
+       /* if (cabinet === "" || cabinet === null || cabinet === undefined) {
 
 			error.cabinet = "The cabinet field is required.";
+			flag = false;
+        }
+		if (cages === "" || cages === null || cages === undefined) {
+
+			error.cages = "The cages field is required.";
 			flag = false;
         }
         if (kva === "" || kva === null || kva === undefined) {
@@ -171,7 +219,7 @@ const EditFloor = (props) => {
 			error.kva = "The kva field is required.";
 			flag = false;
         }
-
+*/
 		setError({...error});
 
 		return flag;
@@ -194,6 +242,108 @@ const EditFloor = (props) => {
 		}
 
 		
+	}
+
+	const validateSoldPower = (e) => {
+		let t = e.target.value;
+		let newValue = state.soldkva;
+
+		let value = e.target.value.replace(/[^\d]/,'');
+
+		if( Number(t) <= Number(state.kva)){
+			setError({
+				...error,
+				soldkva:""
+			});
+			if(t.toString().split(".")[0].length <= 6){
+
+				newValue = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 6)) : t;
+				setState({...state,soldkva:Number(newValue)})
+		  }
+			
+		}else{
+			setError({
+				...error,
+				soldkva:"Sold kWs should not greater than total kWs"
+			})
+		}
+	}
+
+	const calculateDataHall = () => {
+
+		const data = props.floor_data.data_halls.reduce(
+        	({
+        		preTotalCabs,
+        		preTotalCage,
+        		preTotalPower,
+        		preSoldCabs,
+        		preSoldCage,
+        		preSoldPower,
+        		preReservedCabs,
+        		preReservedCage,
+        		preReservedPower,
+        		preROFRCabs,
+        		preROFRCage,
+        		preROFRPower,
+        		preBlockedCabs,
+        		preBlockedCage,
+        		preBlockedPower
+        	},{
+        		design_power,
+	    		design_cabs,
+	    		design_cages,
+	    		sold_power,
+	    		sold_cabs,
+	    		sold_cages,
+	    		reserved_power,
+	    		reserved_cabs,
+	    		reserved_cages,
+	    		rofr_power,
+	    		rofr_cabs,
+	    		rofr_cages,
+	    		blocked_power,
+	    		blocked_cabs,
+	    		blocked_cages
+	    	}) => {
+	    		
+        		return {
+        			preTotalPower: Number(preTotalPower) + Number(design_power),
+			    	preTotalCabs: Number(preTotalCabs) + Number(design_cabs),
+			    	preTotalCage: Number(preTotalCage) + Number(design_cages),
+			    	preSoldPower: Number(preSoldPower) + Number(sold_power),
+			    	preSoldCabs: Number(preSoldCabs) + Number(sold_cabs),
+			    	preSoldCage: Number(preSoldCage) + Number(sold_cages),
+			    	preReservedPower: Number(preReservedPower) + Number(reserved_power),
+			    	preReservedCabs: Number(preReservedCabs) + Number(reserved_cabs),
+			    	preReservedCage: Number(preReservedCage) + Number(reserved_cages),
+			    	preROFRPower: Number(preROFRPower) + Number(rofr_power),
+			    	preROFRCabs: Number(preROFRCabs) + Number(rofr_cabs),
+			    	preROFRCage: Number(preROFRCage) + Number(rofr_cages),
+			    	preBlockedPower: Number(preBlockedPower) + Number(blocked_power),
+			    	preBlockedCabs: Number(preBlockedCabs) + Number(blocked_cabs),
+			    	preBlockedCage: Number(preBlockedCage) + Number(blocked_cages)
+        		}
+        	},
+        	{
+        		preTotalCabs: 0,
+        		preTotalCage: 0,
+        		preTotalPower: 0,
+        		preSoldCabs: 0,
+        		preSoldCage: 0,
+        		preSoldPower: 0,
+        		preReservedCabs: 0,
+        		preReservedCage: 0,
+        		preReservedPower: 0,
+        		preROFRCabs: 0,
+        		preROFRCage: 0,
+        		preROFRPower: 0,
+        		preBlockedCabs: 0,
+        		preBlockedCage: 0,
+        		preBlockedPower: 0
+        	}
+        );
+
+		setDataState({...data})
 	}
 
     return (
@@ -222,73 +372,163 @@ const EditFloor = (props) => {
                 <XError message={error.name} />
             </div>									
         </div>
+         <div className="row">
+            <div className="mb-3 col-md-12 mt-2313 dt_td">
+                <table>
+                	<thead>
+	                	<tr style={{borderBottom:"2px solid black"}}>
+	                		<th></th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>CabEs</th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>Cages</th>
+	                		<th style={{fontWeight:"bold",color:"black"}}>kWs</th>
+	                	</tr>
+                	</thead>
+                	<tbody>
+                		<tr>
+                			<td>Total: </td>
+                			<td>{numberFormat(dataState.preTotalCabs)}</td>
+                			<td>{numberFormat(dataState.preTotalCage)}</td>
+                			<td>{numberFormat(dataState.preTotalPower,3)}</td>
+                		</tr>
+                		<tr>
+                			<td>Sold: </td>
+                			<td>{numberFormat(dataState.preSoldCabs)}</td>
+                			<td>{numberFormat(dataState.preSoldCage)}</td>
+                			<td>{numberFormat(dataState.preSoldPower,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>Reserved: </td>
+                			<td>{numberFormat(dataState.preReservedCabs)}</td>
+                			<td>{numberFormat(dataState.preReservedCage)}</td>
+                			<td>{numberFormat(dataState.preReservedPower,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>ROFR: </td>
+                			<td>{numberFormat(dataState.preROFRCabs)}</td>
+                			<td>{numberFormat(dataState.preROFRCage)}</td>
+                			<td>{numberFormat(dataState.preROFRPower,3)}</td>
+                		</tr> 
+                		<tr>
+                			<td>Blocked: </td>
+                			<td>{numberFormat(dataState.preBlockedCabs)}</td>
+                			<td>{numberFormat(dataState.preBlockedCage)}</td>
+                			<td>{numberFormat(dataState.preBlockedPower,3)}</td>
+                		</tr> 
+                	</tbody>
+                </table>
+            </div>									
+        </div>
         
-        <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of Cabinets <small className="text-danger">*</small></label>
+        {/*<div className="row">
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                <input 
                 className="form-control" 
                 type="number"
                 maxLength={9}
                 placeholder="# of Cabinets"
-                value={state.cabinet}
-                onChange={event => setState({
-                	...state,
-                	cabinet:event.target.value.length<=9?event.target.value:state.cabinet
-                })}
+                defaultValue={state.cabinet}
+                style={{border:"oldlace"}}
+                readOnly
                 />
                 <XError message={error.cabinet} />
             </div>									
-        </div>
-         <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
+        
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold Cabinets <small className="text-danger hide">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
                 maxLength={9}
                 placeholder="Sold Cabinets"
-                value={state.soldCabinet}
-                onChange={event => {
-                	let value = event.target.value.replace(/[^\d]/,'');
-
-                	if( Number(value) <= Number(state.cabinet)){
-                		setError({
-							...error,
-							soldCabinet:""
-						});
-	                	setState({
-		                	...state,
-		                	soldCabinet:event.target.value.length<=9?value:state.soldCabinet
-	                	});
-                	}else{
-				        setError({
-							...error,
-							soldCabinet:"Sold cabinet should not greater than total cabinet"
-						})
-                	}
-                }}
+                defaultValue={state.soldCabinet}
+                style={{border:"oldlace"}}
+                readOnly
                 />
                 <XError message={error.soldCabinet} />
             </div>									
+        
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
+               <input 
+                className="form-control" 
+                type="number"
+                maxLength={9}
+                placeholder="# of Cages"
+                defaultValue={state.cages}
+                style={{border:"oldlace"}}
+                readOnly
+                />
+                <XError message={error.cages} />
+            </div>									
+        
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold Cages <small className="text-danger hide">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxLength={9}
+                placeholder="Sold Cages"
+                defaultValue={state.soldCages}
+                style={{border:"oldlace"}}
+                readOnly
+                />
+                <XError message={error.soldCages} />
+            </div>									
         </div>
          <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of kWs <small className="text-danger">*</small></label>
+            <div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                  <input 
                 type="number"
                 min="0.00000" 
                 step="0.00001"
                 maxLength="11"
                 className="form-control" 
-                type="number"
                 placeholder="# of kWs" 
-                value={state.kva}
+                defaultValue={state.kva}
+                style={{border:"oldlace"}}
                 //onInput={(event) => fnValidate(event)}
-                onChange={(event) => validatePower(event)}
+                //onChange={(event) => validatePower(event)}
+                readOnly
                 
                 />
                 <XError message={error.kva} />
+            </div>	*/}
+			{/*<div className="mb-3 col-md-6 mt-2313">
+                <label className="form-label"> Sold kWs <small className="text-danger hide">*</small></label>
+                <input 
+                className="form-control" 
+                type="number"
+                maxLength={9}
+                placeholder="Sold kWs"
+                defaultValue={state.soldkva}
+                style={{border:"oldlace"}}
+                readOnly
+               
+                />
+                <XError message={error.soldkva} />
+            </div>								
+        </div>*/}
+		<div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Status <small className="text-danger">*</small></label>
+                <select value={state.status}
+					onChange={event => {
+						setState({
+						...state,
+						status:event.target.value
+						});
+					}}
+					className="default-select form-control wide">
+						{statusData && statusData.map(status => {
+							return (
+								<option value={status.id} key={status.id} >{status.name}</option>
+							)
+						})}
+						
+					</select>
+                <XError message={error.status} />
             </div>									
         </div>
 

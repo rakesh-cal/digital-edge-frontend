@@ -1,0 +1,162 @@
+.choose_date select {
+             padding: 5px 10px;
+             border-radius: 5px;
+             font-size: 1.125rem;
+             font-weight: 500;
+             font-family: 'DM sans';
+             border: 1px solid #aaa;
+}
+.left_box_month {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:1rem;
+}
+.choose_date{
+   width: 80%;
+}
+.excel_icon{
+   cursor: pointer;
+}
+.table_monthly tr th {
+    color: #000;
+    font-weight: 600 !important;
+    font-size: 0.9375rem;
+}
+.table_monthly tr th {
+    padding: 0.5rem 0.625rem !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+.table_monthly tr td {
+    padding: 0.5rem 0.625rem !important;
+    box-shadow: none !important;
+    text-align: center;
+}
+th.tbr {
+    border: 1px solid #EEEDEE;
+}
+td.tbr {
+    border: 1px solid #EEEDEE;
+}
+th.total_color {
+    background: #D9D9D9;
+    text-align: center;
+}
+th.bg_gray {
+    background: #D9D9D9;
+    text-align: center;
+}
+td.bg_gray {
+    background: #D9D9D9;
+    text-align: center;
+}
+th.in_so{
+   background: #FFC000;
+   text-align: center;
+}
+th.res{
+   background: #B5E3F4;
+   text-align: center;
+}
+th.strd{
+   background: #FA8D8D;
+   text-align: center;
+}
+th.avilbl{
+   background: #C7F0AB;
+   text-align: center;
+}
+th.entvs{
+   background: #FFFFFF;
+   text-align: center;
+}
+.txt_comf p{
+   font-size: 1.25rem;
+   font-weight: 400;
+   font-family: 'DM sans';
+}
+.table tbody tr td {
+   
+    white-space: nowrap !important;
+}
+td.tbr input {
+    max-width: 55px;
+    padding: 0px 5px;
+}
+td.bg_gray input {
+    max-width: 55px;
+    padding: 0px 5px;
+}
+.choose_date button.btn.btn-secondary {
+    padding: 5px 1rem;
+    width: 4rem;
+    border-radius: 5px;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.dt_td table tr td {
+    border: none;
+}
+.dt_td table tr td input {
+    width: 60px;
+}
+
+/*New up table code strat*/
+table.table.table-borderless.tb_dcp tr td {
+    padding: 3.5px 5px !important;
+}
+table.table.table-borderless.tb_dcp tr td input {
+    height: 20px;
+}
+table.table.table-borderless.tb_dcp tr td span {
+    border-radius: 3px;
+}
+table.table.table-borderless.tb_dcp_view tr td {
+    padding: 2px 22px !important;
+}
+
+/*New up table code end*/
+
+.flex_table {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+table.table.table-borderless.tb_dcp.mb-4 tr td input {
+    padding: 0px 5px;
+    height: 21px;
+}
+.excel_icon.cap_icon{
+    background-color: transparent;
+    padding: 0px 0px;
+}
+.excel_icon.cap_icon img {
+    padding: 0px;
+}
+
+.form-select.w-3rem {
+    width: 4rem;
+    padding: 5px;
+    border-radius: 0px;
+    text-align: center;
+}
+
+@media (min-width: 1600px){
+    .choose_date button.btn.btn-secondary {
+        padding: 5px 1rem;
+        width: 5rem;
+        border-radius: 5px;
+    }
+    .form-select.w-3rem {
+        width: 5rem;
+        padding: 5px;
+        border-radius: 0px;
+        text-align: center;
+    }
+}

@@ -21,17 +21,25 @@ const Reports = (props) => {
    const [showPopup, setShowPopup] = useState([])
    const [firstTimeCheck, setFirstTimeCheck] = useState(1)
 
-   useEffect(() => {
+   	useEffect(() => {
 
 		getData()
-      getAllUsers()
+      	getAllUsers()
+
 	},[]);
 
 	const getData = async () => {
 
-		await RoleModel.countryService(authContext.token()).then(res => {
-			setState(res.data.data);
-		});
+		if(authContext.getCountries.length === 0){
+
+			await RoleModel.countryService(authContext.token()).then(res => {
+				setState(res.data.data);
+				authContext.setCountry(res.data.data);
+			});
+
+		}else{
+			setState(authContext.getCountries);
+		}
 		getAllDataCenter()
 		getActivityLogs("all")
       setDataCenterName("N/A")
@@ -54,28 +62,48 @@ const Reports = (props) => {
 	}
 
    const getAllDataCenter = async () => {
-      setFirstTimeCheck(1)
-      getActivityLogs("all")
+      	setFirstTimeCheck(1)
+      	getActivityLogs("all")
 		setCountryName("Country")
-		await RoleModel.dataCenter(authContext.token()).then(res => {
-			setDataCenter(res.data.data)
-			
-		})
+
+		if(authContext.getDataCenters.length === 0){
+
+			await RoleModel.dataCenter(authContext.token()).then(res => {
+				setDataCenter(res.data.data);
+				authContext.setDataCenter(res.data.data);
+			});
+
+		}else{
+			setDataCenter(authContext.getDataCenters);
+		}
+
 	}
 
    const getDataCenterById = async(e) => {
 		setCountryName(e.name)
-      setDataCenterName("N/A")
-      getActivityLogs("country", e.id)
-		await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
-			setDataCenter(res.data.data)
-			if(res.data.data.length > 0){
-				//selectDataCenterFloor(res.data.data[0])
-			}
-		})
+      	setDataCenterName("N/A")
+      	getActivityLogs("country", e.id)
+
+      	if(authContext.getDataCenters.length === 0){
+			
+			await RoleModel.dataCenterByCountryId(authContext.token(), e).then(res => {
+				setDataCenter(res.data.data);
+			});
+
+		}else{
+
+			const data = authContext.getDataCenters.filter(data => data.country_id === e.id);
+			setDataCenter(data);
+		}
+
 	}
 
-   const getActivityLogs = async(type, id=null)=> {
+   const getActivityLogs = async(type, id=null, data=null)=> {
+      if(data != null){
+         setCurrentTab(data.id)
+         setDataCenterName(data.name)
+      }
+      
       await Activity.getActivity(authContext.token(), type, id).then(res => {
          res.data.data.map((data) => {
             return data.show = true
@@ -182,12 +210,12 @@ const Reports = (props) => {
       return (
          userList && userList.map((data, i) => {
             return (
-               	<div className="form-check" key={i}>
+               <div className="form-check" key={i}>
                   <input className="form-check-input" type="checkbox" name=" checked flexRadioDefault" id={'flexRadioDefault'+i} onChange={(e) => handleChange(e, data.uuid)}/>
                   <label className="form-check-label" htmlFor={'flexRadioDefault'+i}>
                   {data.name}
                   </label>
-               	</div>
+               </div>
             )
          })
       )
@@ -228,8 +256,47 @@ const Reports = (props) => {
                                  </ul> 
                                  </div>
                                  <div className="ul_scrll">
-                                    <ul className="nav nav-tabs mb-3">
-                                 {renderDataCenter()} 
+                                    <ul className="nav nav-tabs custom-scroll-gap">
+                                       {
+                                          dataCenter && dataCenter.map((data,index) => {
+
+                                             if(currentTab && currentTab == data.id){
+                                                return(
+                                                   <li 
+                                                   className={index == 0?'nav-item':'nav-item'}
+                                                   key={index}>
+                                                      <a 
+                                                      onClick={() => 
+                                                        // setCurrentTab(data.id)
+                                                         getActivityLogs("data_center", data.id, data)
+                                                        // setDataCenterName(data.name)
+                                                      }
+                                                      style={{cursor:'pointer'}} 
+                                                      className="nav-link active show"> 
+                                                         <img className="down setting_down" src="\images\downward-arrow.png" />
+                                                         {data.name}
+                                                      </a> 
+                                                   </li>
+                                                )
+                                             }else{
+         
+                                                return(
+                                                   <li 
+                                                   className={index == 0?'nav-item':'nav-item'}
+                                                   key={index}>
+                                                      <a 
+                                                      onClick={() => //setCurrentTab(data.id),
+                                                         getActivityLogs("data_center", data.id, data)
+                                                         //setDataCenterName(data.name)
+                                                      }
+                                                      style={{cursor:'pointer'}} 
+                                                      className="nav-link"> {data.name} </a> 
+                                                   </li>
+                                                )
+                                             }
+                                       })
+                                       }
+                                 {/* {renderDataCenter()}  */}
                               </ul>
                                  </div>
                               </div>

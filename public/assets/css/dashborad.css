@@ -25,8 +25,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-theme {
     font-family: 'DM SANS';
     font-size: 0.875rem;
     border-top: 2px solid #FE8600;
-    margin-top: 1rem;
-    padding: 0px 0px 12px 0px;
+    margin-top: .5rem;
+    padding: 10px 0px 12px 0px;
 }
 .navbar-light .navbar-nav .nav-link {
     color: #92979A;
@@ -76,7 +76,7 @@ a.nav-link.dt_nav {
 a.nav-link.dt_nav {
     display: flex;
     align-items: center;
-    height: 3.7rem;
+    height: 2.7rem;
     margin-top: 9px;
     font-size: 0.875rem;
 }
@@ -141,7 +141,7 @@ ul.navbar-nav.right_sec li {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #E7E8E9;
-    padding: .2rem .5rem .1rem 1rem;
+    padding: .2rem .5rem .1rem .7rem;
 }
 .card_diag img {
     width: 200px;
@@ -150,8 +150,11 @@ ul.navbar-nav.right_sec li {
 .txt_card_2 {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-left: 10px;
+    align-items: flex-start;
+    margin-left: .3rem;
+    font-size: 0.563rem;
+    gap: 2px;
+    color:#000;
 }
 .txt_card h3{
     font-family:'DM SANS';

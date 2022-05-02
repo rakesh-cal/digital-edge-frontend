@@ -1,8 +1,22 @@
 import React from 'react';
 import { floorData } from '../data';
 import FloorTable from './FloorTable';
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available,
+	Unavailable
+} from 'components/ColorTile';
 
-const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
+const FloorCard = ({
+	selectedDataCenter,
+	selectedFloor,
+	selectFloor,
+	setFloorSort,
+	floorSort
+}) => {
 	return(
 		<div className="col-lg-5 col-md-12 col-sm-12 col-12">
 			<div className="grid_card h-100">
@@ -11,12 +25,22 @@ const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
 						<div className="txt_card">
 							<h3>Floors</h3>
 						</div>
-						<div className="txt_card" >
+						{/*<div className="txt_card" >
 							<h3 style={{
 						 color: "#92979A",
 						 fontSize: "0.875rem!important",
 						 fontWeight: 400}}>Sold/Available</h3>
-						</div>
+						</div>*/}
+
+					<div className="txt_card_2">
+						
+						<InService />
+						<Available />
+						<Reserved />
+						<ROFR />
+						<Blocked />
+							
+					</div>
 					</div>
                     <div className='table_scrll'>
 					<FloorTable 
@@ -24,6 +48,8 @@ const FloorCard = ({selectedDataCenter,selectedFloor,selectFloor}) => {
 					selectedDataCenter={selectedDataCenter}
 					selectedFloor={selectedFloor}
 					selectFloor={selectFloor}
+					setFloorSort={setFloorSort}
+					floorSort={floorSort}
 					/>
 					</div>
 					

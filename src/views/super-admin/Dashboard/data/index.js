@@ -22,12 +22,19 @@ const cardData = [
 			totalNumber:0,
 			types:[
 				{
-					title:"In Services",
-					imagePath:"/images/orange.png"
+					title:"In Services"
 				},
 				{
-					title:"Available",
-					imagePath:"/images/green.png"
+					title:"Available"
+				},
+				{
+					title:"Reserved"
+				},
+				{
+					title:"ROFR"
+				},
+				{
+					title:"Blocked"
 				}
 			]
 		},
@@ -38,12 +45,19 @@ const cardData = [
 			totalNumber:0,
 			types:[
 				{
-					title:"In Services",
-					imagePath:"/images/orange.png"
+					title:"In Services"
 				},
 				{
-					title:"Available",
-					imagePath:"/images/green.png"
+					title:"Available"
+				},
+				{
+					title:"Reserved"
+				},
+				{
+					title:"ROFR"
+				},
+				{
+					title:"Blocked"
 				}
 			]
 		},
@@ -54,12 +68,19 @@ const cardData = [
 			totalNumber:0,
 			types:[
 				{
-					title:"In Services",
-					imagePath:"/images/orange.png"
+					title:"In Services"
 				},
 				{
-					title:"Available",
-					imagePath:"/images/green.png"
+					title:"Available"
+				},
+				{
+					title:"Reserved"
+				},
+				{
+					title:"ROFR"
+				},
+				{
+					title:"Blocked"
 				}
 			]
 		}

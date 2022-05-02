@@ -3,35 +3,43 @@ import AuthContext from "context";
 import { XError } from 'components/common';
 import Swal from 'sweetalert2'
 import Floors from "services/floorServices" 
+import Common from "services/commonService"
 
 const Floor = (props) => {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const modalRef = useRef(null);
 	const authContext = useContext(AuthContext);
     const [isLoading,setIsLoading] = useState(false);
+	const [statusData,setStatusData] = useState([]);
 
     const [state,setState] = useState({
 		name:"",
-		cabinet:"",
+		/*cabinet:"",
 		kva:"",
-		soldCabinet:""
+		soldCabinet:"",
+		cages: "",*/
+		status:""
 	});
 
     const [error,setError] = useState({
 		name:"",
-		cabinet:"",
+		/*cabinet:"",
 		kva:"",
-		soldCabinet:""
+		soldCabinet:"",
+		cages: "",*/
+		status:""
 	});
 
 	useEffect(() => {
-
+		Common.status().then(res => setStatusData(res.data.data));
         setIsOpen(props.show);
         setState({
             name:"",
-			cabinet:"",
+			/*cabinet:"",
 			kva:"",
-			soldCabinet:""
+			soldCabinet:"",
+			cages: "",*/
+			status: ""
         });
 
         return () => {
@@ -52,9 +60,14 @@ const Floor = (props) => {
 				{...state,
 					data_center_id: props.data_center_id.id
 				}).then(res => {
-				
+
+				const floorData = authContext.getFloor;
+				floorData.push(res.data.data);
+				authContext.setFloor(floorData);
 				setIsLoading(false);
+				
 				props.selectDataCenterFloor(props.data_center_id);
+
 				closeModal();
 				Swal.fire('New Floor Created');
 
@@ -63,8 +76,10 @@ const Floor = (props) => {
 				setIsLoading(false);
 				let error = {
 					name:"",
-					cabinet:"",
-					kva:""
+				/*	cabinet:"",
+					kva:"",
+					cages: "",*/
+					status: ""
 				};
 				const errors = err?.response?.data?.errors;
 
@@ -84,17 +99,21 @@ const Floor = (props) => {
 
 		let error = {
 			name:"",
-			cabinet:"",
+			/*cabinet:"",
 			kva:"",
-			soldCabinet:""
+			soldCabinet:"",
+			cages: "",*/
+			status: ""
 		};
 		
 		const { 
 			name,
-			dataHall,
+			/*dataHall,
 			cabinet,
 			kva,
-			soldCabinet
+			soldCabinet,
+			cages,*/
+			status
 		} = state;
 
 		let flag = true;
@@ -109,21 +128,21 @@ const Floor = (props) => {
 		// 	error.dataHall = "The data hall field is required.";
 		// 	flag = false;
         // }
-        if (cabinet === "" || cabinet === null || cabinet === undefined) {
+      /*  if (cabinet === "" || cabinet === null || cabinet === undefined) {
 
 			error.cabinet = "The cabinet field is required.";
 			flag = false;
         }
-        if (soldCabinet === "" || soldCabinet === null || soldCabinet === undefined) {
+        if (cages === "" || cages === null || cages === undefined) {
 
-			error.soldCabinet = "The sold cabinet field is required.";
+			error.cages = "The cages field is required.";
 			flag = false;
         }
         if (kva === "" || kva === null || kva === undefined) {
 
 			error.kva = "The kva field is required.";
 			flag = false;
-        }
+        }*/
 
 		setError({...error});
 		return flag;
@@ -133,20 +152,22 @@ const Floor = (props) => {
 
 		setState({
 			name:"",
-			cabinet:"",
+		/*	cabinet:"",
 			kva:"",
-			soldCabinet:""
+			soldCabinet:"",
+			cages: ""*/
 		});
 		setError({
 			name:"",
-			cabinet:"",
+		/*	cabinet:"",
 			kva:"",
-			soldCabinet:""
+			soldCabinet:"",
+			cages:""*/
 		})
 
 		modalRef.current.click();
 	}
-	const validatePower = (e) => {  
+	/*const validatePower = (e) => {  
 		
 		let t = e.target.value;
 		let newValue = state.kva;
@@ -158,7 +179,7 @@ const Floor = (props) => {
 		}
 
 		
-	}
+	}*/
 
     return (
         <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-hidden="true">
@@ -186,22 +207,8 @@ const Floor = (props) => {
                 <XError message={error.name} />
             </div>									
         </div>
-
-     {/*   <div className="row">
-            <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of Data Halls </label>
-                <input 
-                type="text" 
-                className="form-control"
-                type="number"
-                value={state.dataHall} 
-                placeholder="# of Data Halls"
-                name="name" onChange={event => setState({...state,dataHall:event.target.value})}/>
-                <XError message={error.dataHall} />
-            </div>									
-        </div>*/}
         
-        <div className="row">
+      {/*  <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
                 <label className="form-label"> Total Cabinets <small className="text-danger">*</small></label>
                 <input 
@@ -217,42 +224,27 @@ const Floor = (props) => {
                 />
                 <XError message={error.cabinet} />
             </div>									
-        </div>
-          <div className="row">
+        </div>*/}
+    {/*      <div className="row">
             <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Sold Cabinets <small className="text-danger">*</small></label>
+                <label className="form-label"> Total Cages <small className="text-danger">*</small></label>
                 <input 
                 className="form-control" 
                 type="number"
                 maxLength={9}
-                placeholder="Sold Cabinets"
-                value={state.soldCabinet.replace(/[^\d]/,'')}
-                onChange={event => {
-                	let value = event.target.value.replace(/[^\d]/,'');
-
-                	if( Number(value) <= Number(state.cabinet)){
-                		setError({
-							...error,
-							soldCabinet:""
-						});
-	                	setState({
-		                	...state,
-		                	soldCabinet:event.target.value.length<=9?value:state.soldCabinet
-	                	});
-                	}else{
-				        setError({
-							...error,
-							soldCabinet:"Sold cabinet should not greater than total cabinet"
-						})
-                	}
-                }}
+                placeholder="Total Cages"
+                value={state.cages.replace(/[^\d]/,'')}
+                onChange={event => setState({
+                	...state,
+                	cages:event.target.value.length<=9?event.target.value.replace(/[^\d]/,''):state.cages.replace(/[^\d]/,'')
+                })}
                 />
-                <XError message={error.soldCabinet} />
+                <XError message={error.cages} />
             </div>									
-        </div>
-         <div className="row">
+        </div>*/}
+         {/*<div className="row">
             <div className="mb-3 col-md-12 mt-2313">
-                <label className="form-label"> Number of kWs <small className="text-danger">*</small></label>
+                <label className="form-label"> Total kWs <small className="text-danger">*</small></label>
                 <input 
                 type="number"
                 min="0.00000" 
@@ -260,13 +252,34 @@ const Floor = (props) => {
                 maxLength="11"
                 className="form-control" 
                 type="number"
-                placeholder="Number of kWs" 
+                placeholder="# of kWs" 
                 value={state.kva}
                 //onInput={(event) => fnValidate(event)}
                 onChange={(event) => validatePower(event)}
                 
                 />
                 <XError message={error.kva} />
+            </div>									
+        </div>*/}
+		<div className="row">
+            <div className="mb-3 col-md-12 mt-2313">
+                <label className="form-label"> Status <small className="text-danger">*</small></label>
+                <select 
+					onChange={event => {
+						setState({
+						...state,
+						status:event.target.value
+						});
+					}}
+					className="default-select form-control wide">
+						
+						{statusData && statusData.map(status => {
+							return (
+								<option value={status.id} key={status.id} >{status.name}</option>
+							)
+						})}
+					</select>
+                <XError message={error.status} />
             </div>									
         </div>
 

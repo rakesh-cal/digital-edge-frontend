@@ -1,0 +1,97 @@
+     .choose_date select {
+             padding: 10px 10px;
+             border-radius: 5px;
+             font-size: 1.125rem;
+             font-weight: 500;
+             font-family: 'DM sans';
+}
+.left_box_month {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.choose_date{
+   width: 80%;
+}
+.excel_icon{
+   cursor: pointer;
+}
+.btn_go_esg button{
+   padding: 5px 5px;
+   width: 3.5rem;
+}
+.excel_icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #35A869;
+    padding: 4px 5px;
+    border-radius: 5px;
+}
+.excel_icon span {
+    color: #fff;
+}
+.excel_icon img {
+    padding: 5px;
+}
+.main_esg .choose_date select {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    font-family: 'DM sans';
+    width: 5.3rem;
+    text-align: center;
+    border-radius: 0px;
+}
+.txt_esg_top h3{
+   color: #171C3C;
+   font-size: 1.438rem;
+   margin-bottom: 0px;
+}
+.txt_esg_top p{
+   color: #92979A;
+   font-size: 1rem;
+}
+.main_sec_esg{
+   border-bottom: 1px solid #E7E8E9;
+}
+table.table.table-borderless.esg_exprt.mb-5 tr td {
+    border-bottom: 1px solid #eee;
+}
+
+table.table.table-borderless.esg_exprt.mb-5 td.bg_font {
+    font-size: 0.938rem !important ;
+    color: rgb(14, 14, 14);
+    font-weight: blod;
+}
+.btn_go_esg button {
+    border-radius: 5px;
+}
+
+.tb_st_esg {
+    overflow-x: auto;
+}
+td.valign{
+    vertical-align: text-top;
+}
+
+@media (min-width: 1600px){
+.main_sec_esg  .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1335px;
+}
+.data_esg_tb .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1335px;
+}
+.main_esg .choose_date select {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    font-family: 'DM sans';
+    width: 5.5rem;
+    text-align: center;
+    border-radius: 0px;
+}
+}

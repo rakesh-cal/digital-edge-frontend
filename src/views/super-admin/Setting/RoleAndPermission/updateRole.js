@@ -1,8 +1,10 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
 import Modal from 'react-modal';
 import RoleModel from 'services/roleServices';
+import Select from 'react-select';
 import { XError } from 'components/common';
 import Swal from 'sweetalert2';
+import CommonService from 'services/commonService';
 import StorageContext from "context";
 
 const errorInit = {
@@ -31,9 +33,11 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
  	
  	const contextStore = React.useContext(StorageContext);
   	const [modalIsOpen, setIsOpen] = React.useState(false);
+  	const modalRef = useRef(null);
 	const [countries,setCountries] = useState([]);
 	const [dataCenters,setDataCenters] = useState([]);
 	const [disabled,setDisabled] = useState(true);
+	const [placeHolder, setPlaceHolder] = useState("All")
 	const [state,setState] = useState({
 		"name":"",
 		"country":"",
@@ -51,12 +55,15 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 
 		getCountries();
 		getDataCenters(data.country_id);
+		//addDataCenter(data.role_datacenter)
+		let data_Center = addDataCenter(data.role_datacenter, data.country)
+		
 		setIsOpen(show);
 		setState({
 			id: data.id,
 			name:data.name,
 			country:data.country_id,
-			dataCenter: data.data_center_id,
+			dataCenter: data_Center,
 			space: JSON.parse(data.space),
 			monitorAndEvalution: JSON.parse(data.m_e),
 			network: JSON.parse(data.network),
@@ -64,6 +71,8 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 			status:data.is_active
 
 		});
+
+		//addDataCenter(data.role_datacenter)
 
 		return () => {
 			//setCountries([]);
@@ -85,10 +94,32 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
     setIsOpen(false);
     setShow(false);
   }
+
+  const addDataCenter = (data_centers, country) => {
+	
+	  if(data_centers.length > 0){
+		if(country.country_code == "global"){
+			//setPlaceHolder("All")
+			//return {"label": "All", "value":1,select_all:true}
+			return null
+		}else{
+			let dataCenter = []
+			for(const k of data_centers){
+				dataCenter.push({"label": k.datacenter.name, "value":k.data_center_id})
+			}
+			
+		 
+		  return dataCenter
+		}
+		 
+		//setState({...state, dataCenter:dataCenters})
+	  }else{
+		  return null
+	  }
+  }
   	
 
 	const getCountries = async () => {
-
 		const country = contextStore.getCountries;
 
 		if (country.length) {
@@ -118,13 +149,33 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 				contextStore.setDataCenter(data.allData);
 			} )
 		}
+		
 	}
 
 	const onChangeCountry = async id => {
 
-		setState({...state,country:id})
+		//setState({...state,country:id})
 
 		await getDataCenters(id);
+		if(id){
+			setPlaceHolder("All")
+		}else{
+			setPlaceHolder("Select")
+		}
+		setState({...state,dataCenter:null,country:id})
+
+		// let filterCountry = countries
+		// console.log(filterCountry)
+		// filterCountry = filterCountry.filter(k => k.id == id)
+		// if(filterCountry.length > 0){
+		// 	if(filterCountry[0].country_code == "global"){
+		// 		setState({...state,dataCenter:{"label": "All", "value":1,select_all:true},country:id})
+		// 	}else{
+		// 		setState({...state,dataCenter:null,country:id})
+		// 	}
+		// }else{
+		// 	setState({...state,country:id,dataCenter:null})
+		// }
 	}
 
 	const renderCountryList = () => {
@@ -311,6 +362,22 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		})
 		
 	}
+
+	const renderDataCenterMulti = () => {
+		let data_center = []
+		
+		for(const dataCenter of dataCenters){
+			data_center.push({ value: dataCenter.id, label: dataCenter.name }) 
+
+		}
+		return data_center
+	}
+
+	const onChangeDataCenter = async value => {
+		
+		setState({...state,dataCenter:value})
+		setDisabled(false);
+	}
 	
 
   return (
@@ -378,7 +445,7 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                        <label className="form-label"> 
 		                                        Data Centers
 		                                        </label>
-		                                        <select 
+		                                        {/* <select 
 		                                        value={state.dataCenter} 
 		                                        onChange={event => {
 		                                        	setState({...state,dataCenter:event.target.value});
@@ -387,7 +454,9 @@ function App({token,data,show,setShow,retriveCurrentData,permission}) {
 		                                        className="default-select form-control wide">
 		                                           	<option value="">All</option>
 		                                            {renderDataCenterList()}
-		                                        </select>
+		                                        </select> */}
+
+												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter} placeholder={placeHolder}/>
 		                                        
 		                                    </div>
 		                                </div>

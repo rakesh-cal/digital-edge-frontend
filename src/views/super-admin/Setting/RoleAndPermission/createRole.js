@@ -16,11 +16,12 @@ const errorInit = {
 }
 
 const CreateRole = ({retriveCurrentData,token,permission}) => {
-
 	const contextStore = React.useContext(StorageContext);
 	const modalRef = useRef(null);
 	const [countries,setCountries] = useState([]);
 	const [dataCenters,setDataCenters] = useState([]);
+	const [selectedValues, setSelectedValues] = useState([])
+	const [placeHolder, setPlaceHolder] = useState("Select")
 	const [state,setState] = useState({
 		"name":"",
 		"country":"",
@@ -71,10 +72,33 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 	}
 
 	const onChangeCountry = async id => {
-
-		setState({...state,country:id})
-
+		//setState({...state,country:id})
 		await getDataCenters(id);
+		if(id){
+			setPlaceHolder("All")
+		}else{
+			setPlaceHolder("Select")
+		}
+		setState({...state,dataCenter:null,country:id})
+		
+		// let filterCountry = countries
+		// console.log(filterCountry)
+		// filterCountry = filterCountry.filter(k => k.id == id)
+		// if(filterCountry.length > 0){
+		// 	if(filterCountry[0].country_code == "global"){
+		// 		setState({...state,dataCenter:{"label": "All", "value":1,select_all:true},country:id})
+		// 	}else{
+		// 		setState({...state,dataCenter:null,country:id})
+		// 	}
+		// }else{
+		// 	setState({...state,country:id,dataCenter:null})
+		// }
+		
+	}
+
+	const onChangeDataCenter = async value => {
+		console.log(value)
+		setState({...state,dataCenter:value})
 	}
 
 	const renderCountryList = () => {
@@ -91,8 +115,16 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		})
 	}
 
-	const onSubmit = () => {
+	const renderDataCenterMulti = () => {
+		let data_center = []
+		dataCenters.forEach(dataCenter => {
+			data_center.push({ value: dataCenter.id, label: dataCenter.name }) 
+		})
+		return data_center
+	}
 
+	const onSubmit = () => {
+		console.log(state)
 		if (checkValidation()) {
 
 			RoleModel.createRoleAndPermissions(token,state).then(async res => {
@@ -250,7 +282,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                            Country <small className="text-danger">*</small>
 		                                        </label>
 		                                        <select 
-		                                        defaultValue="" 
+		                                        value={state.country} 
 		                                        onChange={event => onChangeCountry(event.target.value)}
 		                                        className="default-select form-control wide"
 		                                        >	<option value="">Choose...</option>
@@ -262,13 +294,15 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label"> 
 		                                        Data Centers
 		                                        </label>
-		                                        <select 
+												<Select options={renderDataCenterMulti()} className="default-select wide" isMulti={true} isClearable={true} onChange={onChangeDataCenter} value={state.dataCenter} placeholder={placeHolder}/>
+		                                        {/* <select 
 		                                        defaultValue="" 
 		                                        onChange={event => setState({...state,dataCenter:event.target.value})}
-		                                        className="default-select form-control wide">
+		                                        className="default-select form-control wide" multiple>
+
 		                                            <option value="">All</option>
 		                                            {renderDataCenterList()}
-		                                        </select>
+		                                        </select> */}
 		                                        
 		                                    </div>
 		                                </div>
@@ -278,7 +312,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label"> 
 		                                        Space <small className="text-danger">*</small>
 		                                        </label>
-		                                        <select 
+		                                        <select value={state.space} 
 		                                        onChange={event => {
 		                                        	setState({...state,space:event.target.value});
 		                                        }}
@@ -286,7 +320,9 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option 
+		                                            		key={per.id}
+		                                            		value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -297,7 +333,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        M&E <small className="text-danger">*</small>
 		                                        </label>
 		                                        <select 
-		                                      
+		                                      	value={state.monitorAndEvalution}
 		                                        onChange={event => {
 		                                        	setState({
 		                                        	...state,
@@ -309,7 +345,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option key={per.id} value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -323,7 +359,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                        <label className="form-label">
 		                                        Network <small className="text-danger">*</small>
 		                                        </label>
-		                                        <select 
+		                                        <select value={state.network}
 		                                        onChange={event => {
 		                                        	setState({
 		                                        	...state,
@@ -334,7 +370,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                           
 		                                            {
 		                                            	permission && permission.map(per => {
-		                                            		return <option value={per.id} key={per.id}>{per.name}</option>
+		                                            		return <option key={per.id} value={per.id}>{per.name}</option>
 		                                            	})
 		                                            }
 		                                        </select>
@@ -380,7 +416,7 @@ const CreateRole = ({retriveCurrentData,token,permission}) => {
 		                                 style={{marginRight:"1rem"}}
 		                                 className="btn btn-outline-primary mr_1"> Cancel </button>
 		                                 <button 
-		                                 type="submit" 
+		                                 type="button" 
 		                                 onClick={onSubmit} 
 		                                 className="btn btn-primary"> Save </button>
 

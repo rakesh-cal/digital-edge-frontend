@@ -30320,3 +30320,55 @@ tr.setting-table td p {
   margin-bottom: 0px;
   line-height: 0;
 }
+
+.not-found-popup .modal-content {
+  padding: 1.5rem 0px;
+}
+
+img.setting_down {
+  width: 24px!important;
+  position: absolute;
+  margin: 0px;
+  text-align: center;
+  bottom: -17px;
+  left: 1.1rem;
+}
+
+ul.nav.nav-tabs.custom-scroll-gap {
+    margin-bottom: .5rem;
+}
+
+.reports-block .nav {
+  flex-wrap: nowrap;
+}
+
+.hide{
+  display:none;
+}
+
+.css-1s2u09g-control{
+  min-height: 46px !important;
+  border: 0.0625rem solid #eeeeee !important;
+}
+
+.css-1pahdxg-control:hover {
+  box-shadow: none !important;
+  border: 1px solid #fe8600 !important;
+  border-color: #fe8600 !important;
+  min-height: 46px !important;
+}
+.css-1pahdxg-control {
+  box-shadow: none !important;
+  border: 1px solid #eee !important;
+  border-color: #eee !important;
+  min-height: 46px !important;
+}
+/* .css-319lph-ValueContainer{
+  padding: 0!important;
+}
+.css-1pahdxg-control:hover{
+  border-color: none!important;
+  box-shadow: none!important;
+  border: none!important;
+} */
+/*# sourceMappingURL=style.css.map */

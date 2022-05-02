@@ -4,8 +4,23 @@ import { hallData } from '../data';
 import CabinetPopup from './Cabinet-Popup'
 import CabinetServices from "../../../../services/CabinetService";
 import AuthContext from "context";
+import {
+	InService,
+	Reserved,
+	ROFR,
+	Blocked,
+	Available,
+	Unavailable,
+	Complete
+} from 'components/ColorTile';
 
-const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
+
+const DataHallCard = ({
+	selectedFloor, 
+	selectedDataCenter,
+	hallSort,
+	setHallSort
+}) => {
 	const authContext = useContext(AuthContext);
 
 	const [showPopup, setShowPopup] = useState("")
@@ -18,7 +33,6 @@ const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
 			setShowPopup(res.data)
 			setShow(true)
 		});
-
 	}
 
 	return(
@@ -30,17 +44,22 @@ const DataHallCard = ({selectedFloor, selectedDataCenter}) => {
 					</div>
 				
 					<div className="txt_card_2">
-						<p>
-							<img src="/images/orange.png" width="13px"/> In Services
-						</p>
-						<p>
-							<img src="/images/green.png" width="13px" /> Available
-						</p>
+						<InService />
+						<Available />
+						<Reserved />
+						<ROFR />
+						<Blocked />
+						<Complete/>
 					</div>
 				</div>
 				<div className="card-body">
 					<div className="table-responsive">
-					<DataHallTable hallData={hallData} selectedFloor={selectedFloor} getCabinetData={getCabinetData} selectedDataCenter={selectedDataCenter}/>
+					<DataHallTable 
+					hallSort={hallSort}
+					setHallSort={setHallSort}
+					selectedFloor={selectedFloor} 
+					getCabinetData={getCabinetData} 
+					selectedDataCenter={selectedDataCenter}/>
 					</div>
 				</div>
 			</div>

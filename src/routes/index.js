@@ -16,6 +16,8 @@ const Index = () => {
 		auth(token).then(res => {
 
 			contextData.setAuth(res.data.user);
+			contextData.setMonthYear(res.data.currentMonth,res.data.currentYear);
+
 			contextData.login(res.data.user.api_token)
 
 		}).catch(err => {

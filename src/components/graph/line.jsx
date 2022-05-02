@@ -9,7 +9,13 @@ const Line = (props) => {
 		totalText,
 		inServicePercent,
 		availablePercent,
-		totalPercent
+		totalPercent,
+		reservedPer,
+		rofrPer,
+		blockedPer,
+		reserved,
+		rofr,
+		blocked
 	} = props;
 
 	inServiceText = isNaN(inServiceText) || inServiceText == null?0:inServiceText;
@@ -23,16 +29,10 @@ const Line = (props) => {
 				textAlign:'left',
 				font:"normal normal normal 11px/14px DM Sans",
 				width:'100%'
-				}}>{numberFormat(inServiceText)+'/'+numberFormat(availableText)}</div>
+				}}>{numberFormat(inServiceText)+'/'+numberFormat(availableText)+'/'+numberFormat(reserved)+'/'+numberFormat(rofr)+'/'+numberFormat(blocked)}</div>
 
 			<div style={{width: "100%"}} >
-				{/*<div style={{
-					backgroundColor:'#E0E2E5', 
-					float:'left', 
-					height:'4px', 
-					width:`50%`
-				}}>&nbsp;
-				</div>*/}
+				
 				<div style={{
 					backgroundColor:'#FE8600', 
 					float:'left', 
@@ -45,6 +45,24 @@ const Line = (props) => {
 					float:'left', 
 					height:'4px', 
 					width:`${availablePercent}%`
+				}}>&nbsp;</div>
+				<div style={{
+					backgroundColor:'#1b70c0', 
+					float:'left', 
+					height:'4px', 
+					width:`${reservedPer}%`
+				}}>&nbsp;</div>
+				<div style={{
+					backgroundColor:'#595959', 
+					float:'left', 
+					height:'4px', 
+					width:`${rofrPer}%`
+				}}>&nbsp;</div>
+				<div style={{
+					backgroundColor:'#000000', 
+					float:'left', 
+					height:'4px', 
+					width:`${blockedPer}%`
 				}}>&nbsp;
 				</div>
 				

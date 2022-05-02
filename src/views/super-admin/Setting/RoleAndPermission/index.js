@@ -122,6 +122,22 @@ const [permission,setPermission] = useState([]);
 			}
 			return htmlStatus; 
 		}
+
+		const dataCenterName = datacenter => {
+			if(datacenter.length > 0){
+				let dataCenterCombine = ""
+
+				datacenter.forEach(element => {
+					dataCenterCombine += element.datacenter.name+", "
+				});
+				dataCenterCombine = dataCenterCombine.replace(/,\s*$/, "");
+				return dataCenterCombine
+			}else{
+				return "All"
+			}
+		}
+
+
 	const renderItem = () => {
 
 		return state && state.map(data => {
@@ -130,7 +146,7 @@ const [permission,setPermission] = useState([]);
 				<tr key={data.uuid} className="setting-table">
 				    <td> {data?.name} </td>
 				    <td className="center-col"> {data.country?.name} </td>
-				    <td className="center-col">{data.data_center?.name || <i className="fas fa-times text-danger"></i>}</td>
+				    <td className="center-col">{dataCenterName(data.role_datacenter)}</td>
 				    <td>{permissionView(data.space)}</td>
 				    <td>{permissionView(data.m_e)}</td>
 				    <td>{permissionView(data.network)}</td>
@@ -144,6 +160,8 @@ const [permission,setPermission] = useState([]);
 				       {checkstatus(data.is_active)}
 
 				    </td>
+				    	{contextStore.getAuth.role.country_id === 6?(
+
 				    <td className="center-col">
 				        <p> 
 				        <a 
@@ -154,6 +172,7 @@ const [permission,setPermission] = useState([]);
 				        <i className="fas fa-edit"></i> </a> </p>
 				       
 				    </td>
+				    	):null}
 				</tr>
 			);
 		})
@@ -171,9 +190,11 @@ return (
             <div className="row">
 				<div className='col-12 col-sm-2'>
 				<div className="add-new-button">
+					{contextStore.getAuth.role.country_id === 6?(
                     <a href="#" id="addnew" className="btn btn-primary me-3 btn-sm" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
                         <img src="/images/plus-circle.svg" />&nbsp; Add New Role
                     </a>
+					):null}
                     <CreateRole 
                     retriveCurrentData={getData} 
                     permission={permission}
@@ -213,7 +234,10 @@ return (
                                         <th><strong> Network </strong></th>
                                         <th className="center-col"><strong> User </strong></th>
                                         <th className="center-col"><strong> Status </strong></th>
+                                        	{contextStore.getAuth.role.country_id === 6?(
+
                                         <th className="center-col"><strong> Actions </strong></th>
+                                        	):null}
                                     </tr>
                                 </thead>
                                 <tbody>
